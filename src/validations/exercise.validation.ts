@@ -1,0 +1,23 @@
+import * as yup from 'yup';
+
+export const exerciseValidation = yup.object().shape({
+  exercise: yup.string().required('Required'),
+  reps: yup
+    .number()
+    .required('Required a number')
+    .typeError('Required a number')
+    .positive('Must be positive')
+    .integer('Must be number'),
+  sets: yup
+    .number()
+    .required('Required a number')
+    .typeError('Required a number')
+    .positive('Must be positive')
+    .integer('Must be number'),
+  rest: yup
+    .number()
+    .required('Required a number')
+    .typeError('Required a number')
+    .positive('Must be positive')
+    .integer('Must be number'),
+});

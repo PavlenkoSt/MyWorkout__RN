@@ -13,6 +13,8 @@ import {
   ExpandableCalendar,
 } from 'react-native-calendars';
 import {MarkedDates} from 'react-native-calendars/src/types';
+import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+
 import AddTrainingDay from './components/AddTrainingDay';
 import AgendaItem from './components/AgendaItem';
 
@@ -80,3 +82,7 @@ const App = (): JSX.Element => {
 };
 
 export default App;
+
+EStyleSheet.build({
+  $primaryColor: '#08639c',
+});
