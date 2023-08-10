@@ -15,6 +15,7 @@
     "react-native": "0.72.3",
     "react-native-calendars": "^1.1300.0",
     "react-native-extended-stylesheet": "^0.12.0",
+    "react-native-select-dropdown": "^3.3.4",
     "rn-secure-storage": "^2.0.8"
   },
   "devDependencies": {
