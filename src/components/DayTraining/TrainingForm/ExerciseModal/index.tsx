@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Dimensions, View} from 'react-native';
+import {StatusBar, View} from 'react-native';
 import ReactNativeModal from 'react-native-modal';
 
 import {IExerciseWithId} from '@app/types/IExercise';
@@ -12,24 +12,27 @@ interface IProps {
   exerciseToEdit: IExerciseWithId | null;
 }
 
-const HEIGHT = Dimensions.get('screen').height / 2;
-
 const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
   return (
-    <ReactNativeModal
-      isVisible={visible}
-      hasBackdrop
-      onBackdropPress={onClose}
-      onBackButtonPress={onClose}
-      animationIn="wobble"
-      useNativeDriver
-      useNativeDriverForBackdrop
-      statusBarTranslucent
-      style={{justifyContent: 'flex-end', margin: 0}}>
-      <View style={{padding: 20, backgroundColor: '#333', height: HEIGHT}}>
-        <ExerciseForm exerciseToEdit={exerciseToEdit} afterSubmit={onClose} />
-      </View>
-    </ReactNativeModal>
+    <>
+      {visible && <StatusBar backgroundColor="#333" barStyle="light-content" />}
+      <ReactNativeModal
+        isVisible={visible}
+        hasBackdrop
+        onBackdropPress={onClose}
+        onBackButtonPress={onClose}
+        animationIn="wobble"
+        useNativeDriver
+        useNativeDriverForBackdrop
+        style={{justifyContent: 'flex-end', margin: 0}}>
+        <View style={{padding: 20, backgroundColor: '#333'}}>
+          <ExerciseForm
+            exerciseToEdit={exerciseToEdit}
+            onAfterSubmit={onClose}
+          />
+        </View>
+      </ReactNativeModal>
+    </>
   );
 };
 

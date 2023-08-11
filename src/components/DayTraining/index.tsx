@@ -18,7 +18,7 @@ const DayTraining: FC<IProps> = ({date}) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="always">
         <View style={styles.scrollViewInner}>
           <Text style={styles.header}>
             Workout session - {new Date(date).toDateString()}

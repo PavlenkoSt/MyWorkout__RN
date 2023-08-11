@@ -1,7 +1,7 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import React, {FC, useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 
@@ -21,10 +21,10 @@ interface IForm {
 
 interface IProps {
   exerciseToEdit: IExerciseWithId | null;
-  afterSubmit: () => void;
+  onAfterSubmit: () => void;
 }
 
-const ExerciseForm: FC<IProps> = ({exerciseToEdit, afterSubmit}) => {
+const ExerciseForm: FC<IProps> = ({exerciseToEdit, onAfterSubmit}) => {
   const [type, setType] = useState(ExerciseTypeEnum.DYNAMIC);
 
   const dispatch = useDispatch();
@@ -61,95 +61,97 @@ const ExerciseForm: FC<IProps> = ({exerciseToEdit, afterSubmit}) => {
       );
     }
 
-    afterSubmit();
+    onAfterSubmit();
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.formBody}>
-        <View style={styles.formItem}>
-          <Text style={styles.title}>Type</Text>
-          <Dropdown
-            data={[ExerciseTypeEnum.DYNAMIC, ExerciseTypeEnum.STATIC]}
-            defaultValue={ExerciseTypeEnum.DYNAMIC}
-            onSelect={value => setType(value)}
-          />
-        </View>
-        <View style={styles.formItem}>
-          <Text style={styles.title}>Exercise</Text>
-          <Controller
-            control={control}
-            render={({field}) => (
-              <Input value={field.value} onChangeText={field.onChange} />
-            )}
-            name="exercise"
-          />
-          {!!errors.exercise && (
-            <Text style={styles.error}>{errors.exercise.message}</Text>
-          )}
-        </View>
-
-        <View style={styles.formLine}>
+    <ScrollView keyboardShouldPersistTaps="always">
+      <View style={styles.container}>
+        <View style={styles.formBody}>
           <View style={styles.formItem}>
-            <Text style={styles.title}>
-              {type === ExerciseTypeEnum.DYNAMIC ? 'Reps' : 'Hold(sec)'}
-            </Text>
+            <Text style={styles.title}>Type</Text>
+            <Dropdown
+              data={[ExerciseTypeEnum.DYNAMIC, ExerciseTypeEnum.STATIC]}
+              defaultValue={ExerciseTypeEnum.DYNAMIC}
+              onSelect={value => setType(value)}
+            />
+          </View>
+          <View style={styles.formItem}>
+            <Text style={styles.title}>Exercise</Text>
             <Controller
               control={control}
               render={({field}) => (
-                <Input
-                  value={String(field.value || '')}
-                  keyboardType="numeric"
-                  onChangeText={field.onChange}
-                />
+                <Input value={field.value} onChangeText={field.onChange} />
               )}
-              name="reps"
+              name="exercise"
             />
-            {!!errors.reps && (
-              <Text style={styles.error}>{errors.reps.message}</Text>
+            {!!errors.exercise && (
+              <Text style={styles.error}>{errors.exercise.message}</Text>
             )}
           </View>
 
-          <View style={styles.formItem}>
-            <Text style={styles.title}>Sets</Text>
-            <Controller
-              control={control}
-              render={({field}) => (
-                <Input
-                  value={String(field.value || '')}
-                  keyboardType="numeric"
-                  onChangeText={field.onChange}
-                />
+          <View style={styles.formLine}>
+            <View style={styles.formItem}>
+              <Text style={styles.title}>
+                {type === ExerciseTypeEnum.DYNAMIC ? 'Reps' : 'Hold(sec)'}
+              </Text>
+              <Controller
+                control={control}
+                render={({field}) => (
+                  <Input
+                    value={String(field.value || '')}
+                    keyboardType="numeric"
+                    onChangeText={field.onChange}
+                  />
+                )}
+                name="reps"
+              />
+              {!!errors.reps && (
+                <Text style={styles.error}>{errors.reps.message}</Text>
               )}
-              name="sets"
-            />
-            {!!errors.sets && (
-              <Text style={styles.error}>{errors.sets.message}</Text>
-            )}
-          </View>
+            </View>
 
-          <View style={styles.formItem}>
-            <Text style={styles.title}>Rest(sec)</Text>
-            <Controller
-              control={control}
-              render={({field}) => (
-                <Input
-                  value={String(field.value || '')}
-                  keyboardType="numeric"
-                  onChangeText={field.onChange}
-                />
+            <View style={styles.formItem}>
+              <Text style={styles.title}>Sets</Text>
+              <Controller
+                control={control}
+                render={({field}) => (
+                  <Input
+                    value={String(field.value || '')}
+                    keyboardType="numeric"
+                    onChangeText={field.onChange}
+                  />
+                )}
+                name="sets"
+              />
+              {!!errors.sets && (
+                <Text style={styles.error}>{errors.sets.message}</Text>
               )}
-              name="rest"
-            />
-            {!!errors.rest && (
-              <Text style={styles.error}>{errors.rest.message}</Text>
-            )}
+            </View>
+
+            <View style={styles.formItem}>
+              <Text style={styles.title}>Rest(sec)</Text>
+              <Controller
+                control={control}
+                render={({field}) => (
+                  <Input
+                    value={String(field.value || '')}
+                    keyboardType="numeric"
+                    onChangeText={field.onChange}
+                  />
+                )}
+                name="rest"
+              />
+              {!!errors.rest && (
+                <Text style={styles.error}>{errors.rest.message}</Text>
+              )}
+            </View>
           </View>
         </View>
+
+        <Btn onPress={handleSubmit(onSubmit)}>+ Add</Btn>
       </View>
-
-      <Btn onPress={handleSubmit(onSubmit)}>+ Add</Btn>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -162,7 +164,7 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-between',
   },
   formBody: {
-    height: '70%',
+    marginBottom: 30,
   },
   formLine: {
     flexDirection: 'row',
