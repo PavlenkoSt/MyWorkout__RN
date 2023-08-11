@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
+import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
-import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 interface IProps {
   exercise: IExerciseWithId;

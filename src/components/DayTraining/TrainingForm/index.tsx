@@ -9,6 +9,7 @@ import {
   IExerciseWithId,
 } from '@app/types/IExercise';
 import {ITrainingDay} from '@app/types/ITrainingDay';
+
 import ExerciseModal from './ExerciseModal';
 import ExercisesList from './ExercisesList';
 
