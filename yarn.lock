@@ -1757,14 +1757,6 @@
   resolved "https://registry.yarnpkg.com/@react-native/normalize-colors/-/normalize-colors-0.72.0.tgz#14294b7ed3c1d92176d2a00df48456e8d7d62212"
   integrity sha512-285lfdqSXaqKuBbbtP9qL2tDrfxdOFtIMvkKadtleRQkdOxx+uzGvFr82KHmc/sSiMtfXGp7JnFYWVh4sFl7Yw==
 
-"@react-native/virtualized-lists@^0.72.4":
-  version "0.72.8"
-  resolved "https://registry.yarnpkg.com/@react-native/virtualized-lists/-/virtualized-lists-0.72.8.tgz#a2c6a91ea0f1d40eb5a122fb063daedb92ed1dc3"
-  integrity sha512-J3Q4Bkuo99k7mu+jPS9gSUSgq+lLRSI/+ahXNwV92XgJ/8UgOTxu2LPwhJnBk/sQKxq7E8WkZBnBiozukQMqrw==
-  dependencies:
-    invariant "^2.2.4"
-    nullthrows "^1.1.1"
-
 "@react-native/virtualized-lists@^0.72.6":
   version "0.72.6"
   resolved "https://registry.yarnpkg.com/@react-native/virtualized-lists/-/virtualized-lists-0.72.6.tgz#375f88a1371927d803afad8d8a0ede3261464030"
@@ -1919,23 +1911,6 @@
   version "15.7.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
-
-"@types/react-native-table-component@^1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@types/react-native-table-component/-/react-native-table-component-1.2.4.tgz#0bc22c740de3b15a4c6833550cfcea8dc2190cba"
-  integrity sha512-JxTc3HXkBPxY/aFJpb4XFot+CM8ismemFCcPy7GlguX9C7Xc+kCmVOmFmA/o1jX2BNPuM45OS264QL6BMlPa6Q==
-  dependencies:
-    "@types/react" "*"
-    "@types/react-native" "*"
-    csstype "^3.0.3"
-
-"@types/react-native@*":
-  version "0.72.2"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.72.2.tgz#27c931a899c555b28e20cdd12e570b017808de96"
-  integrity sha512-/eEjr04Zqo7mTMszuSdrLx90+j5nWhDMMOgtnKZfAYyV3RwmlpSb7F17ilmMMxZWJY81n/JZ4e6wdhMJFpjrCg==
-  dependencies:
-    "@react-native/virtualized-lists" "^0.72.4"
-    "@types/react" "*"
 
 "@types/react-test-renderer@^18.0.0":
   version "18.0.0"
@@ -2886,7 +2861,7 @@ css-mediaquery@^0.1.2:
   resolved "https://registry.yarnpkg.com/css-mediaquery/-/css-mediaquery-0.1.2.tgz#6a2c37344928618631c54bd33cedd301da18bea0"
   integrity sha512-COtn4EROW5dBGlE/4PiKnh6rZpAPxDeFLaEEwt4i10jpDMFt2EhQGS79QmmrO+iKCHv0PU/HrOWEhijFd1x99Q==
 
-csstype@^3.0.2, csstype@^3.0.3:
+csstype@^3.0.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
@@ -6004,11 +5979,6 @@ react-native-swipe-gestures@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
-
-react-native-table-component@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/react-native-table-component/-/react-native-table-component-1.2.2.tgz#1c9bdcd8f1fd7edf10d1e93ebc3b7877ecd74def"
-  integrity sha512-7bbsi5431iWcjj3toASh8lFHGi6AG/+MTd4M7GuksXKxx/CFs/Qwv1Ys7D2wgyuYKe3hxWNfSVrteFj0tOYXYw==
 
 react-native@0.72.3, react-native@>=0.68:
   version "0.72.3"
