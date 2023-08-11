@@ -19,6 +19,7 @@
     "react-native-extended-stylesheet-typescript": "^0.7.0",
     "react-native-modal": "^13.0.1",
     "react-native-select-dropdown": "^3.3.4",
+    "react-native-svg": "^13.11.0",
     "realm": "^11.10.2",
     "rn-secure-storage": "^2.0.8",
     "yup": "^1.2.0"

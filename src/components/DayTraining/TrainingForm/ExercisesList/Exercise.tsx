@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
+import CompletedCircleIcon from '@app/components/Icons/CompletedCircleIcon';
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
 
 interface IProps {
@@ -11,6 +12,7 @@ interface IProps {
 
 const Exercise: FC<IProps> = ({exercise, idx}) => {
   const canDecrease = exercise.setsDone > 0;
+  const isCompleted = exercise.setsDone > exercise.sets;
 
   return (
     <View style={styles.container}>
@@ -46,6 +48,11 @@ const Exercise: FC<IProps> = ({exercise, idx}) => {
           <Text style={styles.scoreText}>
             {exercise.setsDone} / {exercise.sets}
           </Text>
+          {isCompleted && (
+            <View style={styles.completed}>
+              <CompletedCircleIcon width={20} height={20} />
+            </View>
+          )}
         </View>
         <TouchableOpacity style={[styles.btn, {borderBottomRightRadius: 15}]}>
           <Text style={styles.btnText}>+</Text>
@@ -97,5 +104,11 @@ const styles = EStyleSheet.create({
   },
   scoreText: {
     fontWeight: '700',
+  },
+  completed: {
+    position: 'absolute',
+    bottom: -15,
+    right: -5,
+    zIndex: 1,
   },
 });
