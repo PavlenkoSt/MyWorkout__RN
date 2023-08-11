@@ -13,7 +13,7 @@ interface IProps {
   exerciseToEdit: IExerciseWithId | null;
 }
 
-const HEIGHT = 350;
+const HEIGHT = 340;
 
 const ExerciseModal: FC<IProps> = ({
   visible,
