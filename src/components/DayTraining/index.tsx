@@ -31,7 +31,7 @@ const DayTraining: FC<IProps> = ({date}) => {
                 <Btn onPress={() => setIsCreation(true)}>+ Plan</Btn>
               </View>
             ) : (
-              <TrainingForm isCreation={isCreation} trainingDay={trainingDay} />
+              <TrainingForm isCreation={isCreation} />
             )}
           </View>
         </View>

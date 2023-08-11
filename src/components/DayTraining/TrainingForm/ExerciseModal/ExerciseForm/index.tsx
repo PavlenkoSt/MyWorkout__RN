@@ -3,15 +3,13 @@ import React, {FC, useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import {useDispatch} from 'react-redux';
 
 import Btn from '@app/components/UI-kit/Btn';
 import Dropdown from '@app/components/UI-kit/Dropdown';
 import Input from '@app/components/UI-kit/Input';
-import {
-  ExerciseTypeEnum,
-  IExercise,
-  IExerciseWithId,
-} from '@app/types/IExercise';
+import {addExercise, updateExercise} from '@app/store/slices/trainingDaySlice';
+import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
 import {exerciseValidation} from '@app/validations/exercise.validation';
 
 interface IForm {
@@ -22,17 +20,14 @@ interface IForm {
 }
 
 interface IProps {
-  onAddExercise: (exercise: IExercise) => void;
-  onEditExercise: (updatedExercise: IExerciseWithId) => void;
   exerciseToEdit: IExerciseWithId | null;
+  afterSubmit: () => void;
 }
 
-const ExerciseForm: FC<IProps> = ({
-  onAddExercise,
-  onEditExercise,
-  exerciseToEdit,
-}) => {
+const ExerciseForm: FC<IProps> = ({exerciseToEdit, afterSubmit}) => {
   const [type, setType] = useState(ExerciseTypeEnum.DYNAMIC);
+
+  const dispatch = useDispatch();
 
   const {
     control,
@@ -50,10 +45,23 @@ const ExerciseForm: FC<IProps> = ({
 
   const onSubmit = (data: IForm) => {
     if (exerciseToEdit) {
-      onEditExercise({id: exerciseToEdit.id, ...data, type});
+      const {id, setsDone} = exerciseToEdit;
+
+      dispatch(
+        updateExercise({
+          id,
+          type,
+          setsDone,
+          ...data,
+        }),
+      );
     } else {
-      onAddExercise({...data, type});
+      dispatch(
+        addExercise({...data, type, setsDone: 0, id: Date.now().toString()}),
+      );
     }
+
+    afterSubmit();
   };
 
   return (

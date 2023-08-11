@@ -10,6 +10,7 @@ export interface IExercise {
   setsDone: number;
   rest: number;
   type: ExerciseTypeEnum;
+  id: string;
 }
 
 export interface IExerciseWithId extends IExercise {

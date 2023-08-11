@@ -1,19 +1,18 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import {useSelector} from 'react-redux';
 
-import {IExerciseWithId} from '@app/types/IExercise';
+import {trainingDateSelector} from '@app/store/selectors/trainingDatSelectors';
 
 import Exercise from './Exercise';
 
-interface IProps {
-  exercises: IExerciseWithId[];
-}
+const ExercisesList = () => {
+  const trainingDay = useSelector(trainingDateSelector);
 
-const ExercisesList: FC<IProps> = ({exercises}) => {
   return (
     <View style={styles.container}>
-      {exercises.map((exercise, idx) => (
+      {trainingDay?.exercises.map((exercise, idx) => (
         <Exercise key={exercise.id} exercise={exercise} idx={idx} />
       ))}
     </View>

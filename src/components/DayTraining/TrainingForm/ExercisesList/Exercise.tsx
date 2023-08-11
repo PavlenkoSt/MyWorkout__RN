@@ -1,8 +1,10 @@
 import React, {FC} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import {useDispatch} from 'react-redux';
 
 import CompletedCircleIcon from '@app/components/Icons/CompletedCircleIcon';
+import {decrementSet, incrementSet} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
 
 interface IProps {
@@ -11,8 +13,22 @@ interface IProps {
 }
 
 const Exercise: FC<IProps> = ({exercise, idx}) => {
+  const dispatch = useDispatch();
+
   const canDecrease = exercise.setsDone > 0;
-  const isCompleted = exercise.setsDone > exercise.sets;
+  const isCompleted = exercise.setsDone >= exercise.sets;
+
+  const increment = () => {
+    if (isCompleted) return;
+
+    dispatch(incrementSet({id: exercise.id}));
+  };
+
+  const decrement = () => {
+    if (!canDecrease) return;
+
+    dispatch(decrementSet({id: exercise.id}));
+  };
 
   return (
     <View style={styles.container}>
@@ -38,6 +54,7 @@ const Exercise: FC<IProps> = ({exercise, idx}) => {
       </View>
       <View style={styles.bot}>
         <TouchableOpacity
+          onPress={decrement}
           style={[
             styles.btn,
             {borderBottomLeftRadius: 15, opacity: canDecrease ? 1 : 0.3},
@@ -54,7 +71,12 @@ const Exercise: FC<IProps> = ({exercise, idx}) => {
             </View>
           )}
         </View>
-        <TouchableOpacity style={[styles.btn, {borderBottomRightRadius: 15}]}>
+        <TouchableOpacity
+          onPress={increment}
+          style={[
+            styles.btn,
+            {borderBottomRightRadius: 15, opacity: !isCompleted ? 1 : 0.3},
+          ]}>
           <Text style={styles.btnText}>+</Text>
         </TouchableOpacity>
       </View>
