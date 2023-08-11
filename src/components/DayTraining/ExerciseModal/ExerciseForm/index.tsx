@@ -1,5 +1,5 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import React, {useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -7,7 +7,11 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import Btn from '@app/components/UI-kit/Btn';
 import Dropdown from '@app/components/UI-kit/Dropdown';
 import Input from '@app/components/UI-kit/Input';
-import {ExerciseTypeEnum} from '@app/types/IExercise';
+import {
+  ExerciseTypeEnum,
+  IExercise,
+  IExerciseWithId,
+} from '@app/types/IExercise';
 import {exerciseValidation} from '@app/validations/exercise.validation';
 
 interface IForm {
@@ -17,23 +21,51 @@ interface IForm {
   rest: number;
 }
 
-const AddExercise = () => {
+interface IProps {
+  onAddExercise: (exercise: IExercise) => void;
+  onEditExercise: (updatedExercise: IExerciseWithId) => void;
+  exerciseToEdit: IExerciseWithId | null;
+}
+
+const ExerciseForm: FC<IProps> = ({
+  onAddExercise,
+  onEditExercise,
+  exerciseToEdit,
+}) => {
   const [type, setType] = useState(ExerciseTypeEnum.DYNAMIC);
 
   const {
     control,
     handleSubmit,
     formState: {errors},
+    reset,
   } = useForm<IForm>({
     resolver: yupResolver(exerciseValidation),
+    defaultValues: exerciseToEdit ? exerciseToEdit : void 0,
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  useEffect(() => {
+    return () => reset();
+  }, []);
+
+  const onSubmit = (data: IForm) => {
+    if (exerciseToEdit) {
+      onEditExercise({id: exerciseToEdit.id, ...data, type});
+    } else {
+      onAddExercise({...data, type});
+    }
   };
 
   return (
     <View style={styles.container}>
+      <View style={styles.formItem}>
+        <Text style={styles.title}>Type</Text>
+        <Dropdown
+          data={[ExerciseTypeEnum.DYNAMIC, ExerciseTypeEnum.STATIC]}
+          defaultValue={ExerciseTypeEnum.DYNAMIC}
+          onSelect={value => setType(value)}
+        />
+      </View>
       <View style={styles.formItem}>
         <Text style={styles.title}>Exercise</Text>
         <Controller
@@ -106,30 +138,22 @@ const AddExercise = () => {
         </View>
       </View>
 
-      <View style={[styles.formItem, {marginBottom: 20}]}>
-        <Text style={styles.title}>Type</Text>
-        <Dropdown
-          data={[ExerciseTypeEnum.DYNAMIC, ExerciseTypeEnum.STATIC]}
-          defaultValue={ExerciseTypeEnum.DYNAMIC}
-          onSelect={value => setType(value)}
-        />
-      </View>
-
-      <Btn onPress={handleSubmit(onSubmit)}>Add</Btn>
+      <Btn onPress={handleSubmit(onSubmit)}>+ Add</Btn>
     </View>
   );
 };
 
-export default AddExercise;
+export default ExerciseForm;
 
 const styles = EStyleSheet.create({
   container: {
     paddingHorizontal: 30,
-    backgroundColor: '#333',
+    flex: 1,
   },
   formLine: {
     flexDirection: 'row',
     gap: 10,
+    marginBottom: 10,
   },
   formItem: {
     marginBottom: 10,

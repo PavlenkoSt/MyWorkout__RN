@@ -77,7 +77,7 @@ const App = (): JSX.Element => {
           onDateChanged={setActiveDate}
           showTodayButton>
           <ExpandableCalendar firstDay={1} />
-          <DayTraining date={activeDate} />
+          <DayTraining date={activeDate} key={activeDate} />
         </CalendarProvider>
       </View>
     </RealmProvider>

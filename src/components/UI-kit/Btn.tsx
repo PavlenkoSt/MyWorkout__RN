@@ -23,10 +23,10 @@ const styles = EStyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,
-    alignSelf: 'flex-start',
   },
   text: {
     fontSize: 15,
     color: '#fff',
+    textAlign: 'center',
   },
 });

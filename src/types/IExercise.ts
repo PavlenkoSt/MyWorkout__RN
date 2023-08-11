@@ -10,3 +10,7 @@ export interface IExercise {
   rest: number;
   type: ExerciseTypeEnum;
 }
+
+export interface IExerciseWithId extends IExercise {
+  id: string;
+}
