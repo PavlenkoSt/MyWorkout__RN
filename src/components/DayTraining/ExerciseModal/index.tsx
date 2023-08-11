@@ -31,6 +31,7 @@ const ExerciseModal: FC<IProps> = ({
       animationIn="wobble"
       useNativeDriver
       useNativeDriverForBackdrop
+      statusBarTranslucent
       style={{justifyContent: 'flex-end', margin: 0}}>
       <View style={{padding: 20, backgroundColor: '#333', height: HEIGHT}}>
         <ExerciseForm
