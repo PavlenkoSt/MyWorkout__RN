@@ -58,83 +58,85 @@ const ExerciseForm: FC<IProps> = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.formItem}>
-        <Text style={styles.title}>Type</Text>
-        <Dropdown
-          data={[ExerciseTypeEnum.DYNAMIC, ExerciseTypeEnum.STATIC]}
-          defaultValue={ExerciseTypeEnum.DYNAMIC}
-          onSelect={value => setType(value)}
-        />
-      </View>
-      <View style={styles.formItem}>
-        <Text style={styles.title}>Exercise</Text>
-        <Controller
-          control={control}
-          render={({field}) => (
-            <Input value={field.value} onChangeText={field.onChange} />
-          )}
-          name="exercise"
-        />
-        {!!errors.exercise && (
-          <Text style={styles.error}>{errors.exercise.message}</Text>
-        )}
-      </View>
-
-      <View style={styles.formLine}>
+      <View style={styles.formBody}>
         <View style={styles.formItem}>
-          <Text style={styles.title}>
-            {type === ExerciseTypeEnum.DYNAMIC ? 'Reps' : 'Hold(sec)'}
-          </Text>
+          <Text style={styles.title}>Type</Text>
+          <Dropdown
+            data={[ExerciseTypeEnum.DYNAMIC, ExerciseTypeEnum.STATIC]}
+            defaultValue={ExerciseTypeEnum.DYNAMIC}
+            onSelect={value => setType(value)}
+          />
+        </View>
+        <View style={styles.formItem}>
+          <Text style={styles.title}>Exercise</Text>
           <Controller
             control={control}
             render={({field}) => (
-              <Input
-                value={String(field.value || '')}
-                keyboardType="numeric"
-                onChangeText={field.onChange}
-              />
+              <Input value={field.value} onChangeText={field.onChange} />
             )}
-            name="reps"
+            name="exercise"
           />
-          {!!errors.reps && (
-            <Text style={styles.error}>{errors.reps.message}</Text>
+          {!!errors.exercise && (
+            <Text style={styles.error}>{errors.exercise.message}</Text>
           )}
         </View>
 
-        <View style={styles.formItem}>
-          <Text style={styles.title}>Sets</Text>
-          <Controller
-            control={control}
-            render={({field}) => (
-              <Input
-                value={String(field.value || '')}
-                keyboardType="numeric"
-                onChangeText={field.onChange}
-              />
+        <View style={styles.formLine}>
+          <View style={styles.formItem}>
+            <Text style={styles.title}>
+              {type === ExerciseTypeEnum.DYNAMIC ? 'Reps' : 'Hold(sec)'}
+            </Text>
+            <Controller
+              control={control}
+              render={({field}) => (
+                <Input
+                  value={String(field.value || '')}
+                  keyboardType="numeric"
+                  onChangeText={field.onChange}
+                />
+              )}
+              name="reps"
+            />
+            {!!errors.reps && (
+              <Text style={styles.error}>{errors.reps.message}</Text>
             )}
-            name="sets"
-          />
-          {!!errors.sets && (
-            <Text style={styles.error}>{errors.sets.message}</Text>
-          )}
-        </View>
+          </View>
 
-        <View style={styles.formItem}>
-          <Text style={styles.title}>Rest(sec)</Text>
-          <Controller
-            control={control}
-            render={({field}) => (
-              <Input
-                value={String(field.value || '')}
-                keyboardType="numeric"
-                onChangeText={field.onChange}
-              />
+          <View style={styles.formItem}>
+            <Text style={styles.title}>Sets</Text>
+            <Controller
+              control={control}
+              render={({field}) => (
+                <Input
+                  value={String(field.value || '')}
+                  keyboardType="numeric"
+                  onChangeText={field.onChange}
+                />
+              )}
+              name="sets"
+            />
+            {!!errors.sets && (
+              <Text style={styles.error}>{errors.sets.message}</Text>
             )}
-            name="rest"
-          />
-          {!!errors.rest && (
-            <Text style={styles.error}>{errors.rest.message}</Text>
-          )}
+          </View>
+
+          <View style={styles.formItem}>
+            <Text style={styles.title}>Rest(sec)</Text>
+            <Controller
+              control={control}
+              render={({field}) => (
+                <Input
+                  value={String(field.value || '')}
+                  keyboardType="numeric"
+                  onChangeText={field.onChange}
+                />
+              )}
+              name="rest"
+            />
+            {!!errors.rest && (
+              <Text style={styles.error}>{errors.rest.message}</Text>
+            )}
+          </View>
         </View>
       </View>
 
@@ -147,8 +149,12 @@ export default ExerciseForm;
 
 const styles = EStyleSheet.create({
   container: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 5,
     flex: 1,
+    justifyContent: 'space-between',
+  },
+  formBody: {
+    height: '70%',
   },
   formLine: {
     flexDirection: 'row',

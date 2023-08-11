@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View} from 'react-native';
+import {Dimensions, View} from 'react-native';
 import ReactNativeModal from 'react-native-modal';
 
 import {IExercise, IExerciseWithId} from '@app/types/IExercise';
@@ -13,7 +13,7 @@ interface IProps {
   exerciseToEdit: IExerciseWithId | null;
 }
 
-const HEIGHT = 340;
+const HEIGHT = Dimensions.get('screen').height / 2;
 
 const ExerciseModal: FC<IProps> = ({
   visible,
