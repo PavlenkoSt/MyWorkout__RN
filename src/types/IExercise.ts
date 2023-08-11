@@ -7,6 +7,7 @@ export interface IExercise {
   exercise: string;
   reps: number;
   sets: number;
+  setsDone: number;
   rest: number;
   type: ExerciseTypeEnum;
 }

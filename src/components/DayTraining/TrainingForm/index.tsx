@@ -36,6 +36,7 @@ const TrainingForm: FC<IProps> = ({isCreation, trainingDay}) => {
           rest: 120,
           sets: 2,
           type: ExerciseTypeEnum.DYNAMIC,
+          setsDone: 0,
         },
       ],
   );
@@ -45,7 +46,10 @@ const TrainingForm: FC<IProps> = ({isCreation, trainingDay}) => {
   );
 
   const onAddExercise = (exercise: IExercise) => {
-    setExercises(prev => [...prev, {...exercise, id: Date.now().toString()}]);
+    setExercises(prev => [
+      ...prev,
+      {...exercise, id: Date.now().toString(), setsDone: 0},
+    ]);
     setExerciseModalVisible(false);
   };
 
@@ -68,7 +72,6 @@ const TrainingForm: FC<IProps> = ({isCreation, trainingDay}) => {
   return (
     <View>
       <ExercisesList exercises={exercises} />
-      {/* <ExercisesTable exercises={exercises} /> */}
       <View style={styles.btnContainer}>
         <Btn onPress={() => setExerciseModalVisible(true)}>+ Add exercise</Btn>
       </View>

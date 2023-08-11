@@ -10,6 +10,8 @@ interface IProps {
 }
 
 const Exercise: FC<IProps> = ({exercise, idx}) => {
+  const canDecrease = exercise.setsDone > 0;
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -33,11 +35,17 @@ const Exercise: FC<IProps> = ({exercise, idx}) => {
         </View>
       </View>
       <View style={styles.bot}>
-        <TouchableOpacity style={[styles.btn, {borderBottomLeftRadius: 15}]}>
+        <TouchableOpacity
+          style={[
+            styles.btn,
+            {borderBottomLeftRadius: 15, opacity: canDecrease ? 1 : 0.3},
+          ]}>
           <Text style={styles.btnText}>-</Text>
         </TouchableOpacity>
         <View style={styles.score}>
-          <Text style={styles.scoreText}>1 / {exercise.sets}</Text>
+          <Text style={styles.scoreText}>
+            {exercise.setsDone} / {exercise.sets}
+          </Text>
         </View>
         <TouchableOpacity style={[styles.btn, {borderBottomRightRadius: 15}]}>
           <Text style={styles.btnText}>+</Text>

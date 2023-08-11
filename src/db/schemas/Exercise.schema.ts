@@ -7,6 +7,7 @@ export class Exercise extends Realm.Object {
   sets!: number;
   rest!: number;
   type!: ExerciseTypeEnum;
+  setsDone!: number;
 
   static schema = {
     name: 'Exercise',
@@ -17,6 +18,7 @@ export class Exercise extends Realm.Object {
       sets: 'int',
       rest: 'int',
       type: 'string',
+      setsDone: {type: 'int', default: 0},
     },
     primaryKey: '_id',
   };
