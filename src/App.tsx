@@ -8,10 +8,12 @@
 import React, {useRef, useState} from 'react';
 import {View} from 'react-native';
 
+import {createRealmContext} from '@realm/react';
 import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import {MarkedDates} from 'react-native-calendars/src/types';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import DayTraining from './components/DayTraining';
+import realmConfig from './db/realmConfig';
 import datesService from './services/dates.service';
 
 const today = new Date().toISOString().split('T')[0];
@@ -64,18 +66,22 @@ export const agendaItems = [
 const App = (): JSX.Element => {
   const marked = useRef(getMarkedDates());
 
+  const {RealmProvider} = createRealmContext(realmConfig);
+
   const [activeDate, setActiveDate] = useState(datesService.today);
 
   return (
-    <View style={{flex: 1}}>
-      <CalendarProvider
-        date={agendaItems[0].title}
-        onDateChanged={setActiveDate}
-        showTodayButton>
-        <ExpandableCalendar firstDay={1} />
-        <DayTraining date={activeDate} />
-      </CalendarProvider>
-    </View>
+    <RealmProvider>
+      <View style={{flex: 1}}>
+        <CalendarProvider
+          date={agendaItems[0].title}
+          onDateChanged={setActiveDate}
+          showTodayButton>
+          <ExpandableCalendar firstDay={1} />
+          <DayTraining date={activeDate} />
+        </CalendarProvider>
+      </View>
+    </RealmProvider>
   );
 };
 
