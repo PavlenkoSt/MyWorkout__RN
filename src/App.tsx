@@ -6,7 +6,7 @@
  */
 
 import React, {useRef, useState} from 'react';
-import {View} from 'react-native';
+import {StatusBar, View} from 'react-native';
 
 import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import {MarkedDates} from 'react-native-calendars/src/types';
@@ -71,6 +71,7 @@ const App = (): JSX.Element => {
 
   return (
     <RealmProvider>
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
       <View style={{flex: 1}}>
         <CalendarProvider
           date={agendaItems[0].title}
