@@ -5,7 +5,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import Btn from '@app/components/UI-kit/Btn';
 import {IExercise, IExerciseWithId} from '@app/types/IExercise';
 import {ITrainingDay} from '@app/types/ITrainingDay';
-import ExerciseModal from '../ExerciseModal';
+import ExerciseModal from './ExerciseModal';
 
 interface IProps {
   isCreation: boolean;
