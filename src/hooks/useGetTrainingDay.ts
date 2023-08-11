@@ -1,21 +1,34 @@
-import {useQuery} from '@realm/react';
+import {useEffect, useState} from 'react';
 
 import {TrainingDay} from '@app/db/schemas/TrainingDay.schema';
+import {ITrainingDay} from '@app/types/ITrainingDay';
+import useRealmContext from './useRealmContext';
 
-const useGetTrainingDay = () => {
+interface IProps {
+  date: string;
+}
+
+const useGetTrainingDay = ({date}: IProps) => {
+  const {useQuery} = useRealmContext();
+
   const days = useQuery(TrainingDay);
 
-  const getTrainingDay = (date: string) => {
+  const [trainingDay, setTrainingDay] = useState<ITrainingDay | null>(null);
+
+  useEffect(() => {
     const result = days.filtered('date = $0', date);
 
+    console.log('result', result);
+
     if (result.length) {
-      return result[0];
+      setTrainingDay(result[0] as unknown as ITrainingDay);
+      return;
     }
 
-    return null;
-  };
+    setTrainingDay(null);
+  }, [date]);
 
-  return {getTrainingDay};
+  return {trainingDay};
 };
 
 export default useGetTrainingDay;

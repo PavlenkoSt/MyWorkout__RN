@@ -1,3 +1,4 @@
+import useGetTrainingDay from '@app/hooks/useGetTrainingDay';
 import React, {FC} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -7,6 +8,8 @@ interface IProps {
 }
 
 const DayTraining: FC<IProps> = ({date}) => {
+  const {trainingDay} = useGetTrainingDay({date});
+
   return (
     <View style={styles.container}>
       <ScrollView>
