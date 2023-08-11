@@ -1,7 +1,7 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 import datesService from '@app/services/dates.service';
-import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
+import {IExercise} from '@app/types/IExercise';
 import {ITrainingDay} from '@app/types/ITrainingDay';
 
 interface IState {
@@ -13,17 +13,7 @@ const initialState: IState = {
   activeDate: datesService.today,
   trainingDay: {
     date: datesService.today,
-    exercises: [
-      {
-        id: '1',
-        exercise: 'Pull ups',
-        reps: 1,
-        rest: 120,
-        sets: 2,
-        type: ExerciseTypeEnum.DYNAMIC,
-        setsDone: 0,
-      },
-    ],
+    exercises: [],
   },
 };
 
