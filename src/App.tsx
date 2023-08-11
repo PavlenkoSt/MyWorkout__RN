@@ -5,18 +5,14 @@
  * @format
  */
 
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
+import {View} from 'react-native';
 
-import {
-  AgendaList,
-  CalendarProvider,
-  ExpandableCalendar,
-} from 'react-native-calendars';
+import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import {MarkedDates} from 'react-native-calendars/src/types';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-
-import AddTrainingDay from './components/AddTrainingDay';
-import AgendaItem from './components/AgendaItem';
+import DayTraining from './components/DayTraining';
+import datesService from './services/dates.service';
 
 const today = new Date().toISOString().split('T')[0];
 const fastDate = getPastDate(3);
@@ -68,16 +64,18 @@ export const agendaItems = [
 const App = (): JSX.Element => {
   const marked = useRef(getMarkedDates());
 
+  const [activeDate, setActiveDate] = useState(datesService.today);
+
   return (
-    <CalendarProvider date={agendaItems[0].title} showTodayButton>
-      <ExpandableCalendar firstDay={1} />
-      <AgendaList
-        sections={agendaItems}
-        renderItem={AgendaItem}
-        sectionStyle={{}}
-        ListFooterComponent={() => <AddTrainingDay />}
-      />
-    </CalendarProvider>
+    <View style={{flex: 1}}>
+      <CalendarProvider
+        date={agendaItems[0].title}
+        onDateChanged={setActiveDate}
+        showTodayButton>
+        <ExpandableCalendar firstDay={1} />
+        <DayTraining date={activeDate} />
+      </CalendarProvider>
+    </View>
   );
 };
 
