@@ -3,9 +3,14 @@ import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import Btn from '@app/components/UI-kit/Btn';
-import {IExercise, IExerciseWithId} from '@app/types/IExercise';
+import {
+  ExerciseTypeEnum,
+  IExercise,
+  IExerciseWithId,
+} from '@app/types/IExercise';
 import {ITrainingDay} from '@app/types/ITrainingDay';
 import ExerciseModal from './ExerciseModal';
+import ExercisesList from './ExercisesList';
 
 interface IProps {
   isCreation: boolean;
@@ -22,7 +27,16 @@ const TrainingForm: FC<IProps> = ({isCreation, trainingDay}) => {
       trainingDay?.exercises.map((exercise, idx) => ({
         ...exercise,
         id: idx.toString(),
-      })) || [],
+      })) || [
+        {
+          id: '1',
+          exercise: 'Pull ups',
+          reps: 1,
+          rest: 120,
+          sets: 2,
+          type: ExerciseTypeEnum.DYNAMIC,
+        },
+      ],
   );
 
   const [exerciseToEdit, setExerciseToEdit] = useState<IExerciseWithId | null>(
@@ -52,6 +66,8 @@ const TrainingForm: FC<IProps> = ({isCreation, trainingDay}) => {
 
   return (
     <View>
+      <ExercisesList exercises={exercises} />
+      {/* <ExercisesTable exercises={exercises} /> */}
       <View style={styles.btnContainer}>
         <Btn onPress={() => setExerciseModalVisible(true)}>+ Add exercise</Btn>
       </View>
