@@ -2,14 +2,15 @@ import React from 'react';
 import {View} from 'react-native';
 import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import {MarkedDates} from 'react-native-calendars/src/types';
+import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
-import DayTraining from '@app/components/DayTraining';
 import useGetTrainingDaysFromDB from '@app/hooks/useGetTrainingDaysFromDB';
 import datesService from '@app/services/dates.service';
 import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
-import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+
+import DayTraining from './DayTraining';
 
 export function getMarkedDates() {
   const marked: MarkedDates = {};

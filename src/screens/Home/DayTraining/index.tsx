@@ -4,7 +4,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
 import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
-import Btn from '../UI-kit/Btn';
+import Btn from '../../../components/UI-kit/Btn';
 import TrainingBody from './TrainingBody';
 
 interface IProps {
