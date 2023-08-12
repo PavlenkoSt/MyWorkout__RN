@@ -7,3 +7,5 @@ const context = createRealmContext(realmConfig);
 const useRealmContext = () => context;
 
 export default useRealmContext;
+
+export const realm = new Realm(realmConfig);

@@ -1,16 +1,18 @@
 import {Realm} from '@realm/react';
 
+import {IExercise} from '@app/types/IExercise';
+import {EXERCISE_DN, TRAINING_DAY_DB} from '../realm.constants';
+
 export class TrainingDay extends Realm.Object {
-  _id!: Realm.BSON.ObjectId;
   date!: string;
+  exercises!: IExercise[];
 
   static schema = {
-    name: 'TrainingDay',
+    name: TRAINING_DAY_DB,
     properties: {
-      _id: 'objectId',
       date: 'string',
-      exercises: {type: 'list', objectType: 'Exercise'},
+      exercises: {type: 'list', objectType: EXERCISE_DN},
     },
-    primaryKey: '_id',
+    primaryKey: 'date',
   };
 }

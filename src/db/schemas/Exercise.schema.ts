@@ -1,7 +1,9 @@
 import {ExerciseTypeEnum} from '@app/types/IExercise';
 
+import {EXERCISE_DN} from '../realm.constants';
+
 export class Exercise extends Realm.Object {
-  _id!: Realm.BSON.ObjectId;
+  id!: string;
   exercise!: string;
   reps!: number;
   sets!: number;
@@ -10,9 +12,10 @@ export class Exercise extends Realm.Object {
   setsDone!: number;
 
   static schema = {
-    name: 'Exercise',
+    name: EXERCISE_DN,
+    embedded: true,
     properties: {
-      _id: 'objectId',
+      id: 'string',
       exercise: 'string',
       reps: 'int',
       sets: 'int',
@@ -20,6 +23,5 @@ export class Exercise extends Realm.Object {
       type: 'string',
       setsDone: {type: 'int', default: 0},
     },
-    primaryKey: '_id',
   };
 }
