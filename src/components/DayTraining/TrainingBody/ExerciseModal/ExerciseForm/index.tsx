@@ -149,7 +149,9 @@ const ExerciseForm: FC<IProps> = ({exerciseToEdit, onAfterSubmit}) => {
           </View>
         </View>
 
-        <Btn onPress={handleSubmit(onSubmit)}>+ Add</Btn>
+        <Btn onPress={handleSubmit(onSubmit)}>
+          {exerciseToEdit ? 'Save' : '+ Add'}
+        </Btn>
       </View>
     </ScrollView>
   );

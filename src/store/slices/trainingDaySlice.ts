@@ -69,7 +69,7 @@ const trainingDaySlice = createSlice({
         exercise => exercise.id !== action.payload.id,
       );
 
-      if (!updateExercise.length) {
+      if (!updatedExercises.length) {
         state.trainingDays = state.trainingDays.filter(
           day => day.date !== state.activeDate,
         );
@@ -132,5 +132,6 @@ export const {
   incrementSet,
   decrementSet,
   setTrainingDays,
+  deleteExercise,
 } = trainingDaySlice.actions;
 export default trainingDaySlice.reducer;

@@ -17,6 +17,7 @@
     "react-hook-form": "^7.45.4",
     "react-native": "0.72.3",
     "react-native-calendars": "^1.1300.0",
+    "react-native-context-menu-view": "^1.11.0",
     "react-native-extended-stylesheet-typescript": "^0.7.0",
     "react-native-modal": "^13.0.1",
     "react-native-select-dropdown": "^3.3.4",

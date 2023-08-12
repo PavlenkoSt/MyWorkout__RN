@@ -12,7 +12,7 @@ interface IProps {
   isCreation: boolean;
 }
 
-const TrainingForm: FC<IProps> = ({isCreation}) => {
+const TrainingBody: FC<IProps> = ({isCreation}) => {
   const [exerciseModalVisible, setExerciseModalVisible] = useState(
     () => isCreation,
   );
@@ -26,9 +26,14 @@ const TrainingForm: FC<IProps> = ({isCreation}) => {
     setExerciseModalVisible(false);
   };
 
+  const onChangeEditExersice = (exercise: IExerciseWithId) => {
+    setExerciseToEdit(exercise);
+    setExerciseModalVisible(true);
+  };
+
   return (
     <View>
-      <ExercisesList />
+      <ExercisesList onChangeEditExersice={onChangeEditExersice} />
       <View style={styles.btnContainer}>
         <Btn onPress={() => setExerciseModalVisible(true)}>+ Add exercise</Btn>
       </View>
@@ -41,7 +46,7 @@ const TrainingForm: FC<IProps> = ({isCreation}) => {
   );
 };
 
-export default TrainingForm;
+export default TrainingBody;
 
 const styles = EStyleSheet.create({
   btnContainer: {

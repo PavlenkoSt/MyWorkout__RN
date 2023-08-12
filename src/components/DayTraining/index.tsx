@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 
 import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import Btn from '../UI-kit/Btn';
-import TrainingForm from './TrainingForm';
+import TrainingBody from './TrainingBody';
 
 interface IProps {
   date: string;
@@ -31,7 +31,7 @@ const DayTraining: FC<IProps> = ({date}) => {
                 <Btn onPress={() => setIsCreation(true)}>+ Plan</Btn>
               </View>
             ) : (
-              <TrainingForm isCreation={isCreation} />
+              <TrainingBody isCreation={isCreation} />
             )}
           </View>
         </View>
