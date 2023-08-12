@@ -1,9 +1,9 @@
 import React, {FC, useState} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import {useSelector} from 'react-redux';
 
-import useGetTrainingDay from '@app/hooks/useGetTrainingDay';
-
+import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import Btn from '../UI-kit/Btn';
 import TrainingForm from './TrainingForm';
 
@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const DayTraining: FC<IProps> = ({date}) => {
-  const {trainingDay} = useGetTrainingDay({date});
+  const trainingDay = useSelector(trainingDateSelector);
 
   const [isCreation, setIsCreation] = useState(false);
 

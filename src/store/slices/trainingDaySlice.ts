@@ -3,95 +3,112 @@ import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import datesService from '@app/services/dates.service';
 import {IExercise} from '@app/types/IExercise';
 import {ITrainingDay} from '@app/types/ITrainingDay';
+import {getExersises} from '../helpers/TrainingDayHelpers';
 
-interface IState {
+export interface ITrainingDayState {
   activeDate: string;
-  trainingDay: ITrainingDay | null;
+  trainingDays: ITrainingDay[];
 }
 
-const initialState: IState = {
+const initialState: ITrainingDayState = {
   activeDate: datesService.today,
-  trainingDay: {
-    date: datesService.today,
-    exercises: [],
-  },
+  trainingDays: [],
 };
 
 const trainingDaySlice = createSlice({
   name: 'trainingDay',
   initialState,
   reducers: {
+    setTrainingDays: (state, action: PayloadAction<ITrainingDay[]>) => {
+      state.trainingDays = action.payload;
+    },
     changeActiveDate: (state, action: PayloadAction<string>) => {
       state.activeDate = action.payload;
     },
-    changeTrainingDay: (state, action: PayloadAction<ITrainingDay>) => {
-      state.trainingDay = action.payload;
-    },
     addExercise: (state, action: PayloadAction<IExercise>) => {
-      if (!state.trainingDay) {
-        throw new Error('Trying to addExercise, but no training day is active');
+      const exercises = getExersises(state);
+
+      const updatedExercises = [...exercises, action.payload];
+
+      const trainingDayIdx = state.trainingDays.findIndex(
+        day => day.date === state.activeDate,
+      );
+
+      if (trainingDayIdx !== -1) {
+        state.trainingDays[trainingDayIdx].exercises = updatedExercises;
+
+        return;
       }
 
-      state.trainingDay.exercises.push(action.payload);
+      state.trainingDays = [
+        ...state.trainingDays,
+        {date: state.activeDate, exercises: updatedExercises},
+      ];
     },
     updateExercise: (state, action: PayloadAction<IExercise>) => {
-      if (!state.trainingDay) {
-        throw new Error(
-          'Trying to updateExercise, but no training day is active',
-        );
-      }
+      const exercises = getExersises(state);
 
-      state.trainingDay.exercises = state.trainingDay.exercises.map(
-        exercise => {
-          if (exercise.id === action.payload.id) return action.payload;
+      const updatedExercises = exercises.map(exercise => {
+        if (exercise.id === action.payload.id) return action.payload;
 
-          return exercise;
-        },
-      );
+        return exercise;
+      });
+
+      state.trainingDays = state.trainingDays.map(day => {
+        if (day.date === state.activeDate) {
+          return {...day, exercises: updatedExercises};
+        }
+
+        return day;
+      });
     },
     incrementSet: (state, action: PayloadAction<{id: string}>) => {
-      if (!state.trainingDay) {
-        throw new Error(
-          'Trying to incrementSet, but no training day is active',
-        );
-      }
+      const exercises = getExersises(state);
 
-      state.trainingDay.exercises = state.trainingDay.exercises.map(
-        exercise => {
-          if (exercise.id === action.payload.id) {
-            return {...exercise, setsDone: exercise.setsDone + 1};
-          }
+      const updatedExercises = exercises.map(exercise => {
+        if (exercise.id === action.payload.id) {
+          return {...exercise, setsDone: exercise.setsDone + 1};
+        }
 
-          return exercise;
-        },
-      );
+        return exercise;
+      });
+
+      state.trainingDays = state.trainingDays.map(day => {
+        if (day.date === state.activeDate) {
+          return {...day, exercises: updatedExercises};
+        }
+
+        return day;
+      });
     },
     decrementSet: (state, action: PayloadAction<{id: string}>) => {
-      if (!state.trainingDay) {
-        throw new Error(
-          'Trying to incrementSet, but no training day is active',
-        );
-      }
+      const exercises = getExersises(state);
 
-      state.trainingDay.exercises = state.trainingDay.exercises.map(
-        exercise => {
-          if (exercise.id === action.payload.id) {
-            return {...exercise, setsDone: exercise.setsDone - 1};
-          }
+      const updatedExercises = exercises.map(exercise => {
+        if (exercise.id === action.payload.id) {
+          return {...exercise, setsDone: exercise.setsDone - 1};
+        }
 
-          return exercise;
-        },
-      );
+        return exercise;
+      });
+
+      state.trainingDays = state.trainingDays.map(day => {
+        if (day.date === state.activeDate) {
+          return {...day, exercises: updatedExercises};
+        }
+
+        return day;
+      });
     },
   },
 });
 
 export const {
   changeActiveDate,
-  changeTrainingDay,
   addExercise,
   updateExercise,
   incrementSet,
   decrementSet,
+  setTrainingDays,
 } = trainingDaySlice.actions;
 export default trainingDaySlice.reducer;

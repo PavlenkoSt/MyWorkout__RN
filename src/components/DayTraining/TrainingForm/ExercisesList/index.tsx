@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
-import {trainingDateSelector} from '@app/store/selectors/trainingDatSelectors';
+import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 
 import Exercise from './Exercise';
 

@@ -5,8 +5,9 @@ import {MarkedDates} from 'react-native-calendars/src/types';
 import {useDispatch, useSelector} from 'react-redux';
 
 import DayTraining from '@app/components/DayTraining';
+import useGetTrainingDaysFromDB from '@app/hooks/useGetTrainingDaysFromDB';
 import datesService from '@app/services/dates.service';
-import {activeDateSelector} from '@app/store/selectors/trainingDatSelectors';
+import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
 
 export function getMarkedDates() {
@@ -34,6 +35,8 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const activeDate = useSelector(activeDateSelector);
+
+  useGetTrainingDaysFromDB();
 
   return (
     <View style={{flex: 1}}>
