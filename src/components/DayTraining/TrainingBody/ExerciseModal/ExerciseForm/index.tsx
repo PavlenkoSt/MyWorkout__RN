@@ -179,6 +179,7 @@ const styles = EStyleSheet.create({
   },
   title: {
     marginBottom: 5,
+    color: '$white',
   },
   error: {
     marginTop: 2,

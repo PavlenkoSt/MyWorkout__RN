@@ -9,6 +9,7 @@ import useGetTrainingDaysFromDB from '@app/hooks/useGetTrainingDaysFromDB';
 import datesService from '@app/services/dates.service';
 import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
+import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 export function getMarkedDates() {
   const marked: MarkedDates = {};
@@ -39,7 +40,7 @@ const Home = () => {
   useGetTrainingDaysFromDB();
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       <CalendarProvider
         date={activeDate}
         onDateChanged={date => dispatch(changeActiveDate(date))}
@@ -52,3 +53,10 @@ const Home = () => {
 };
 
 export default Home;
+
+const styles = EStyleSheet.create({
+  container: {
+    backgroundColor: '$bgColor',
+    flex: 1,
+  },
+});

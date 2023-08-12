@@ -55,5 +55,6 @@ const styles = EStyleSheet.create({
   icon: {
     fontSize: 20,
     top: -5,
+    color: '#fff',
   },
 });

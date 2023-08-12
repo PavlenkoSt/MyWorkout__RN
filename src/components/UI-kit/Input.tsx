@@ -10,7 +10,13 @@ interface IProps {
 }
 
 const Input: FC<IProps> = props => {
-  return <TextInput {...props} style={styles.input} />;
+  return (
+    <TextInput
+      {...props}
+      cursorColor={EStyleSheet.value('$white')}
+      style={styles.input}
+    />
+  );
 };
 
 export default Input;
@@ -22,5 +28,6 @@ const styles = EStyleSheet.create({
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
+    color: '#fff',
   },
 });

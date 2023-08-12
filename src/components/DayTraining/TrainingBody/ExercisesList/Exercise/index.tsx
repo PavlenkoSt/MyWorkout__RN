@@ -33,66 +33,74 @@ const Exercise: FC<IProps> = ({exercise, idx, onChangeEditExersice}) => {
   };
 
   return (
-    <ExerciseContext
-      exerciseId={exercise.id}
-      onChangeEditExersice={() => onChangeEditExersice(exercise)}>
-      <View style={styles.container}>
-        <View style={styles.top}>
-          <View style={styles.col}>
-            <Text style={isCompleted ? styles.textDone : void 0}>
-              {idx + 1}. {exercise.exercise}
-            </Text>
+    <View style={styles.container}>
+      <ExerciseContext
+        exerciseId={exercise.id}
+        onChangeEditExersice={() => onChangeEditExersice(exercise)}>
+        <View>
+          <View style={styles.top}>
+            <View style={styles.col}>
+              <Text
+                style={[
+                  styles.colText,
+                  isCompleted ? styles.textDone : void 0,
+                ]}>
+                {idx + 1}. {exercise.exercise}
+              </Text>
+            </View>
+            <View style={[styles.col, styles.colCentered]}>
+              <Text style={styles.colText}>
+                {exercise.type === ExerciseTypeEnum.DYNAMIC
+                  ? 'Reps: '
+                  : 'Hold: '}
+              </Text>
+              <Text style={styles.colText}>
+                {exercise.reps}
+                {exercise.type === ExerciseTypeEnum.STATIC ? ' sec.' : ''}
+              </Text>
+            </View>
+            <View style={[styles.col, styles.colCentered]}>
+              <Text style={styles.colText}>Sets:</Text>
+              <Text style={styles.colText}>{exercise.sets}</Text>
+            </View>
+            <View style={[styles.col, styles.colCentered]}>
+              <Text style={styles.colText}>Rest:</Text>
+              <Text style={styles.colText}>{exercise.rest} sec.</Text>
+            </View>
           </View>
-          <View style={[styles.col, styles.colCentered]}>
-            <Text>
-              {exercise.type === ExerciseTypeEnum.DYNAMIC ? 'Reps: ' : 'Hold: '}
-            </Text>
-            <Text>
-              {exercise.reps}
-              {exercise.type === ExerciseTypeEnum.STATIC ? ' sec.' : ''}
-            </Text>
-          </View>
-          <View style={[styles.col, styles.colCentered]}>
-            <Text>Sets:</Text>
-            <Text>{exercise.sets}</Text>
-          </View>
-          <View style={[styles.col, styles.colCentered]}>
-            <Text>Rest:</Text>
-            <Text>{exercise.rest} sec.</Text>
+          <View style={styles.bot}>
+            <TouchableOpacity
+              onLongPress={e => e.stopPropagation()}
+              onPress={decrement}
+              style={[
+                styles.btn,
+                {borderBottomLeftRadius: 15, opacity: canDecrease ? 1 : 0.3},
+              ]}>
+              <Text style={styles.btnText}>-</Text>
+            </TouchableOpacity>
+            <View style={styles.score}>
+              <Text style={styles.scoreText}>
+                {exercise.setsDone} / {exercise.sets}
+              </Text>
+              {isCompleted && (
+                <View style={styles.completed}>
+                  <CompletedCircleIcon width={20} height={20} />
+                </View>
+              )}
+            </View>
+            <TouchableOpacity
+              onLongPress={e => e.stopPropagation()}
+              onPress={increment}
+              style={[
+                styles.btn,
+                {borderBottomRightRadius: 15, opacity: !isCompleted ? 1 : 0.3},
+              ]}>
+              <Text style={styles.btnText}>+</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.bot}>
-          <TouchableOpacity
-            onLongPress={e => e.stopPropagation()}
-            onPress={decrement}
-            style={[
-              styles.btn,
-              {borderBottomLeftRadius: 15, opacity: canDecrease ? 1 : 0.3},
-            ]}>
-            <Text style={styles.btnText}>-</Text>
-          </TouchableOpacity>
-          <View style={styles.score}>
-            <Text style={styles.scoreText}>
-              {exercise.setsDone} / {exercise.sets}
-            </Text>
-            {isCompleted && (
-              <View style={styles.completed}>
-                <CompletedCircleIcon width={20} height={20} />
-              </View>
-            )}
-          </View>
-          <TouchableOpacity
-            onLongPress={e => e.stopPropagation()}
-            onPress={increment}
-            style={[
-              styles.btn,
-              {borderBottomRightRadius: 15, opacity: !isCompleted ? 1 : 0.3},
-            ]}>
-            <Text style={styles.btnText}>+</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ExerciseContext>
+      </ExerciseContext>
+    </View>
   );
 };
 
@@ -101,6 +109,9 @@ export default Exercise;
 const styles = EStyleSheet.create({
   container: {
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#222',
+    borderRadius: 16,
   },
   top: {
     padding: 5,
@@ -118,7 +129,7 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   colText: {
-    textAlign: 'center',
+    color: '$white',
   },
   textDone: {
     textDecorationLine: 'line-through',
@@ -151,6 +162,7 @@ const styles = EStyleSheet.create({
   },
   scoreText: {
     fontWeight: '700',
+    color: '$white',
   },
   completed: {
     position: 'absolute',

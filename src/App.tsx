@@ -27,4 +27,6 @@ export default App;
 
 EStyleSheet.build({
   $primaryColor: '#08639c',
+  $white: '#c7c7c7',
+  $bgColor: '#333',
 });
