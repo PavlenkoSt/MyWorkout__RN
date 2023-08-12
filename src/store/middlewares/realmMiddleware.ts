@@ -1,8 +1,8 @@
 import {Middleware} from '@reduxjs/toolkit';
 
 import {TRAINING_DAY_DB} from '@app/db/realm.constants';
-import {realm} from '@app/hooks/useRealmContext';
 import {RootState} from '../index';
+import realm from '@app/db';
 
 const blackListActionTypes = [
   'trainingDay/setTrainingDays',
