@@ -62,6 +62,28 @@ const trainingDaySlice = createSlice({
         return day;
       });
     },
+    deleteExercise: (state, action: PayloadAction<{id: string}>) => {
+      const exercises = getExersises(state);
+
+      const updatedExercises = exercises.filter(
+        exercise => exercise.id !== action.payload.id,
+      );
+
+      if (!updateExercise.length) {
+        state.trainingDays = state.trainingDays.filter(
+          day => day.date !== state.activeDate,
+        );
+        return;
+      }
+
+      state.trainingDays = state.trainingDays.map(day => {
+        if (day.date === state.activeDate) {
+          return {...day, exercises: updatedExercises};
+        }
+
+        return day;
+      });
+    },
     incrementSet: (state, action: PayloadAction<{id: string}>) => {
       const exercises = getExersises(state);
 
