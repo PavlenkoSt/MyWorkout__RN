@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {View} from 'react-native';
 import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import {MarkedDates} from 'react-native-calendars/src/types';
@@ -7,36 +7,43 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import useGetTrainingDaysFromDB from '@app/hooks/useGetTrainingDaysFromDB';
 import datesService from '@app/services/dates.service';
-import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
+import {
+  activeDateSelector,
+  allTrainingDaysSelector,
+} from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
 
 import DayTraining from './DayTraining';
-
-export function getMarkedDates() {
-  const marked: MarkedDates = {};
-
-  agendaItems.forEach(item => {
-    // NOTE: only mark dates with data
-    if (item.data && item.data.length > 0 && item.data[0]) {
-      marked[item.title] = {marked: true};
-    } else {
-      marked[item.title] = {disabled: true};
-    }
-  });
-  return marked;
-}
-
-export const agendaItems = [
-  {
-    title: datesService.today,
-    data: [{hour: '12am', duration: '1h', title: 'First Yoga'}],
-  },
-];
 
 const Home = () => {
   const dispatch = useDispatch();
 
   const activeDate = useSelector(activeDateSelector);
+  const trainingDays = useSelector(allTrainingDaysSelector);
+
+  const datesToMark = useMemo(() => {
+    const marked: MarkedDates = {};
+
+    trainingDays.forEach(day => {
+      const isPassedDate = datesService.isPassedDate(new Date(day.date));
+      const trainingDone = day.exercises.every(
+        exercise => exercise.setsDone >= exercise.sets,
+      );
+
+      marked[day.date] = {
+        marked: true,
+        inactive: isPassedDate,
+        customStyles: {
+          container: {
+            borderWidth: isPassedDate ? 1 : 0,
+            borderColor: trainingDone ? 'green' : '#e8411c',
+          },
+        },
+      };
+    });
+
+    return marked;
+  }, [trainingDays]);
 
   useGetTrainingDaysFromDB();
 
@@ -46,7 +53,11 @@ const Home = () => {
         date={activeDate}
         onDateChanged={date => dispatch(changeActiveDate(date))}
         showTodayButton>
-        <ExpandableCalendar firstDay={1} />
+        <ExpandableCalendar
+          firstDay={1}
+          markingType="custom"
+          markedDates={datesToMark}
+        />
         <DayTraining date={activeDate} key={activeDate} />
       </CalendarProvider>
     </View>

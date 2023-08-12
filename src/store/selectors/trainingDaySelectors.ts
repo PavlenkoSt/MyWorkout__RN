@@ -9,3 +9,7 @@ export const trainingDateSelector = (state: RootState) => {
     day => day.date === state.trainingDay.activeDate,
   );
 };
+
+export const allTrainingDaysSelector = (state: RootState) => {
+  return state.trainingDay.trainingDays;
+};
