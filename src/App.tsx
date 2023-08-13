@@ -8,6 +8,7 @@
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 
 import store from './store';
@@ -16,10 +17,12 @@ import Home from './screens/Home';
 
 const App = (): JSX.Element => {
   return (
-    <Provider store={store}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-      <Home />
-    </Provider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Provider store={store}>
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <Home />
+      </Provider>
+    </GestureHandlerRootView>
   );
 };
 
