@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import CompletedCircleIcon from '@app/components/Icons/CompletedCircleIcon';
 import {decrementSet, incrementSet} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
+
 import ExerciseContext from './ExerciseContext';
 
 interface IProps {

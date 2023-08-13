@@ -81,12 +81,11 @@ export default memo(ExercisesList);
 
 const styles = EStyleSheet.create({
   list: {
-    marginBottom: 10,
-    paddingBottom: 20,
     paddingHorizontal: 5,
   },
   btnContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 10,
   },
 });
