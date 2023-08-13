@@ -25,6 +25,18 @@ const trainingDaySlice = createSlice({
     changeActiveDate: (state, action: PayloadAction<string>) => {
       state.activeDate = action.payload;
     },
+    changeExercisesOrdering: (state, action: PayloadAction<IExercise[]>) => {
+      state.trainingDays = state.trainingDays.map(day => {
+        if (day.date === state.activeDate) {
+          return {
+            ...day,
+            exercises: action.payload,
+          };
+        }
+
+        return day;
+      });
+    },
     addExercise: (state, action: PayloadAction<IExercise>) => {
       const exercises = getExersises(state);
 
@@ -133,5 +145,6 @@ export const {
   decrementSet,
   setTrainingDays,
   deleteExercise,
+  changeExercisesOrdering,
 } = trainingDaySlice.actions;
 export default trainingDaySlice.reducer;
