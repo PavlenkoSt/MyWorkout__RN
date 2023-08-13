@@ -10,8 +10,8 @@ module.exports = {
           '@app': './src',
         },
       },
-      'react-native-reanimated/plugin',
     ],
     'jest-hoist',
+    'react-native-reanimated/plugin',
   ],
 };
