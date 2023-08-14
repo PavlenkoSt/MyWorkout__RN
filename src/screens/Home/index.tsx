@@ -35,7 +35,7 @@ const Home = () => {
         inactive: isPassedDate,
         customStyles: {
           container: {
-            borderWidth: isPassedDate ? 1 : 0,
+            borderWidth: isPassedDate || trainingDone ? 1 : 0,
             borderColor: trainingDone ? 'green' : '#e8411c',
           },
         },
