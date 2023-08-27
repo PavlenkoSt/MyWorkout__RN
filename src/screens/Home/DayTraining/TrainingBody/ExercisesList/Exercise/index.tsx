@@ -141,6 +141,7 @@ const styles = EStyleSheet.create({
     fontSize: 25,
     width: 15,
     textAlign: 'center',
+    color: '$white',
   },
   textDone: {
     textDecorationLine: 'line-through',
