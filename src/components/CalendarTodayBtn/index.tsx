@@ -32,8 +32,8 @@ export default memo(CalendarTodayBtn);
 const styles = EStyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 20,
-    left: 20,
+    bottom: 10,
+    left: 10,
     backgroundColor: '#ededed',
     borderRadius: 50,
     paddingHorizontal: 10,
