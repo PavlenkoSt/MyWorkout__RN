@@ -1,17 +1,45 @@
-import React, {FC} from 'react';
-import {Text} from 'react-native';
+import React, {FC, useState} from 'react';
+import {Text, TouchableOpacity} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
-import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
+import {
+  activeDateSelector,
+  trainingDateSelector,
+} from '@app/store/selectors/trainingDaySelectors';
+
+import CopyDayModal from './CopyDayModal';
 
 const TrainingHeader: FC = () => {
   const activeDate = useSelector(activeDateSelector);
+  const trainingDay = useSelector(trainingDateSelector);
+
+  const [copyDayModalVisible, setCopyDayModalVisible] = useState(false);
+
+  const atLeastOneExercise = !!trainingDay?.exercises.length;
+
+  const onLongPress = () => {
+    if (!atLeastOneExercise) return;
+
+    setCopyDayModalVisible(true);
+  };
 
   return (
-    <Text style={styles.header}>
-      Workout session - {new Date(activeDate).toDateString()}
-    </Text>
+    <>
+      <TouchableOpacity
+        onLongPress={onLongPress}
+        activeOpacity={atLeastOneExercise ? 0.2 : 1}>
+        <Text style={styles.header}>
+          Workout session - {new Date(activeDate).toDateString()}
+        </Text>
+      </TouchableOpacity>
+      {atLeastOneExercise && (
+        <CopyDayModal
+          visible={copyDayModalVisible}
+          onClose={() => setCopyDayModalVisible(false)}
+        />
+      )}
+    </>
   );
 };
 
