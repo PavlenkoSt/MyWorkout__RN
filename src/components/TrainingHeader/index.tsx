@@ -8,6 +8,7 @@ import {
   trainingDateSelector,
 } from '@app/store/selectors/trainingDaySelectors';
 
+import Actions from './Actions';
 import CopyDayModal from './CopyDayModal';
 
 const TrainingHeader: FC = () => {
@@ -39,6 +40,7 @@ const TrainingHeader: FC = () => {
           onClose={() => setCopyDayModalVisible(false)}
         />
       )}
+      <Actions />
     </>
   );
 };
