@@ -14,7 +14,7 @@ const NoTrainingYet: FC<IProps> = ({onStartPlanning}) => {
     <View style={styles.container}>
       <TrainingHeader />
       <View style={styles.textInner}>
-        <Text>No training for this day planned yet.</Text>
+        <Text style={styles.text}>No training for this day planned yet.</Text>
         <Btn onPress={onStartPlanning}>+ Plan</Btn>
       </View>
     </View>
@@ -32,5 +32,8 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 10,
+  },
+  text: {
+    color: '#fff',
   },
 });
