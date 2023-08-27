@@ -84,6 +84,7 @@ const CopyDayModal: FC<IProps> = ({onClose, visible}) => {
             androidVariant="iosClone"
             fadeToColor="none"
             theme="dark"
+            locale="en"
           />
         </View>
         <Btn onPress={onCopy}>Copy</Btn>
