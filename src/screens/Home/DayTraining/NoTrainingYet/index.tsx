@@ -26,11 +26,11 @@ export default NoTrainingYet;
 const styles = EStyleSheet.create({
   container: {
     paddingBottom: 20,
-    paddingHorizontal: 5,
   },
   textInner: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 5,
     gap: 10,
   },
   text: {

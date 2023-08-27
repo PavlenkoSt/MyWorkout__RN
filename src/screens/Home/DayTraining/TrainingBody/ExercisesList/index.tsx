@@ -16,6 +16,8 @@ import {IExercise, IExerciseWithId} from '@app/types/IExercise';
 
 import Exercise from './Exercise';
 
+const PADDING_HORIZONTAL = 5;
+
 interface IProps {
   onChangeEditExersice: (exercise: IExerciseWithId) => void;
   onAddExercisePress: () => void;
@@ -52,7 +54,10 @@ const ExercisesList: FC<IProps> = ({
   }: RenderItemParams<IExercise>) => {
     return (
       <ScaleDecorator activeScale={0.9}>
-        <TouchableOpacity activeOpacity={1} onLongPress={drag}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onLongPress={drag}
+          style={styles.itemContainer}>
           <Exercise
             key={exercise.id}
             exercise={exercise}
@@ -70,7 +75,6 @@ const ExercisesList: FC<IProps> = ({
       renderItem={renderItem}
       keyExtractor={item => item.id}
       onDragEnd={onDragEnd}
-      style={styles.list}
       ListHeaderComponent={TrainingHeader}
       ListFooterComponent={renderFooter}
     />
@@ -80,12 +84,13 @@ const ExercisesList: FC<IProps> = ({
 export default memo(ExercisesList);
 
 const styles = EStyleSheet.create({
-  list: {
-    paddingHorizontal: 5,
-  },
   btnContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
+    paddingHorizontal: PADDING_HORIZONTAL,
+  },
+  itemContainer: {
+    paddingHorizontal: PADDING_HORIZONTAL,
   },
 });

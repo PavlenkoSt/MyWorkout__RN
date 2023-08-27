@@ -91,5 +91,6 @@ const styles = EStyleSheet.create({
   },
   text: {
     fontSize: 30,
+    color: '#222',
   },
 });
