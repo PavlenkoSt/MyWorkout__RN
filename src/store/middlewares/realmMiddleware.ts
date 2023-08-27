@@ -18,8 +18,6 @@ const realmMiddleware: Middleware = store => next => action => {
 
   realm.write(() => {
     try {
-      realm.deleteAll();
-
       currentState.trainingDay.trainingDays.forEach(day => {
         realm.create(TRAINING_DAY_DB, day, Realm.UpdateMode.All);
       });
