@@ -13,6 +13,7 @@ import {
 } from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
 
+import CalendarTodayBtn from '@app/components/CalendarTodayBtn';
 import DayTraining from './DayTraining';
 
 const Home = () => {
@@ -51,14 +52,14 @@ const Home = () => {
     <View style={styles.container}>
       <CalendarProvider
         date={activeDate}
-        onDateChanged={date => dispatch(changeActiveDate(date))}
-        showTodayButton>
+        onDateChanged={date => dispatch(changeActiveDate(date))}>
         <ExpandableCalendar
           firstDay={1}
           markingType="custom"
           markedDates={datesToMark}
         />
         <DayTraining date={activeDate} key={activeDate} />
+        <CalendarTodayBtn />
       </CalendarProvider>
     </View>
   );
