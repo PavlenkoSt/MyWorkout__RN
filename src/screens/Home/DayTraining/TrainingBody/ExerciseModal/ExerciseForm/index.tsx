@@ -25,7 +25,9 @@ interface IProps {
 }
 
 const ExerciseForm: FC<IProps> = ({exerciseToEdit, onAfterSubmit}) => {
-  const [type, setType] = useState(ExerciseTypeEnum.DYNAMIC);
+  const [type, setType] = useState(
+    () => exerciseToEdit?.type || ExerciseTypeEnum.DYNAMIC,
+  );
 
   const dispatch = useDispatch();
 
@@ -72,7 +74,7 @@ const ExerciseForm: FC<IProps> = ({exerciseToEdit, onAfterSubmit}) => {
             <Text style={styles.title}>Type</Text>
             <Dropdown
               data={[ExerciseTypeEnum.DYNAMIC, ExerciseTypeEnum.STATIC]}
-              defaultValue={ExerciseTypeEnum.DYNAMIC}
+              defaultValue={type}
               onSelect={value => setType(value)}
             />
           </View>
