@@ -1,5 +1,6 @@
 import React, {FC} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import CompletedCircleIcon from '@app/components/Icons/CompletedCircleIcon';
 
@@ -56,7 +57,7 @@ const ExCounter: FC<IProps> = ({
 
 export default ExCounter;
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     backgroundColor: '#112b40',
     borderBottomLeftRadius: 15,
