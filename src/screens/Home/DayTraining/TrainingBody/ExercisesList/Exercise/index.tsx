@@ -1,12 +1,12 @@
 import React, {FC} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 
-import CompletedCircleIcon from '@app/components/Icons/CompletedCircleIcon';
 import {decrementSet, incrementSet} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
 
+import ExCounter from './ExCounter';
 import ExerciseContext from './ExerciseContext';
 
 interface IProps {
@@ -68,36 +68,14 @@ const Exercise: FC<IProps> = ({exercise, idx, onChangeEditExersice}) => {
             </ExerciseContext>
           </View>
         </View>
-        <View style={styles.bot}>
-          <TouchableOpacity
-            onLongPress={e => e.stopPropagation()}
-            onPress={decrement}
-            style={[
-              styles.btn,
-              {borderBottomLeftRadius: 15, opacity: canDecrease ? 1 : 0.3},
-            ]}>
-            <Text style={styles.btnText}>-</Text>
-          </TouchableOpacity>
-          <View style={styles.score}>
-            <Text style={styles.scoreText}>
-              {exercise.setsDone} / {exercise.sets}
-            </Text>
-            {isCompleted && (
-              <View style={styles.completed}>
-                <CompletedCircleIcon width={20} height={20} />
-              </View>
-            )}
-          </View>
-          <TouchableOpacity
-            onLongPress={e => e.stopPropagation()}
-            onPress={increment}
-            style={[
-              styles.btn,
-              {borderBottomRightRadius: 15, opacity: !isCompleted ? 1 : 0.3},
-            ]}>
-            <Text style={styles.btnText}>+</Text>
-          </TouchableOpacity>
-        </View>
+        <ExCounter
+          canDecrease={canDecrease}
+          decrement={decrement}
+          increment={increment}
+          isCompleted={isCompleted}
+          doneCount={exercise.setsDone}
+          doneGoalCount={exercise.sets}
+        />
       </View>
     </View>
   );
@@ -147,39 +125,5 @@ const styles = EStyleSheet.create({
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
     textDecorationColor: '#ccc',
-  },
-  bot: {
-    backgroundColor: '#112b40',
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btn: {
-    backgroundColor: '$primaryColor',
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  btnText: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: '600',
-  },
-  score: {
-    paddingHorizontal: 15,
-  },
-  scoreText: {
-    fontWeight: '700',
-    color: '$white',
-  },
-  completed: {
-    position: 'absolute',
-    bottom: -15,
-    right: -5,
-    zIndex: 1,
   },
 });
