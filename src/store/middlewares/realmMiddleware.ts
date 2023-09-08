@@ -1,7 +1,7 @@
 import {Middleware} from '@reduxjs/toolkit';
 
-import realm from '@app/db';
-import {TRAINING_DAY_DB} from '@app/db/realm.constants';
+import {syncDaysRealm} from '@app/db/actions/syncDaysRealm';
+
 import {RootState} from '../index';
 
 const blackListActionTypes = [
@@ -16,15 +16,7 @@ const realmMiddleware: Middleware = store => next => action => {
 
   const currentState = store.getState() as RootState;
 
-  realm.write(() => {
-    try {
-      currentState.trainingDay.trainingDays.forEach(day => {
-        realm.create(TRAINING_DAY_DB, day, Realm.UpdateMode.All);
-      });
-    } catch (e) {
-      console.log('realmMiddleware error', e);
-    }
-  });
+  syncDaysRealm(currentState.trainingDay.trainingDays);
 
   return result;
 };

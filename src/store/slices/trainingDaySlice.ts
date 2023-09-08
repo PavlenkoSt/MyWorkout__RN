@@ -1,5 +1,6 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
+import {deleteDayRealm} from '@app/db/actions/deleteDayRealm';
 import datesService from '@app/services/dates.service';
 import {IExercise} from '@app/types/IExercise';
 import {ITrainingDay} from '@app/types/ITrainingDay';
@@ -107,9 +108,13 @@ const trainingDaySlice = createSlice({
       );
 
       if (!updatedExercises.length) {
-        state.trainingDays = state.trainingDays.filter(
-          day => day.date !== state.activeDate,
-        );
+        state.trainingDays = state.trainingDays.filter(day => {
+          if (day.date === state.activeDate) {
+            deleteDayRealm(day);
+            return false;
+          }
+          return true;
+        });
         return;
       }
 
