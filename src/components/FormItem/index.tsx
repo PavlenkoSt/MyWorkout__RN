@@ -12,7 +12,7 @@ interface IProps extends TextInputProps {
   label: string;
 }
 
-const FormItem: FC<IProps> = ({control, name, errors, label}) => {
+const FormItem: FC<IProps> = ({control, name, errors, label, ...rest}) => {
   return (
     <View style={styles.formItem}>
       <Text style={styles.title}>{label}</Text>
@@ -22,6 +22,7 @@ const FormItem: FC<IProps> = ({control, name, errors, label}) => {
           <Input
             value={String(field.value || '')}
             onChangeText={field.onChange}
+            {...rest}
           />
         )}
         name={name}
