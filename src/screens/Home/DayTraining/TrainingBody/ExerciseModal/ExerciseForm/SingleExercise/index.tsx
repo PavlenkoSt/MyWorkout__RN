@@ -110,19 +110,6 @@ const styles = EStyleSheet.create({
     gap: 10,
     marginBottom: 10,
   },
-  formItem: {
-    marginBottom: 10,
-    flex: 1,
-  },
-  title: {
-    marginBottom: 5,
-    color: '$white',
-  },
-  error: {
-    marginTop: 2,
-    color: 'red',
-    fontSize: 10,
-  },
   btnContainer: {
     marginTop: 30,
   },
