@@ -1,10 +1,12 @@
 import React, {FC, useState} from 'react';
 import {ScrollView, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 import Dropdown from '@app/components/UI-kit/Dropdown';
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
 
+import LadderExercise from './LadderExercise';
 import SingleExercise from './SingleExercise';
 
 interface IProps {
@@ -32,12 +34,17 @@ const ExerciseForm: FC<IProps> = ({exerciseToEdit, onAfterSubmit}) => {
             onSelect={value => setType(value)}
           />
         </View>
-        <SingleExercise
-          exerciseToEdit={exerciseToEdit}
-          type={type}
-          onAfterSubmit={onAfterSubmit}
-        />
+        {type === ExerciseTypeEnum.LADDER ? (
+          <LadderExercise onAfterSubmit={onAfterSubmit} type={type} />
+        ) : (
+          <SingleExercise
+            exerciseToEdit={exerciseToEdit}
+            onAfterSubmit={onAfterSubmit}
+            type={type}
+          />
+        )}
       </View>
+      <Toast />
     </ScrollView>
   );
 };

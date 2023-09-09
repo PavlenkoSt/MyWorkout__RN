@@ -13,7 +13,7 @@ import {
   trainingDateSelector,
 } from '@app/store/selectors/trainingDaySelectors';
 import {
-  addExerciseToDate,
+  addExercisesToDay,
   changeActiveDate,
 } from '@app/store/slices/trainingDaySlice';
 import {
@@ -52,16 +52,18 @@ const CopyDayModal: FC<IProps> = ({onClose, visible}) => {
 
     trainingDate.exercises.forEach((exercise, index) => {
       dispatch(
-        addExerciseToDate({
-          exercise: {
-            id: (Date.now() + index * 16).toString(),
-            setsDone: 0,
-            reps: exercise.reps,
-            rest: exercise.rest,
-            sets: exercise.sets,
-            type: exercise.type,
-            exercise: exercise.exercise,
-          },
+        addExercisesToDay({
+          exercises: [
+            {
+              id: (Date.now() + index * 16).toString(),
+              setsDone: 0,
+              reps: exercise.reps,
+              rest: exercise.rest,
+              sets: exercise.sets,
+              type: exercise.type,
+              exercise: exercise.exercise,
+            },
+          ],
           date: onlyDate,
         }),
       );

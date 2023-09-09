@@ -58,15 +58,18 @@ const trainingDaySlice = createSlice({
         {date: state.activeDate, exercises: updatedExercises},
       ];
     },
-    addExerciseToDate: (
+    addExercisesToDay: (
       state,
-      action: PayloadAction<{date: string; exercise: IExercise}>,
+      action: PayloadAction<{date: string; exercises: IExercise[]}>,
     ) => {
-      const exercises =
+      const existingExercises =
         state.trainingDays.find(day => day.date === action.payload.date)
           ?.exercises || [];
 
-      const updatedExercises = [...exercises, action.payload.exercise];
+      const updatedExercises = [
+        ...existingExercises,
+        ...action.payload.exercises,
+      ];
 
       const trainingDayIdx = state.trainingDays.findIndex(
         day => day.date === action.payload.date,
@@ -176,6 +179,6 @@ export const {
   setTrainingDays,
   deleteExercise,
   changeExercisesOrdering,
-  addExerciseToDate,
+  addExercisesToDay,
 } = trainingDaySlice.actions;
 export default trainingDaySlice.reducer;
