@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import * as Progress from 'react-native-progress';
 
 import CompletedCircleIcon from '@app/components/Icons/CompletedCircleIcon';
 
@@ -21,6 +22,9 @@ const ExCounter: FC<IProps> = ({
   doneCount,
   doneGoalCount,
 }) => {
+  const progressCalc = Math.ceil((doneCount * 100) / doneGoalCount) / 100;
+  const progress = progressCalc > 1 ? 1 : progressCalc < 0 ? 0 : progressCalc;
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -36,6 +40,16 @@ const ExCounter: FC<IProps> = ({
         <Text style={styles.scoreText}>
           {doneCount} / {doneGoalCount}
         </Text>
+        <Progress.Bar
+          progress={progress}
+          width={70}
+          color="green"
+          borderWidth={1}
+          borderColor="#111"
+          height={5}
+          unfilledColor="#5e5e5e"
+          useNativeDriver={true}
+        />
         {isCompleted && (
           <View style={styles.completed}>
             <CompletedCircleIcon width={20} height={20} />
@@ -84,9 +98,12 @@ const styles = EStyleSheet.create({
     bottom: -15,
     right: -5,
     zIndex: 1,
+    borderRadius: 50,
   },
   score: {
     paddingHorizontal: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scoreText: {
     fontWeight: '700',

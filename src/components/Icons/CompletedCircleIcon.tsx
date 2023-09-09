@@ -10,7 +10,7 @@ const CompletedCircleIcon = (props: any) => {
       height="64px"
       {...props}>
       <Path
-        fill="#32BEA6"
+        fill="green"
         d="M504.1 256C504.1 119 393 7.9 256 7.9S7.9 119 7.9 256 119 504.1 256 504.1 504.1 393 504.1 256z"
       />
       <Path
