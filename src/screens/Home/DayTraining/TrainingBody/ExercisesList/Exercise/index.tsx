@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
-import {Text, View} from 'react-native';
+import {Dimensions, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import * as Progress from 'react-native-progress';
 import {useDispatch} from 'react-redux';
 
 import {decrementSet, incrementSet} from '@app/store/slices/trainingDaySlice';
@@ -8,6 +9,8 @@ import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
 
 import ExCounter from './ExCounter';
 import ExerciseContext from './ExerciseContext';
+
+const {width} = Dimensions.get('window');
 
 interface IProps {
   exercise: IExerciseWithId;
@@ -20,6 +23,10 @@ const Exercise: FC<IProps> = ({exercise, idx, onChangeEditExersice}) => {
 
   const canDecrease = exercise.setsDone > 0;
   const isCompleted = exercise.setsDone >= exercise.sets;
+
+  const progressCalc =
+    Math.ceil((exercise.setsDone * 100) / exercise.sets) / 100;
+  const progress = progressCalc > 1 ? 1 : progressCalc < 0 ? 0 : progressCalc;
 
   const increment = () => {
     if (isCompleted) return;
@@ -67,6 +74,18 @@ const Exercise: FC<IProps> = ({exercise, idx, onChangeEditExersice}) => {
               <Text style={styles.contextMenuMark}>⋮</Text>
             </ExerciseContext>
           </View>
+        </View>
+        <View style={styles.progressBarContainer}>
+          <Progress.Bar
+            progress={progress}
+            width={width - 10}
+            borderWidth={0}
+            color="#32BEA6"
+            borderRadius={0}
+            height={2}
+            unfilledColor="#ccc"
+            useNativeDriver={true}
+          />
         </View>
         <ExCounter
           canDecrease={canDecrease}
@@ -125,5 +144,8 @@ const styles = EStyleSheet.create({
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
     textDecorationColor: '#ccc',
+  },
+  progressBarContainer: {
+    overflow: 'hidden',
   },
 });
