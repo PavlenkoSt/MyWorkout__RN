@@ -35,7 +35,7 @@ const ExerciseForm: FC<IProps> = ({exerciseToEdit, onAfterSubmit}) => {
           />
         </View>
         {type === ExerciseTypeEnum.LADDER ? (
-          <LadderExercise onAfterSubmit={onAfterSubmit} type={type} />
+          <LadderExercise onAfterSubmit={onAfterSubmit} />
         ) : (
           <SingleExercise
             exerciseToEdit={exerciseToEdit}

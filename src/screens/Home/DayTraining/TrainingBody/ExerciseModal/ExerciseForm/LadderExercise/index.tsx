@@ -7,6 +7,8 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import FormItem from '@app/components/FormItem';
 import Btn from '@app/components/UI-kit/Btn';
+import useSaveFormFallback from '@app/hooks/useSaveFormFallback';
+import {exerciseFromFallbackSelector} from '@app/store/selectors/exerciseFormFallbackSelectors';
 import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {addExercisesToDay} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
@@ -22,7 +24,6 @@ interface IForm {
 }
 
 interface IProps {
-  type: ExerciseTypeEnum;
   onAfterSubmit: () => void;
 }
 
@@ -36,29 +37,30 @@ const generateExercise = (data: IForm, i: number) => ({
   id: Date.now().toString() + i,
 });
 
-const LadderExercise: FC<IProps> = ({onAfterSubmit, type}) => {
+const LadderExercise: FC<IProps> = ({onAfterSubmit}) => {
   const dispatch = useDispatch();
 
   const activeDate = useSelector(activeDateSelector);
+  const exerciseFromFallback = useSelector(exerciseFromFallbackSelector);
 
   const {
     control,
     handleSubmit,
     formState: {errors},
+    watch,
     reset,
   } = useForm<IForm>({
     resolver: yupResolver(ladderExerciseValidation),
     defaultValues: {
       step: 1,
+      exercise: exerciseFromFallback,
     },
   });
 
-  useEffect(() => {
-    return () => reset();
-  }, []);
+  useSaveFormFallback<IForm>({watch, reset});
 
   const onSubmit = (data: IForm) => {
-    const {from, to, step, exercise, rest} = data;
+    const {from, to, step} = data;
 
     if (from === to) {
       return showToast.error('"From" and "To" cannot be equal');

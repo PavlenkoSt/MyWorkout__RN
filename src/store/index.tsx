@@ -1,11 +1,14 @@
 import {configureStore} from '@reduxjs/toolkit';
 
 import realmMiddleware from './middlewares/realmMiddleware';
+
+import exerciseFormFallbackReducer from './slices/exerciseFormFallbackSlice';
 import trainingDayReducer from './slices/trainingDaySlice';
 
 const store = configureStore({
   reducer: {
     trainingDay: trainingDayReducer,
+    exerciseFormFallback: exerciseFormFallbackReducer,
   },
   middleware: [realmMiddleware],
 });

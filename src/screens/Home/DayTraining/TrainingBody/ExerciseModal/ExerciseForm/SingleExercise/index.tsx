@@ -1,12 +1,14 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {useForm} from 'react-hook-form';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import FormItem from '@app/components/FormItem';
 import Btn from '@app/components/UI-kit/Btn';
+import useSaveFormFallback from '@app/hooks/useSaveFormFallback';
+import {exerciseFromFallbackSelector} from '@app/store/selectors/exerciseFormFallbackSelectors';
 import {addExercise, updateExercise} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
 import {exerciseValidation} from '@app/validations/exercise.validation';
@@ -27,19 +29,24 @@ interface IProps {
 const SingleExercise: FC<IProps> = ({exerciseToEdit, type, onAfterSubmit}) => {
   const dispatch = useDispatch();
 
+  const exerciseFromFallback = useSelector(exerciseFromFallbackSelector);
+
   const {
     control,
     handleSubmit,
     formState: {errors},
+    watch,
     reset,
   } = useForm<IForm>({
     resolver: yupResolver(exerciseValidation),
-    defaultValues: exerciseToEdit ? exerciseToEdit : void 0,
+    defaultValues: exerciseToEdit
+      ? exerciseToEdit
+      : {
+          exercise: exerciseFromFallback,
+        },
   });
 
-  useEffect(() => {
-    return () => reset();
-  }, []);
+  useSaveFormFallback<IForm>({watch, reset});
 
   const onSubmit = (data: IForm) => {
     if (exerciseToEdit) {
