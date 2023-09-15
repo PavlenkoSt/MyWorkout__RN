@@ -16,7 +16,7 @@ import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
 import CalendarTodayBtn from './CalendarTodayBtn';
 import DayTraining from './DayTraining';
 
-const Home = () => {
+const Training = () => {
   const dispatch = useDispatch();
 
   const activeDate = useSelector(activeDateSelector);
@@ -65,7 +65,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Training;
 
 const styles = EStyleSheet.create({
   container: {

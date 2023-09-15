@@ -5,6 +5,7 @@
  * @format
  */
 
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -15,19 +16,21 @@ import {Provider} from 'react-redux';
 
 import store from './store';
 
-import Home from './screens/Home';
+import Navigation from './navigation';
 
 const App = (): JSX.Element => {
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <MenuProvider>
-        <Provider store={store}>
-          <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-          <Home />
-          <Toast />
-        </Provider>
-      </MenuProvider>
-    </GestureHandlerRootView>
+    <NavigationContainer>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <MenuProvider>
+          <Provider store={store}>
+            <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+            <Navigation />
+            <Toast />
+          </Provider>
+        </MenuProvider>
+      </GestureHandlerRootView>
+    </NavigationContainer>
   );
 };
 
