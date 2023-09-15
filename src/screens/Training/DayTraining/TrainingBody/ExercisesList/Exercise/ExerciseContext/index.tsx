@@ -18,7 +18,7 @@ const ExerciseContext: FC<IProps> = ({
   const dispatch = useDispatch();
 
   const actions = [
-    {text: '✍ Edit', action: onChangeEditExersice},
+    {text: '✍ Update', action: onChangeEditExersice},
     {
       text: '␡  Delete',
       action: () => dispatch(deleteExercise({id: exerciseId})),
