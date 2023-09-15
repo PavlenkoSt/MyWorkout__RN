@@ -1,6 +1,6 @@
 import {ExerciseTypeEnum} from '@app/types/IExercise';
 
-import {EXERCISE_DN} from '../realm.constants';
+import {EXERCISE_DB} from '../realm.constants';
 
 export class Exercise extends Realm.Object {
   id!: string;
@@ -12,7 +12,7 @@ export class Exercise extends Realm.Object {
   setsDone!: number;
 
   static schema = {
-    name: EXERCISE_DN,
+    name: EXERCISE_DB,
     embedded: true,
     properties: {
       id: 'string',
