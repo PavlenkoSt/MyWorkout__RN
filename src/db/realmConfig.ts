@@ -22,7 +22,7 @@ const performMigration = (oldRealm: Realm, newRealm: Realm) => {
 const realmConfig: Realm.Configuration = {
   schema: [TrainingDay, Exercise, Record],
   schemaVersion,
-  deleteRealmIfMigrationNeeded: true,
+  deleteRealmIfMigrationNeeded: __DEV__,
 };
 
 export default realmConfig;
