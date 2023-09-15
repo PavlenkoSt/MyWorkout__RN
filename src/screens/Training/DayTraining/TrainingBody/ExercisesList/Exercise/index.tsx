@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux';
 
 import {decrementSet, incrementSet} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
+import {OPTIONS_DOTS} from '@app/utilts/constants';
 
 import ExCounter from './ExCounter';
 import ExerciseContext from './ExerciseContext';
@@ -64,7 +65,7 @@ const Exercise: FC<IProps> = ({exercise, idx, onChangeEditExersice}) => {
             <ExerciseContext
               exerciseId={exercise.id}
               onChangeEditExersice={() => onChangeEditExersice(exercise)}>
-              <Text style={styles.contextMenuMark}>⋮</Text>
+              <Text style={styles.contextMenuMark}>{OPTIONS_DOTS}</Text>
             </ExerciseContext>
           </View>
         </View>

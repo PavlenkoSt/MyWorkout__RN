@@ -1,3 +1,3 @@
 export const TRAINING_DAY_DB = 'TrainingDay';
 export const EXERCISE_DB = 'Exercise';
-export const ARCHIVEMENT_DB = 'Archivement';
+export const RECORDS_DB = 'Records';

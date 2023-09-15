@@ -7,3 +7,4 @@ export const DB_EXPORTED = 'Database has been exported';
 export const DB_IMPORTED = 'Database has been imported';
 export const ONLY_JSON_FILE = 'Invalid file type, expected json file';
 export const CORRUPTED_JSON = 'Invalid or corrupted json';
+export const OPTIONS_DOTS = '⋮';

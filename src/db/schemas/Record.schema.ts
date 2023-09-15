@@ -1,15 +1,15 @@
 import {Realm} from '@realm/react';
 
-import {ARCHIVEMENT_DB} from '../realm.constants';
+import {RECORDS_DB} from '../realm.constants';
 
-export class Archivement extends Realm.Object {
+export class Record extends Realm.Object {
   id!: string;
   name!: string;
   count!: number;
   units!: string;
 
   static schema = {
-    name: ARCHIVEMENT_DB,
+    name: RECORDS_DB,
     properties: {
       id: 'string',
       name: 'string',
