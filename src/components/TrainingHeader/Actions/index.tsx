@@ -6,7 +6,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import ContextMenu from '@app/components/UI-kit/ContextMenu';
+import {recordsSelector} from '@app/store/selectors/recordsSelector';
 import {allTrainingDaysSelector} from '@app/store/selectors/trainingDaySelectors';
+import {setRecords} from '@app/store/slices/recordsSlice';
 import {setTrainingDays} from '@app/store/slices/trainingDaySlice';
 import {
   CORRUPTED_JSON,
@@ -20,9 +22,10 @@ const Actions = () => {
   const dispatch = useDispatch();
 
   const trainingDays = useSelector(allTrainingDaysSelector);
+  const records = useSelector(recordsSelector);
 
   const onExportDatabase = async () => {
-    const string = JSON.stringify({trainingDays});
+    const string = JSON.stringify({trainingDays, records});
 
     const path = RNFetchBlob.fs.dirs.DownloadDir + '/WorkoutDatabase.json';
 
@@ -61,9 +64,13 @@ const Actions = () => {
 
       dispatch(setTrainingDays(parsedJSON.trainingDays));
 
+      if (parsedJSON.records) {
+        dispatch(setRecords(parsedJSON.records));
+      }
+
       showToast.success(DB_IMPORTED);
     } catch (e) {
-      showToast.someError();
+      return showToast.error(CORRUPTED_JSON);
     }
   };
 
