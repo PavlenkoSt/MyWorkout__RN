@@ -7,7 +7,11 @@ import {useDispatch} from 'react-redux';
 import ContextMenu from '@app/components/UI-kit/ContextMenu';
 import {deleteRecord} from '@app/store/slices/recordsSlice';
 import {IRecord} from '@app/types/IRecord';
-import {OPTIONS_DOTS} from '@app/utilts/constants';
+import {
+  DELETE_OPTION,
+  OPTIONS_DOTS,
+  UPDATE_OPTION,
+} from '@app/utilts/constants';
 
 const OPTIONS_SIZE = 30;
 const ROW_HEIGHT = 50;
@@ -36,9 +40,9 @@ const RecordsTable: FC<IProps> = ({records, onEditRecordPress}) => {
           <View style={styles.optionsWrapper}>
             <ContextMenu
               actions={[
-                {text: '✍ Update', action: () => onEditRecordPress(record)},
+                {text: UPDATE_OPTION, action: () => onEditRecordPress(record)},
                 {
-                  text: '␡  Delete',
+                  text: DELETE_OPTION,
                   action: () => onDelete(record.id),
                 },
               ]}>
@@ -81,7 +85,7 @@ const styles = EStyleSheet.create({
     minHeight: ROW_HEIGHT,
   },
   options: {
-    color: '#fff',
+    color: '$white',
     width: OPTIONS_SIZE,
     justifyContent: 'center',
     alignItems: 'center',
