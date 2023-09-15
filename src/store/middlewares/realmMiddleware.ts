@@ -16,7 +16,9 @@ const realmMiddleware: Middleware = store => next => action => {
 
   const currentState = store.getState() as RootState;
 
-  syncDaysRealm(currentState.trainingDay.trainingDays);
+  if (action.type.includes('trainingDay')) {
+    syncDaysRealm(currentState.trainingDay.trainingDays);
+  }
 
   return result;
 };

@@ -6,7 +6,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import ChecklistIcon from '@app/components/Icons/ChecklistIcon';
 import ProgressIcon from '@app/components/Icons/ProgressIcon';
 
-import Records from '@app/screens/Records';
+import Achievements from '@app/screens/Achievements';
 import Training from '@app/screens/Training';
 
 const Tab = createBottomTabNavigator();
@@ -37,8 +37,8 @@ const Navigation = () => {
         }}
       />
       <Tab.Screen
-        name="Records"
-        component={Records}
+        name="Achievements"
+        component={Achievements}
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <ChecklistIcon fill={color} width={20} height={20} />
