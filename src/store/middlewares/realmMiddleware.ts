@@ -1,6 +1,7 @@
 import {Middleware} from '@reduxjs/toolkit';
 
 import {syncDaysRealm} from '@app/db/actions/syncDaysRealm';
+import {syncRecordsRealm} from '@app/db/actions/syncRecordsRealm';
 
 import {RootState} from '../index';
 
@@ -18,6 +19,10 @@ const realmMiddleware: Middleware = store => next => action => {
 
   if (action.type.includes('trainingDay')) {
     syncDaysRealm(currentState.trainingDay.trainingDays);
+  }
+
+  if (action.type.includes('records')) {
+    syncRecordsRealm(currentState.records.records);
   }
 
   return result;

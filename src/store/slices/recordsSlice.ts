@@ -1,5 +1,6 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
+import {deleteRecordRealm} from '@app/db/actions/deleteRecordRealm';
 import {IRecord} from '@app/types/IRecord';
 
 export interface RecordsSlice {
@@ -29,9 +30,13 @@ const recordsSlice = createSlice({
       });
     },
     deleteRecord(state, action: PayloadAction<string>) {
-      state.records = state.records.filter(
-        record => record.id !== action.payload,
-      );
+      state.records = state.records.filter(record => {
+        if (record.id == action.payload) {
+          deleteRecordRealm(record);
+          return false;
+        }
+        return true;
+      });
     },
   },
 });

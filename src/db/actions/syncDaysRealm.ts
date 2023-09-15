@@ -11,7 +11,7 @@ export const syncDaysRealm = (trainingDays: ITrainingDay[]) => {
         realm.create(TRAINING_DAY_DB, day, Realm.UpdateMode.All);
       });
     } catch (e) {
-      console.log('realmMiddleware error', e);
+      console.log('realmMiddleware syncDaysRealm error', e);
     }
   });
 };

@@ -4,6 +4,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
 import Btn from '@app/components/UI-kit/Btn';
+import useGetRecordsFromDB from '@app/hooks/useGetRecordsFromDB';
 import {recordsSelector} from '@app/store/selectors/recordsSelector';
 import {IRecord} from '@app/types/IRecord';
 
@@ -20,6 +21,8 @@ const Records = () => {
     setRecordToEdit(record);
     setIsModalVisible(true);
   };
+
+  useGetRecordsFromDB();
 
   return (
     <View style={styles.container}>
