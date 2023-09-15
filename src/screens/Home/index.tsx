@@ -13,7 +13,7 @@ import {
 } from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
 
-import CalendarTodayBtn from '@app/components/CalendarTodayBtn';
+import CalendarTodayBtn from './CalendarTodayBtn';
 import DayTraining from './DayTraining';
 
 const Home = () => {
