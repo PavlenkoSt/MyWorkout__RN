@@ -1,16 +1,26 @@
 import React, {FC} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {
+  StyleProp,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
-interface IProps {
+import flatten from '@app/utilts/flatten';
+
+export interface IBtnProps {
   onPress: () => void;
   children: React.ReactNode;
+  btnStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
-const Btn: FC<IProps> = ({onPress, children}) => {
+const Btn: FC<IBtnProps> = ({onPress, btnStyle, textStyle, children}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.btn}>
-      <Text style={styles.text}>{children}</Text>
+    <TouchableOpacity onPress={onPress} style={flatten([styles.btn, btnStyle])}>
+      <Text style={flatten([styles.text, textStyle])}>{children}</Text>
     </TouchableOpacity>
   );
 };

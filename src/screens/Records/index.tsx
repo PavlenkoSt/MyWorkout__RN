@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
@@ -9,7 +9,7 @@ import {recordsSelector} from '@app/store/selectors/recordsSelector';
 import {IRecord} from '@app/types/IRecord';
 
 import RecordModal from './RecordModal';
-import RecordsTable from './RecordsTable';
+import RecordsList from './RecordsList';
 
 const Records = () => {
   const records = useSelector(recordsSelector);
@@ -26,31 +26,24 @@ const Records = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView keyboardShouldPersistTaps="always">
-        <>
-          {records.length ? (
-            <RecordsTable
-              records={records}
-              onEditRecordPress={onEditRecordPress}
-            />
-          ) : (
-            <Text style={styles.noDataText}>No records yet</Text>
-          )}
-        </>
-        <View style={styles.btnContainer}>
-          <Btn onPress={() => setIsModalVisible(true)}>
-            {records.length ? '+ Add record' : '+ Create first'}
-          </Btn>
-        </View>
-        <RecordModal
-          visible={isModalVisible}
-          onClose={() => {
-            setIsModalVisible(false);
-            setRecordToEdit(null);
-          }}
-          recordToEdit={recordToEdit}
-        />
-      </ScrollView>
+      {records.length ? (
+        <RecordsList records={records} onEditRecordPress={onEditRecordPress} />
+      ) : (
+        <Text style={styles.noDataText}>No records yet</Text>
+      )}
+      <View style={styles.btnContainer}>
+        <Btn onPress={() => setIsModalVisible(true)}>
+          {records.length ? '+ Add record' : '+ Create first'}
+        </Btn>
+      </View>
+      <RecordModal
+        visible={isModalVisible}
+        onClose={() => {
+          setIsModalVisible(false);
+          setRecordToEdit(null);
+        }}
+        recordToEdit={recordToEdit}
+      />
     </View>
   );
 };
@@ -65,11 +58,12 @@ const styles = EStyleSheet.create({
   noDataText: {
     color: '#fff',
     textAlign: 'center',
-    marginVertical: 20,
+    marginTop: 20,
     fontSize: 16,
   },
   btnContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginVertical: 20,
   },
 });
