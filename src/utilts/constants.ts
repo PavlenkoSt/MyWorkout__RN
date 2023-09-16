@@ -11,3 +11,7 @@ export const OPTIONS_DOTS = '⋮';
 export const UPDATE_OPTION = '✍ Update';
 export const DELETE_OPTION = '␡  Delete';
 export const DEFAULT_REST_SEC = 120;
+export const SWIPABLE_ITEM_CONFIG = {
+  activationThreshold: 5,
+  swipeDamping: 5,
+};

@@ -27,12 +27,13 @@ const RecordsList: FC<IProps> = ({records, onEditRecordPress}) => {
   };
 
   const renderItem = useCallback(
-    ({item: record, drag}: RenderItemParams<IRecord>) => {
+    ({item: record, drag, isActive}: RenderItemParams<IRecord>) => {
       return (
         <Record
           record={record}
           drag={drag}
           onEditRecordPress={onEditRecordPress}
+          isActive={isActive}
         />
       );
     },

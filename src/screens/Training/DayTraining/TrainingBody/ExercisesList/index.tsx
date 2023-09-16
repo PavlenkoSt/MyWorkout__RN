@@ -63,6 +63,7 @@ const ExercisesList: FC<IProps> = ({
           exercise={exercise}
           idx={getIndex() || 0}
           onChangeEditExersice={onChangeEditExersice}
+          isActive={isActive}
         />
       );
     },

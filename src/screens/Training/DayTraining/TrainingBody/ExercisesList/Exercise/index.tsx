@@ -14,6 +14,7 @@ import {
   incrementSet,
 } from '@app/store/slices/trainingDaySlice';
 import {IExercise, IExerciseWithId} from '@app/types/IExercise';
+import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 
 import ExCounter from './ExCounter';
 import ExTable from './ExTable';
@@ -24,6 +25,7 @@ interface IProps {
   drag: () => void;
   actionPanelWidth: number;
   onChangeEditExersice: (exercise: IExercise) => void;
+  isActive: boolean;
 }
 
 const Exercise: FC<IProps> = ({
@@ -32,6 +34,7 @@ const Exercise: FC<IProps> = ({
   drag,
   actionPanelWidth,
   onChangeEditExersice,
+  isActive,
 }) => {
   const dispatch = useDispatch();
 
@@ -71,11 +74,14 @@ const Exercise: FC<IProps> = ({
       key={exercise.id}
       ref={itemRef}
       item={exercise}
+      swipeEnabled={!isActive}
+      {...SWIPABLE_ITEM_CONFIG}
       renderUnderlayLeft={params => renderUnderlayLeft(exercise)}
       snapPointsLeft={[actionPanelWidth]}>
       <ScaleDecorator activeScale={0.9}>
         <TouchableOpacity
           activeOpacity={1}
+          onPress={() => itemRef.current?.close()}
           onLongPress={drag}
           style={styles.container}>
           <View style={styles.containerInner}>
