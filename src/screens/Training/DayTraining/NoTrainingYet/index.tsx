@@ -2,8 +2,8 @@ import React, {FC} from 'react';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
-import TrainingHeader from '@app/components/TrainingHeader';
 import Btn from '@app/components/UI-kit/Btn';
+import TrainingHeader from '@app/screens/Training/DayTraining/TrainingHeader';
 
 interface IProps {
   onStartPlanning: () => void;

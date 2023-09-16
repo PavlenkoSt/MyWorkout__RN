@@ -7,8 +7,8 @@ import DraggableFlatList, {
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
-import TrainingHeader from '@app/components/TrainingHeader';
 import Btn from '@app/components/UI-kit/Btn';
+import TrainingHeader from '@app/screens/Training/DayTraining/TrainingHeader';
 import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {changeExercisesOrdering} from '@app/store/slices/trainingDaySlice';
 import {IExercise, IExerciseWithId} from '@app/types/IExercise';
