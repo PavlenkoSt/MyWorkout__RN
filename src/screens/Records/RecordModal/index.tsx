@@ -69,7 +69,7 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="always">
           <Text style={styles.title}>
             {recordToEdit ? 'Update' : 'Add'} record
           </Text>
