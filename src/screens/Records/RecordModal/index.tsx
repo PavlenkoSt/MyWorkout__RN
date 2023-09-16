@@ -77,7 +77,7 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
             <FormItem
               control={control}
               errors={errors}
-              label="Name"
+              label="Exercise"
               name="name"
             />
             <FormItem
@@ -94,6 +94,7 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
                   RecordUnitsEnum.REPS,
                   RecordUnitsEnum.SEC,
                   RecordUnitsEnum.MIN,
+                  RecordUnitsEnum.KM,
                 ]}
                 defaultValue={units}
                 onSelect={value => setUnits(value)}

@@ -31,9 +31,10 @@ const RecordsTable: FC<IProps> = ({records, onEditRecordPress}) => {
   return (
     <Table style={styles.table}>
       <Row
-        data={['Name', 'Count', 'Units']}
+        data={['Exercise', 'Result']}
         style={styles.head}
         textStyle={styles.headerText}
+        flexArr={[1, 0.7]}
       />
       {records.map(record => (
         <View key={record.id}>
@@ -50,9 +51,10 @@ const RecordsTable: FC<IProps> = ({records, onEditRecordPress}) => {
             </ContextMenu>
           </View>
           <Row
-            data={[record.name, record.count, record.units]}
+            data={[record.name, record.count + ' ' + record.units]}
             textStyle={styles.text}
             style={styles.row}
+            flexArr={[1, 0.7]}
           />
         </View>
       ))}
@@ -73,6 +75,7 @@ const styles = EStyleSheet.create({
   text: {
     margin: 6,
     color: '#fff',
+    fontWeight: '500',
   },
   headerText: {
     margin: 6,
@@ -96,9 +99,11 @@ const styles = EStyleSheet.create({
   },
   optionsWrapper: {
     position: 'absolute',
-    top: '50%',
-    transform: [{translateY: -(ROW_HEIGHT / 2)}],
     right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 1000,
   },
 });
