@@ -1,9 +1,8 @@
+import LottieView from 'lottie-react-native';
 import React, {FC} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import * as Progress from 'react-native-progress';
-
-import CompletedCircleIcon from '@app/components/Icons/CompletedCircleIcon';
 
 interface IProps {
   canDecrease: boolean;
@@ -52,7 +51,12 @@ const ExCounter: FC<IProps> = ({
         />
         {isCompleted && (
           <View style={styles.completed}>
-            <CompletedCircleIcon width={20} height={20} />
+            <LottieView
+              source={require('@app/assets/animations/Check.json')}
+              autoPlay
+              loop={false}
+              style={{width: 25, height: 25}}
+            />
           </View>
         )}
       </View>

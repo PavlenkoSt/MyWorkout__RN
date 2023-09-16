@@ -3,12 +3,14 @@ import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
+import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
+import Loader from '@app/components/Loader';
 import Btn from '@app/components/UI-kit/Btn';
 import useGetRecordsFromDB from '@app/hooks/useGetRecordsFromDB';
+import useMounted from '@app/hooks/useMounted';
 import {recordsSelector} from '@app/store/selectors/recordsSelector';
 import {IRecord} from '@app/types/IRecord';
 
-import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import RecordModal from './RecordModal';
 import RecordsList from './RecordsList';
 
@@ -17,6 +19,8 @@ const Records = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [recordToEdit, setRecordToEdit] = useState<IRecord | null>(null);
+
+  const {mounted} = useMounted();
 
   const onEditRecordPress = (record: IRecord) => {
     setRecordToEdit(record);
@@ -31,7 +35,9 @@ const Records = () => {
         backgroundColor={EStyleSheet.value('$primaryColor')}
         barStyle="light-content"
       />
-      {records.length ? (
+      {!mounted ? (
+        <Loader />
+      ) : records.length ? (
         <RecordsList
           records={records}
           onEditRecordPress={onEditRecordPress}

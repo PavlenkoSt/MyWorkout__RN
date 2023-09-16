@@ -5,6 +5,7 @@ import {MarkedDates} from 'react-native-calendars/src/types';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
+import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import useGetTrainingDaysFromDB from '@app/hooks/useGetTrainingDaysFromDB';
 import datesService from '@app/services/dates.service';
 import {
@@ -13,7 +14,6 @@ import {
 } from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
 
-import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import CalendarTodayBtn from './CalendarTodayBtn';
 import DayTraining from './DayTraining';
 
