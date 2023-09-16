@@ -8,11 +8,7 @@ import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import NoTrainingYet from './NoTrainingYet';
 import TrainingBody from './TrainingBody';
 
-interface IProps {
-  date: string;
-}
-
-const DayTraining: FC<IProps> = ({date}) => {
+const DayTraining: FC = () => {
   const trainingDay = useSelector(trainingDateSelector);
 
   const [isCreation, setIsCreation] = useState(false);

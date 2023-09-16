@@ -58,7 +58,7 @@ const Training = () => {
           markingType="custom"
           markedDates={datesToMark}
         />
-        <DayTraining date={activeDate} key={activeDate} />
+        <DayTraining />
         <CalendarTodayBtn />
       </CalendarProvider>
     </View>
