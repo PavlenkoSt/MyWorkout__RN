@@ -9,4 +9,5 @@ export enum RecordUnitsEnum {
   REPS = 'Reps',
   SEC = 'Sec',
   MIN = 'Min',
+  KM = 'Km',
 }
