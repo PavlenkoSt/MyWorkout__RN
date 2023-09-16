@@ -1,5 +1,6 @@
 import React, {FC, ReactNode} from 'react';
-import {StatusBar, StyleSheet} from 'react-native';
+import {StatusBar} from 'react-native';
+import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import ReactNativeModal from 'react-native-modal';
 
 interface IProps {
@@ -20,7 +21,7 @@ const ModalWrapper: FC<IProps> = ({children, onClose, visible}) => {
         animationIn="wobble"
         useNativeDriver
         useNativeDriverForBackdrop
-        style={{justifyContent: 'flex-end', margin: 0}}>
+        style={styles.modal}>
         {children}
       </ReactNativeModal>
     </>
@@ -29,4 +30,9 @@ const ModalWrapper: FC<IProps> = ({children, onClose, visible}) => {
 
 export default ModalWrapper;
 
-const styles = StyleSheet.create({});
+const styles = EStyleSheet.create({
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+});

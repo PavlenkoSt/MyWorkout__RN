@@ -1,23 +1,41 @@
-import React, {FC} from 'react';
-import {Text, View} from 'react-native';
+import React, {FC, memo, useCallback, useRef} from 'react';
+import {TouchableOpacity, View} from 'react-native';
+import {ScaleDecorator} from 'react-native-draggable-flatlist';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import SwipeableItem, {
+  SwipeableItemImperativeRef,
+} from 'react-native-swipeable-item';
 import {useDispatch} from 'react-redux';
 
-import {decrementSet, incrementSet} from '@app/store/slices/trainingDaySlice';
-import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
-import {OPTIONS_DOTS} from '@app/utilts/constants';
+import ListUnderlayActions from '@app/components/ListUnderlayActions';
+import {
+  decrementSet,
+  deleteExercise,
+  incrementSet,
+} from '@app/store/slices/trainingDaySlice';
+import {IExercise, IExerciseWithId} from '@app/types/IExercise';
 
 import ExCounter from './ExCounter';
-import ExerciseContext from './ExerciseContext';
+import ExTable from './ExTable';
 
 interface IProps {
   exercise: IExerciseWithId;
   idx: number;
-  onChangeEditExersice: (exercise: IExerciseWithId) => void;
+  drag: () => void;
+  actionPanelWidth: number;
+  onChangeEditExersice: (exercise: IExercise) => void;
 }
 
-const Exercise: FC<IProps> = ({exercise, idx, onChangeEditExersice}) => {
+const Exercise: FC<IProps> = ({
+  exercise,
+  idx,
+  drag,
+  actionPanelWidth,
+  onChangeEditExersice,
+}) => {
   const dispatch = useDispatch();
+
+  const itemRef = useRef<SwipeableItemImperativeRef>(null);
 
   const canDecrease = exercise.setsDone > 0;
   const isCompleted = exercise.setsDone >= exercise.sets;
@@ -34,97 +52,58 @@ const Exercise: FC<IProps> = ({exercise, idx, onChangeEditExersice}) => {
     dispatch(decrementSet({id: exercise.id}));
   };
 
+  const renderUnderlayLeft = useCallback(
+    (exercise: IExercise) => (
+      <ListUnderlayActions
+        onDeletePress={() => dispatch(deleteExercise({id: exercise.id}))}
+        onEditPress={() => {
+          itemRef.current?.close();
+          onChangeEditExersice(exercise);
+        }}
+        actionPanelWidth={actionPanelWidth}
+      />
+    ),
+    [],
+  );
+
   return (
-    <View style={styles.container}>
-      <View>
-        <View style={styles.top}>
-          <View style={styles.col}>
-            <Text
-              style={[styles.colText, isCompleted ? styles.textDone : void 0]}>
-              {idx + 1}. {exercise.exercise}
-            </Text>
+    <SwipeableItem
+      key={exercise.id}
+      ref={itemRef}
+      item={exercise}
+      renderUnderlayLeft={params => renderUnderlayLeft(exercise)}
+      snapPointsLeft={[actionPanelWidth]}>
+      <ScaleDecorator activeScale={0.9}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onLongPress={drag}
+          style={styles.container}>
+          <View style={styles.containerInner}>
+            <ExTable exercise={exercise} isCompleted={isCompleted} idx={idx} />
+            <ExCounter
+              canDecrease={canDecrease}
+              decrement={decrement}
+              increment={increment}
+              isCompleted={isCompleted}
+              doneCount={exercise.setsDone}
+              doneGoalCount={exercise.sets}
+            />
           </View>
-          <View style={[styles.col, styles.colCentered]}>
-            <Text style={styles.colText}>
-              {exercise.type === ExerciseTypeEnum.DYNAMIC ? 'Reps: ' : 'Hold: '}
-            </Text>
-            <Text style={styles.colText}>
-              {exercise.reps}
-              {exercise.type === ExerciseTypeEnum.STATIC ? ' sec.' : ''}
-            </Text>
-          </View>
-          <View style={[styles.col, styles.colCentered]}>
-            <Text style={styles.colText}>Sets:</Text>
-            <Text style={styles.colText}>{exercise.sets}</Text>
-          </View>
-          <View style={[styles.col, styles.colCentered]}>
-            <Text style={styles.colText}>Rest:</Text>
-            <Text style={styles.colText}>{exercise.rest} sec.</Text>
-          </View>
-          <View style={styles.contextMenuContainer}>
-            <ExerciseContext
-              exerciseId={exercise.id}
-              onChangeEditExersice={() => onChangeEditExersice(exercise)}>
-              <Text style={styles.contextMenuMark}>{OPTIONS_DOTS}</Text>
-            </ExerciseContext>
-          </View>
-        </View>
-        <ExCounter
-          canDecrease={canDecrease}
-          decrement={decrement}
-          increment={increment}
-          isCompleted={isCompleted}
-          doneCount={exercise.setsDone}
-          doneGoalCount={exercise.sets}
-        />
-      </View>
-    </View>
+        </TouchableOpacity>
+      </ScaleDecorator>
+    </SwipeableItem>
   );
 };
 
-export default Exercise;
+export default memo(Exercise);
 
 const styles = EStyleSheet.create({
   container: {
-    marginBottom: 10,
+    padding: 5,
+  },
+  containerInner: {
     borderWidth: 1,
     borderColor: '#222',
     borderRadius: 16,
-  },
-  top: {
-    padding: 5,
-    flexDirection: 'row',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    backgroundColor: '#222',
-    justifyContent: 'space-between',
-    paddingRight: 15,
-  },
-  col: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  colCentered: {
-    alignItems: 'center',
-  },
-  colText: {
-    color: '$white',
-  },
-  contextMenuContainer: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    zIndex: 1,
-  },
-  contextMenuMark: {
-    fontSize: 25,
-    width: 15,
-    textAlign: 'center',
-    color: '$white',
-  },
-  textDone: {
-    textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
-    textDecorationColor: '#ccc',
   },
 });
