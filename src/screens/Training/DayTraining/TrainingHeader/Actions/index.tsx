@@ -58,13 +58,15 @@ const Actions = () => {
 
       const parsedJSON = JSON.parse(json);
 
-      if (!parsedJSON.trainingDays) {
+      if (!parsedJSON.trainingDays || !parsedJSON.records) {
         return showToast.error(CORRUPTED_JSON);
       }
 
-      dispatch(setTrainingDays(parsedJSON.trainingDays));
+      if (parsedJSON.trainingDays?.length) {
+        dispatch(setTrainingDays(parsedJSON.trainingDays));
+      }
 
-      if (parsedJSON.records) {
+      if (parsedJSON.records?.length) {
         dispatch(setRecords(parsedJSON.records));
       }
 
