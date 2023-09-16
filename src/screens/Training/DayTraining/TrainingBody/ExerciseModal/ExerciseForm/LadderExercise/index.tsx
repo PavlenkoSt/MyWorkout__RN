@@ -1,5 +1,5 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {useForm} from 'react-hook-form';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -12,6 +12,7 @@ import {exerciseFromFallbackSelector} from '@app/store/selectors/exerciseFormFal
 import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {addExercisesToDay} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
+import {DEFAULT_REST_SEC} from '@app/utilts/constants';
 import showToast from '@app/utilts/showToast';
 import {ladderExerciseValidation} from '@app/validations/ladder-exercise.validation';
 
@@ -54,6 +55,7 @@ const LadderExercise: FC<IProps> = ({onAfterSubmit}) => {
     defaultValues: {
       step: 1,
       exercise: exerciseFromFallback,
+      rest: DEFAULT_REST_SEC,
     },
   });
 

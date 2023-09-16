@@ -10,3 +10,4 @@ export const CORRUPTED_JSON = 'Invalid or corrupted json';
 export const OPTIONS_DOTS = '⋮';
 export const UPDATE_OPTION = '✍ Update';
 export const DELETE_OPTION = '␡  Delete';
+export const DEFAULT_REST_SEC = 120;

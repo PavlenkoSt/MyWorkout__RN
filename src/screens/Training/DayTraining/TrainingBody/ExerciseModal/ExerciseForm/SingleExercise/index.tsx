@@ -11,6 +11,7 @@ import useSaveFormFallback from '@app/hooks/useSaveFormFallback';
 import {exerciseFromFallbackSelector} from '@app/store/selectors/exerciseFormFallbackSelectors';
 import {addExercise, updateExercise} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
+import {DEFAULT_REST_SEC} from '@app/utilts/constants';
 import {exerciseValidation} from '@app/validations/exercise.validation';
 
 interface IForm {
@@ -43,6 +44,7 @@ const SingleExercise: FC<IProps> = ({exerciseToEdit, type, onAfterSubmit}) => {
       ? exerciseToEdit
       : {
           exercise: exerciseFromFallback,
+          rest: DEFAULT_REST_SEC,
         },
   });
 
