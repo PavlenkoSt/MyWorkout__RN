@@ -27,7 +27,6 @@ const Records = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text style={styles.title}>Records</Text>
         <>
           {records.length ? (
             <RecordsTable
@@ -62,13 +61,6 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '$bgColor',
-  },
-  title: {
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: 20,
-    marginBottom: 20,
-    marginTop: 20,
   },
   noDataText: {
     color: '#fff',
