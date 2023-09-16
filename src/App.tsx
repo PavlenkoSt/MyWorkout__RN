@@ -7,7 +7,6 @@
 
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import {StatusBar} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {MenuProvider} from 'react-native-popup-menu';
@@ -29,7 +28,6 @@ const App = (): JSX.Element => {
       <GestureHandlerRootView style={{flex: 1}}>
         <MenuProvider>
           <Provider store={store}>
-            <StatusBar backgroundColor="#fff" barStyle="dark-content" />
             <Navigation />
             <Toast />
           </Provider>

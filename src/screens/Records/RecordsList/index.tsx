@@ -9,15 +9,22 @@ import DraggableFlatList, {
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
 
+import Btn from '@app/components/UI-kit/Btn';
+import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import Record from './Record';
 import RecordsHeader from './RecordsHeader';
 
 interface IProps {
   records: IRecord[];
   onEditRecordPress: (record: IRecord) => void;
+  onAddNewRecordPress: () => void;
 }
 
-const RecordsList: FC<IProps> = ({records, onEditRecordPress}) => {
+const RecordsList: FC<IProps> = ({
+  records,
+  onEditRecordPress,
+  onAddNewRecordPress,
+}) => {
   const dispatch = useDispatch();
 
   const onDragEnd = ({data, from, to}: DragEndParams<IRecord>) => {
@@ -40,18 +47,35 @@ const RecordsList: FC<IProps> = ({records, onEditRecordPress}) => {
     [],
   );
 
+  const renderFoorter = useCallback(
+    () => (
+      <View style={styles.btnContainer}>
+        <Btn onPress={onAddNewRecordPress}>+ Add record</Btn>
+      </View>
+    ),
+    [],
+  );
+
   return (
-    <View>
-      <RecordsHeader />
-      <DraggableFlatList
-        extraData={records}
-        data={records}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        onDragEnd={onDragEnd}
-      />
-    </View>
+    <DraggableFlatList
+      extraData={records}
+      ListHeaderComponent={RecordsHeader}
+      stickyHeaderIndices={[0]}
+      data={records}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+      onDragEnd={onDragEnd}
+      ListFooterComponent={renderFoorter}
+    />
   );
 };
 
 export default RecordsList;
+
+const styles = EStyleSheet.create({
+  btnContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+});

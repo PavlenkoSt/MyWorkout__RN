@@ -13,6 +13,7 @@ import {
 } from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
 
+import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import CalendarTodayBtn from './CalendarTodayBtn';
 import DayTraining from './DayTraining';
 
@@ -50,6 +51,7 @@ const Training = () => {
 
   return (
     <View style={styles.container}>
+      <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       <CalendarProvider
         date={activeDate}
         onDateChanged={date => dispatch(changeActiveDate(date))}>
