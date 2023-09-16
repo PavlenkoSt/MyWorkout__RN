@@ -6,6 +6,5 @@ export const recordValidation = yup.object().shape({
     .number()
     .required('Required a number')
     .typeError('Required a number')
-    .positive('Must be positive')
-    .integer('Must be number'),
+    .positive('Must be positive'),
 });
