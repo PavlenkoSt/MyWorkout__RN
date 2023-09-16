@@ -15,3 +15,5 @@ export const SWIPABLE_ITEM_CONFIG = {
   activationThreshold: 5,
   swipeDamping: 5,
 };
+export const DB_OPERATION_ERROR = 'DB operation has been failed.';
+export const DB_RECORDS_BACKUP_SAVED = 'Records backup data has been saved';
