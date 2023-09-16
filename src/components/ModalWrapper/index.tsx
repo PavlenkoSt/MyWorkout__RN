@@ -18,7 +18,7 @@ const ModalWrapper: FC<IProps> = ({children, onClose, visible}) => {
         hasBackdrop
         onBackdropPress={onClose}
         onBackButtonPress={onClose}
-        animationIn="wobble"
+        animationIn="slideInUp"
         useNativeDriver
         useNativeDriverForBackdrop
         style={styles.modal}>
