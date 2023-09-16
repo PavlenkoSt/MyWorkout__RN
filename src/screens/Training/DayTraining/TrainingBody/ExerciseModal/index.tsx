@@ -1,12 +1,14 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {useDispatch} from 'react-redux';
 
 import ModalWrapper from '@app/components/ModalWrapper';
-import {clearFallback} from '@app/store/slices/exerciseFormFallbackSlice';
 import {IExerciseWithId} from '@app/types/IExercise';
 
 import ExerciseForm from './ExerciseForm';
+
+export interface IExerciseBackup {
+  exercise: string;
+}
 
 interface IProps {
   visible: boolean;
@@ -15,18 +17,25 @@ interface IProps {
 }
 
 const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
-  const dispatch = useDispatch();
+  const [exerciseBackup, setExerciseBackup] = useState<IExerciseBackup | null>(
+    null,
+  );
 
   useEffect(() => {
     if (!visible) {
-      dispatch(clearFallback());
+      setExerciseBackup(null);
     }
   }, [visible]);
 
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
       <View style={{padding: 20, backgroundColor: '#333'}}>
-        <ExerciseForm exerciseToEdit={exerciseToEdit} onAfterSubmit={onClose} />
+        <ExerciseForm
+          exerciseToEdit={exerciseToEdit}
+          onAfterSubmit={onClose}
+          exerciseBackup={exerciseBackup}
+          setExerciseBackup={setExerciseBackup}
+        />
       </View>
     </ModalWrapper>
   );

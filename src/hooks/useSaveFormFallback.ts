@@ -1,11 +1,11 @@
-import {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {Dispatch, SetStateAction, useEffect} from 'react';
 
-import {setExerciseFallback} from '@app/store/slices/exerciseFormFallbackSlice';
+import {IExerciseBackup} from '@app/screens/Training/DayTraining/TrainingBody/ExerciseModal';
 
 interface IProps<T> {
   watch: (fields: keyof T) => any;
   reset: () => void;
+  setExerciseBackup: Dispatch<SetStateAction<IExerciseBackup | null>>;
 }
 
 interface IFormFieldsToFallback {
@@ -15,13 +15,12 @@ interface IFormFieldsToFallback {
 const useSaveFormFallback = <T extends IFormFieldsToFallback>({
   watch,
   reset,
+  setExerciseBackup,
 }: IProps<T>) => {
-  const dispatch = useDispatch();
-
   const exercise = watch('exercise');
 
   useEffect(() => {
-    dispatch(setExerciseFallback(exercise));
+    setExerciseBackup({exercise});
   }, [exercise]);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import React, {FC} from 'react';
+import React, {Dispatch, FC, SetStateAction} from 'react';
 import {useForm} from 'react-hook-form';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -8,13 +8,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import FormItem from '@app/components/FormItem';
 import Btn from '@app/components/UI-kit/Btn';
 import useSaveFormFallback from '@app/hooks/useSaveFormFallback';
-import {exerciseFromFallbackSelector} from '@app/store/selectors/exerciseFormFallbackSelectors';
 import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {addExercisesToDay} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
 import {DEFAULT_REST_SEC} from '@app/utilts/constants';
 import showToast from '@app/utilts/showToast';
 import {ladderExerciseValidation} from '@app/validations/ladder-exercise.validation';
+import {IExerciseBackup} from '../../index';
 
 interface IForm {
   exercise: string;
@@ -26,6 +26,8 @@ interface IForm {
 
 interface IProps {
   onAfterSubmit: () => void;
+  exerciseBackup: IExerciseBackup | null;
+  setExerciseBackup: Dispatch<SetStateAction<IExerciseBackup | null>>;
 }
 
 const generateExercise = (data: IForm, i: number) => ({
@@ -38,11 +40,14 @@ const generateExercise = (data: IForm, i: number) => ({
   id: Date.now().toString() + i,
 });
 
-const LadderExercise: FC<IProps> = ({onAfterSubmit}) => {
+const LadderExercise: FC<IProps> = ({
+  onAfterSubmit,
+  exerciseBackup,
+  setExerciseBackup,
+}) => {
   const dispatch = useDispatch();
 
   const activeDate = useSelector(activeDateSelector);
-  const exerciseFromFallback = useSelector(exerciseFromFallbackSelector);
 
   const {
     control,
@@ -54,12 +59,12 @@ const LadderExercise: FC<IProps> = ({onAfterSubmit}) => {
     resolver: yupResolver(ladderExerciseValidation),
     defaultValues: {
       step: 1,
-      exercise: exerciseFromFallback,
+      exercise: exerciseBackup?.exercise || '',
       rest: DEFAULT_REST_SEC,
     },
   });
 
-  useSaveFormFallback<IForm>({watch, reset});
+  useSaveFormFallback<IForm>({watch, reset, setExerciseBackup});
 
   const onSubmit = (data: IForm) => {
     const {from, to, step} = data;

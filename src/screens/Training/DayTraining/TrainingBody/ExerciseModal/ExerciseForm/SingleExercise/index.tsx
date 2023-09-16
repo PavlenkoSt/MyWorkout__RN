@@ -1,18 +1,18 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import React, {FC} from 'react';
+import React, {Dispatch, FC, SetStateAction} from 'react';
 import {useForm} from 'react-hook-form';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import FormItem from '@app/components/FormItem';
 import Btn from '@app/components/UI-kit/Btn';
 import useSaveFormFallback from '@app/hooks/useSaveFormFallback';
-import {exerciseFromFallbackSelector} from '@app/store/selectors/exerciseFormFallbackSelectors';
 import {addExercise, updateExercise} from '@app/store/slices/trainingDaySlice';
 import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
 import {DEFAULT_REST_SEC} from '@app/utilts/constants';
 import {exerciseValidation} from '@app/validations/exercise.validation';
+import {IExerciseBackup} from '../../index';
 
 interface IForm {
   exercise: string;
@@ -25,12 +25,18 @@ interface IProps {
   exerciseToEdit: IExerciseWithId | null;
   type: ExerciseTypeEnum;
   onAfterSubmit: () => void;
+  exerciseBackup: IExerciseBackup | null;
+  setExerciseBackup: Dispatch<SetStateAction<IExerciseBackup | null>>;
 }
 
-const SingleExercise: FC<IProps> = ({exerciseToEdit, type, onAfterSubmit}) => {
+const SingleExercise: FC<IProps> = ({
+  exerciseToEdit,
+  type,
+  onAfterSubmit,
+  exerciseBackup,
+  setExerciseBackup,
+}) => {
   const dispatch = useDispatch();
-
-  const exerciseFromFallback = useSelector(exerciseFromFallbackSelector);
 
   const {
     control,
@@ -43,12 +49,12 @@ const SingleExercise: FC<IProps> = ({exerciseToEdit, type, onAfterSubmit}) => {
     defaultValues: exerciseToEdit
       ? exerciseToEdit
       : {
-          exercise: exerciseFromFallback,
+          exercise: exerciseBackup?.exercise || '',
           rest: DEFAULT_REST_SEC,
         },
   });
 
-  useSaveFormFallback<IForm>({watch, reset});
+  useSaveFormFallback<IForm>({watch, reset, setExerciseBackup});
 
   const onSubmit = (data: IForm) => {
     if (exerciseToEdit) {
