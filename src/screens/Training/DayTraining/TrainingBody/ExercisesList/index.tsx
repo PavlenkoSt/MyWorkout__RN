@@ -1,21 +1,18 @@
 import React, {FC, memo, useCallback} from 'react';
-import {View} from 'react-native';
 import DraggableFlatList, {
   DragEndParams,
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
-import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
-import Btn from '@app/components/UI-kit/Btn';
 import TrainingHeader from '@app/screens/Training/DayTraining/TrainingHeader';
 import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {changeExercisesOrdering} from '@app/store/slices/trainingDaySlice';
 import {IExercise, IExerciseWithId} from '@app/types/IExercise';
 
 import Exercise from './Exercise';
+import ExercisesFooter from './ExercisesFooter';
 
-const PADDING_HORIZONTAL = 5;
 const ACTION_PANEL_WIDTH = 120;
 
 interface IProps {
@@ -41,11 +38,7 @@ const ExercisesList: FC<IProps> = ({
   );
 
   const renderFooter = useCallback(
-    () => (
-      <View style={styles.btnContainer}>
-        <Btn onPress={onAddExercisePress}>+ Add exercise</Btn>
-      </View>
-    ),
+    () => <ExercisesFooter onAddExercisePress={onAddExercisePress} />,
     [],
   );
 
@@ -84,12 +77,3 @@ const ExercisesList: FC<IProps> = ({
 };
 
 export default memo(ExercisesList);
-
-const styles = EStyleSheet.create({
-  btnContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 10,
-    paddingHorizontal: PADDING_HORIZONTAL,
-  },
-});

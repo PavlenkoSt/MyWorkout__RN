@@ -6347,6 +6347,11 @@ react-native-calendars@^1.1300.0:
   optionalDependencies:
     moment "^2.29.4"
 
+react-native-collapsible-view@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible-view/-/react-native-collapsible-view-0.0.3.tgz#a91b41e103fb10d2ba2c7fb99e98f00ac303ec5e"
+  integrity sha512-wvPlauhFxVKE4hQ4iVu/+kCE9qUmiw2wAt37C+0muyJiZVHC7r8xDaT4Y2J/4rFIGSQFdR4AUsrq1kUkAwc1BQ==
+
 react-native-date-picker@^4.2.14:
   version "4.2.14"
   resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.2.14.tgz#ebeb3bf8d682268a4e405decde1e72ab95ecffb7"
