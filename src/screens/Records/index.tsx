@@ -65,7 +65,8 @@ const styles = EStyleSheet.create({
   noDataText: {
     color: '#fff',
     textAlign: 'center',
-    marginBottom: 15,
+    marginVertical: 20,
+    fontSize: 16,
   },
   btnContainer: {
     justifyContent: 'center',
