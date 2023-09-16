@@ -43,10 +43,16 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
   const dispatch = useDispatch();
 
   const onSubmit = (formValues: IForm) => {
+    const {name, count} = formValues;
+
     if (recordToEdit) {
-      dispatch(updateRecord({...formValues, units, id: recordToEdit.id}));
+      dispatch(
+        updateRecord({name: name.trim(), count, units, id: recordToEdit.id}),
+      );
     } else {
-      dispatch(addRecord({...formValues, units, id: Date.now().toString()}));
+      dispatch(
+        addRecord({name: name.trim(), count, units, id: Date.now().toString()}),
+      );
     }
     onClose();
   };

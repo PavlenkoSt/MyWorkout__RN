@@ -31,7 +31,7 @@ interface IProps {
 }
 
 const generateExercise = (data: IForm, i: number) => ({
-  exercise: data.exercise,
+  exercise: data.exercise.trim(),
   rest: data.rest,
   reps: i,
   sets: 1,

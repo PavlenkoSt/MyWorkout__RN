@@ -66,11 +66,18 @@ const SingleExercise: FC<IProps> = ({
           type,
           setsDone,
           ...data,
+          exercise: data.exercise.trim(),
         }),
       );
     } else {
       dispatch(
-        addExercise({...data, type, setsDone: 0, id: Date.now().toString()}),
+        addExercise({
+          ...data,
+          exercise: data.exercise.trim(),
+          type,
+          setsDone: 0,
+          id: Date.now().toString(),
+        }),
       );
     }
 

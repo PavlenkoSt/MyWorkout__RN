@@ -1,7 +1,14 @@
 import * as yup from 'yup';
 
+import {onlySpacesRegex} from '@app/utilts/regexps';
+
 export const exerciseValidation = yup.object().shape({
-  exercise: yup.string().required('Required'),
+  exercise: yup
+    .string()
+    .required('Required')
+    .test('No spaces', 'Required', value => {
+      return !onlySpacesRegex.test(value);
+    }),
   reps: yup
     .number()
     .required('Required a number')
