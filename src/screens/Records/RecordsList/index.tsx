@@ -8,9 +8,10 @@ import DraggableFlatList, {
   DragEndParams,
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
+import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import Btn from '@app/components/UI-kit/Btn';
-import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+
 import Record from './Record';
 import RecordsHeader from './RecordsHeader';
 

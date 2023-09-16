@@ -22,7 +22,10 @@ const realmMiddleware: Middleware = store => next => action => {
   }
 
   if (action.type.includes('records')) {
-    syncRecordsRealm(currentState.records.records);
+    syncRecordsRealm(
+      currentState.records.records,
+      action.type === 'recordsSlice/setRecords',
+    );
   }
 
   return result;

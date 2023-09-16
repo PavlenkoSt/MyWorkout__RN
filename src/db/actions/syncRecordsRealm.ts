@@ -3,9 +3,15 @@ import realm from '../index';
 
 import {RECORDS_DB} from '../realm.constants';
 
-export const syncRecordsRealm = (records: IRecord[]) => {
+export const syncRecordsRealm = (
+  records: IRecord[],
+  needDropBefore?: boolean,
+) => {
   realm.write(() => {
     try {
+      if (needDropBefore) {
+        realm.delete(realm.objects(RECORDS_DB));
+      }
       records.forEach(record => {
         realm.create(RECORDS_DB, record, Realm.UpdateMode.All);
       });
