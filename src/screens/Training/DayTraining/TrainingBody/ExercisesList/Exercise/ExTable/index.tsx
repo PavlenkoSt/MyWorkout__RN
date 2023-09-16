@@ -57,6 +57,7 @@ const styles = EStyleSheet.create({
   },
   colCentered: {
     alignItems: 'center',
+    flex: 0.6,
   },
   colText: {
     color: '$white',
