@@ -1,4 +1,4 @@
-import React, {FC, memo, useCallback, useRef} from 'react';
+import React, {FC, memo, useCallback} from 'react';
 import DraggableFlatList, {
   DragEndParams,
   RenderItemParams,
@@ -10,7 +10,6 @@ import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {changeExercisesOrdering} from '@app/store/slices/trainingDaySlice';
 import {IExercise, IExerciseWithId} from '@app/types/IExercise';
 
-import {FlatList} from 'react-native';
 import Exercise from './Exercise';
 import ExercisesFooter from './ExercisesFooter';
 
@@ -25,8 +24,6 @@ const ExercisesList: FC<IProps> = ({
   onChangeEditExersice,
   onAddExercisePress,
 }) => {
-  const listRef = useRef<FlatList<IExercise>>(null);
-
   const dispatch = useDispatch();
 
   const trainingDay = useSelector(trainingDateSelector);
@@ -41,12 +38,7 @@ const ExercisesList: FC<IProps> = ({
   );
 
   const renderFooter = useCallback(
-    () => (
-      <ExercisesFooter
-        onAddExercisePress={onAddExercisePress}
-        scrollListToEnd={() => listRef.current?.scrollToEnd({animated: true})}
-      />
-    ),
+    () => <ExercisesFooter onAddExercisePress={onAddExercisePress} />,
     [],
   );
 
@@ -73,8 +65,6 @@ const ExercisesList: FC<IProps> = ({
 
   return (
     <DraggableFlatList
-      //@ts-ignore
-      ref={ref => (listRef.current = ref)}
       extraData={trainingDay?.exercises}
       data={trainingDay?.exercises || []}
       renderItem={renderItem}
