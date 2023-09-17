@@ -56,9 +56,9 @@ const ExercisesFooter: FC<IProps> = ({onAddExercisePress}) => {
   }, [trainingDay]);
 
   return (
-    <View>
+    <View style={styles.footerContainer}>
       <View style={styles.footer}>
-        <View style={styles.section}>
+        <View style={styles.popoverBtn}>
           {!!statistic.length && (
             <Popover
               Trigger={() => (
@@ -82,10 +82,9 @@ const ExercisesFooter: FC<IProps> = ({onAddExercisePress}) => {
             />
           )}
         </View>
-        <View style={[styles.btnContainer, styles.section]}>
+        <View style={styles.btnContainer}>
           <Btn onPress={onAddExercisePress}>+ Add exercise</Btn>
         </View>
-        <View style={styles.section} />
       </View>
     </View>
   );
@@ -96,12 +95,14 @@ export default ExercisesFooter;
 const {width} = Dimensions.get('window');
 
 const styles = EStyleSheet.create({
+  footerContainer: {
+    paddingBottom: 10,
+  },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 5,
-    paddingBottom: 10,
   },
   btnContainer: {
     justifyContent: 'center',
@@ -111,7 +112,9 @@ const styles = EStyleSheet.create({
   },
   trigger: {
     paddingVertical: 15,
-    paddingHorizontal: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   triggerText: {
     color: '$white',
@@ -120,10 +123,15 @@ const styles = EStyleSheet.create({
     padding: 10,
     width: width - 100,
   },
-  section: {
-    flex: 1,
-  },
   statisticContainer: {
     flex: 1,
+  },
+  popoverBtn: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    justifyContent: 'center',
+    alignContent: 'center',
   },
 });
