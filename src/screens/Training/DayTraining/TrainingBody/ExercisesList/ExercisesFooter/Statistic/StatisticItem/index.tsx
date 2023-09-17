@@ -2,9 +2,9 @@ import React, {FC, memo} from 'react';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
-import CompletedCircleIcon from '@app/components/Icons/CompletedCircleIcon';
+import CompletedIcon from '@app/components/Icons/CompletedIcon';
 import {ExerciseTypeEnum} from '@app/types/IExercise';
-import {IStatistic} from '../index';
+import {IStatistic} from '../../index';
 
 interface IProps {
   statItem: IStatistic;
@@ -22,9 +22,9 @@ const StatisticItem: FC<IProps> = ({statItem}) => {
           {statItem.type === ExerciseTypeEnum.STATIC ? 'sec' : 'reps'}
         </Text>
       </View>
-      <View style={{width: 20, height: 20, marginLeft: -10}}>
+      <View style={styles.checkmarkCell}>
         {statItem.totalDone === statItem.totalNeed && (
-          <CompletedCircleIcon width={20} height={20} />
+          <CompletedIcon width={12} height={12} />
         )}
       </View>
     </View>
@@ -38,6 +38,13 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     gap: 15,
     justifyContent: 'space-between',
+  },
+  checkmarkCell: {
+    width: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: -12,
   },
   text: {
     color: '$white',

@@ -2,6 +2,11 @@ import React, {FC, useMemo, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import {useSelector} from 'react-redux';
 
 import ArrowUpIcon from '@app/components/Icons/ArrowUpIcon';
@@ -9,7 +14,7 @@ import Btn from '@app/components/UI-kit/Btn';
 import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {ExerciseTypeEnum} from '@app/types/IExercise';
 
-import StatisticItem from './StatisticItem';
+import Statistic from './Statistic';
 
 export interface IStatistic {
   exercise: string;
@@ -23,10 +28,45 @@ interface IProps {
   scrollListToEnd: () => void;
 }
 
+let timer: NodeJS.Timer | null = null;
+
 const ExercisesFooter: FC<IProps> = ({onAddExercisePress, scrollListToEnd}) => {
   const trainingDay = useSelector(trainingDateSelector);
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
+  const [animationEndAndExpanded, setAnimationEndAndExpanded] = useState(false);
+
+  const rotation = useSharedValue(0);
+
+  const arrowStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{rotate: `${rotation.value}deg`}],
+    };
+  });
+
+  const onPressTrigger = () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+
+    if (collapsed) {
+      rotation.value = withTiming(180, {duration: 300});
+    } else {
+      rotation.value = withTiming(0, {duration: 300});
+    }
+
+    setAnimationEndAndExpanded(false);
+    timer = setTimeout(() => setCollapsed(prev => !prev), 100);
+  };
+
+  const onAnimationEnd = () => {
+    if (collapsed) return;
+
+    scrollListToEnd();
+
+    setAnimationEndAndExpanded(true);
+  };
 
   const statistic = useMemo(() => {
     const result: IStatistic[] = [];
@@ -64,15 +104,13 @@ const ExercisesFooter: FC<IProps> = ({onAddExercisePress, scrollListToEnd}) => {
       <View>
         {!!statistic.length && (
           <View style={styles.triggerContainer}>
-            <TouchableOpacity
-              style={styles.trigger}
-              onPress={() => setCollapsed(prev => !prev)}>
+            <TouchableOpacity style={styles.trigger} onPress={onPressTrigger}>
               <Text style={styles.triggerText}>
                 {collapsed ? 'Show' : 'Hide'} statistic
               </Text>
-              <View style={collapsed ? {transform: [{rotate: '180deg'}]} : {}}>
+              <Animated.View style={[arrowStyle]}>
                 <ArrowUpIcon stroke={EStyleSheet.value('$white')} />
-              </View>
+              </Animated.View>
             </TouchableOpacity>
           </View>
         )}
@@ -80,16 +118,18 @@ const ExercisesFooter: FC<IProps> = ({onAddExercisePress, scrollListToEnd}) => {
           <Btn onPress={onAddExercisePress}>+ Add exercise</Btn>
         </View>
       </View>
-      <Collapsible
-        collapsed={collapsed}
-        onAnimationEnd={scrollListToEnd}
-        style={styles.collapsible}>
-        <View style={styles.collapsibleInner}>
-          {statistic.map(statItem => (
-            <StatisticItem key={statItem.exercise} statItem={statItem} />
-          ))}
+      {animationEndAndExpanded ? (
+        <View style={styles.collapsible}>
+          <Statistic statistic={statistic} />
         </View>
-      </Collapsible>
+      ) : (
+        <Collapsible
+          collapsed={collapsed}
+          onAnimationEnd={onAnimationEnd}
+          style={styles.collapsible}>
+          <Statistic statistic={statistic} />
+        </Collapsible>
+      )}
     </View>
   );
 };
