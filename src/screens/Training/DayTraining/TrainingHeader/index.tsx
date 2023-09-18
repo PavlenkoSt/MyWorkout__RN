@@ -1,3 +1,4 @@
+import LottieView from 'lottie-react-native';
 import React, {FC, useState} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -18,6 +19,9 @@ const TrainingHeader: FC = () => {
   const [copyDayModalVisible, setCopyDayModalVisible] = useState(false);
 
   const atLeastOneExercise = !!trainingDay?.exercises.length;
+  const allExercisesDone = trainingDay?.exercises.every(
+    ex => ex.setsDone >= ex.sets,
+  );
 
   const onLongPress = () => {
     if (!atLeastOneExercise) return;
@@ -29,10 +33,19 @@ const TrainingHeader: FC = () => {
     <>
       <TouchableOpacity
         onLongPress={onLongPress}
-        activeOpacity={atLeastOneExercise ? 0.2 : 1}>
-        <Text style={styles.header}>
+        activeOpacity={atLeastOneExercise ? 0.2 : 1}
+        style={styles.header}>
+        <Text style={styles.text}>
           Workout session - {new Date(activeDate).toDateString()}
         </Text>
+        {atLeastOneExercise && allExercisesDone && (
+          <LottieView
+            source={require('@app/assets/animations/Check.json')}
+            autoPlay
+            loop={false}
+            style={{width: 35, height: 35}}
+          />
+        )}
       </TouchableOpacity>
       {atLeastOneExercise && (
         <CopyDayModal
@@ -49,6 +62,12 @@ export default TrainingHeader;
 
 const styles = EStyleSheet.create({
   header: {
+    flexDirection: 'row',
+    gap: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
     textAlign: 'center',
     color: '#fff',
     fontSize: 20,
