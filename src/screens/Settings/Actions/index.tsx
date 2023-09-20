@@ -1,11 +1,10 @@
-import React, {memo} from 'react';
-import {Text, View} from 'react-native';
+import React from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
 
-import ContextMenu from '@app/components/UI-kit/ContextMenu';
 import {recordsSelector} from '@app/store/selectors/recordsSelector';
 import {allTrainingDaysSelector} from '@app/store/selectors/trainingDaySelectors';
 import {setRecords} from '@app/store/slices/recordsSlice';
@@ -34,7 +33,7 @@ const Actions = () => {
     } catch (e) {}
 
     try {
-      await RNFetchBlob.fs.writeFile(path, string, 'utf8');
+      await RNFetchBlob.fs.createFile(path, string, 'utf8');
       showToast.success(DB_EXPORTED);
     } catch (e) {
       showToast.someError();
@@ -71,35 +70,44 @@ const Actions = () => {
       }
 
       showToast.success(DB_IMPORTED);
-    } catch (e) {
-      return showToast.error(CORRUPTED_JSON);
+    } catch (e: any) {
+      if (e.message !== 'User canceled directory picker') {
+        showToast.error(CORRUPTED_JSON);
+      }
     }
   };
 
+  const actions = [
+    {text: '⏫ Import database', action: onImportDatabase},
+    {text: '⏬ Export database', action: onExportDatabase},
+  ];
+
   return (
     <View style={styles.container}>
-      <ContextMenu
-        actions={[
-          {text: 'Export database', action: onExportDatabase},
-          {text: 'Import database', action: onImportDatabase},
-        ]}>
-        <Text style={styles.text}>◆</Text>
-      </ContextMenu>
+      {actions.map(action => (
+        <TouchableOpacity
+          key={action.text}
+          onPress={action.action}
+          style={styles.action}>
+          <Text style={styles.actionText}>{action.text}</Text>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };
 
-export default memo(Actions);
+export default Actions;
 
 const styles = EStyleSheet.create({
   container: {
-    padding: 0,
-    position: 'absolute',
-    top: -5,
-    left: 0,
+    paddingVertical: 15,
   },
-  text: {
-    fontSize: 30,
-    color: '#222',
+  action: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  actionText: {
+    fontSize: 20,
+    color: '$white',
   },
 });
