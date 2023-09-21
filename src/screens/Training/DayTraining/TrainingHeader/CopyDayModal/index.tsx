@@ -69,9 +69,11 @@ const CopyDayModal: FC<IProps> = ({onClose, visible}) => {
       );
     });
 
+    dispatch(changeActiveDate(onlyDate));
+
     showToast.success(COPIED);
 
-    dispatch(changeActiveDate(onlyDate));
+    onClose();
   };
 
   return (
