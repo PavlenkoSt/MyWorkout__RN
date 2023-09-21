@@ -1,4 +1,5 @@
 import {Exercise} from './schemas/Exercise.schema';
+import {Preset} from './schemas/Preset.schema';
 import {Record} from './schemas/Record.schema';
 import {TrainingDay} from './schemas/TrainingDay.schema';
 
@@ -20,7 +21,7 @@ const performMigration = (oldRealm: Realm, newRealm: Realm) => {
 };
 
 const realmConfig: Realm.Configuration = {
-  schema: [TrainingDay, Exercise, Record],
+  schema: [TrainingDay, Exercise, Record, Preset],
   schemaVersion,
   deleteRealmIfMigrationNeeded: __DEV__,
 };

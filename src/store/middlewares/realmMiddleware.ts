@@ -28,6 +28,9 @@ const realmMiddleware: Middleware = store => next => action => {
     );
   }
 
+  if (action.type.includes('presets')) {
+  }
+
   return result;
 };
 

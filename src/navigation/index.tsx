@@ -4,9 +4,11 @@ import {Text} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import ChecklistIcon from '@app/components/Icons/ChecklistIcon';
+import HandstandIcon from '@app/components/Icons/HandstandIcon';
 import ProgressIcon from '@app/components/Icons/ProgressIcon';
 import SettingsIcon from '@app/components/Icons/SettingsIcon';
 
+import Presets from '@app/screens/Presets';
 import Records from '@app/screens/Records';
 import Settings from '@app/screens/Settings';
 import Training from '@app/screens/Training';
@@ -44,6 +46,15 @@ const Navigation = () => {
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <ChecklistIcon fill={color} width={20} height={20} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Presets"
+        component={Presets}
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <HandstandIcon fill={color} width={20} height={20} />
           ),
         }}
       />
