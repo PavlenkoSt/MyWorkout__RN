@@ -77,6 +77,8 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#222',
     minHeight: ROW_HEIGHT,
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
   },
   text: {
     margin: CELL_OFFSET,
