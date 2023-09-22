@@ -8,7 +8,8 @@ import HandstandIcon from '@app/components/Icons/HandstandIcon';
 import ProgressIcon from '@app/components/Icons/ProgressIcon';
 import SettingsIcon from '@app/components/Icons/SettingsIcon';
 
-import Presets from '@app/screens/Presets';
+import PresetsStack from './PresetsStack';
+
 import Records from '@app/screens/Records';
 import Settings from '@app/screens/Settings';
 import Training from '@app/screens/Training';
@@ -51,7 +52,7 @@ const Navigation = () => {
       />
       <Tab.Screen
         name="Presets"
-        component={Presets}
+        component={PresetsStack}
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <HandstandIcon fill={color} width={20} height={20} />

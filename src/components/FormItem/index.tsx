@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {Control, Controller, FieldErrors} from 'react-hook-form';
 import {Text, TextInputProps, View} from 'react-native';
-
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+
 import Input from '../UI-kit/Input';
 
 interface IProps extends TextInputProps {

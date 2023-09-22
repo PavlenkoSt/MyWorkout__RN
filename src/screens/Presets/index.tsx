@@ -1,3 +1,5 @@
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useCallback, useMemo, useState} from 'react';
 import {
   FlatList,
@@ -9,6 +11,8 @@ import {
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
+import PresetModal from './PresetModal';
+
 import Loader from '@app/components/Loader';
 import SearchHeader from '@app/components/SearchHeader';
 import BtnGhost from '@app/components/UI-kit/BtnGhost';
@@ -19,8 +23,12 @@ import {IPreset} from '@app/types/IPreset';
 
 const Presets = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [presetModalVisible, setPresetModalVisible] = useState(false);
 
   const {mounted} = useMounted();
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<{Preset: {id: string}}>>();
 
   const presets = useSelector(presetsSelector);
 
@@ -34,16 +42,28 @@ const Presets = () => {
 
   const renderItem: ListRenderItem<IPreset> = useCallback(info => {
     return (
-      <TouchableOpacity>
-        <Text>{info.item.name}</Text>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => navigation.navigate('Preset', {id: info.item.id})}>
+        <Text style={styles.itemText}>
+          {info.item.name} ({info.item.exercises.length}{' '}
+          {info.item.exercises.length === 1 ? 'exercise' : 'exercises'})
+        </Text>
       </TouchableOpacity>
     );
   }, []);
 
+  const onPresetModalClose = () => {
+    setPresetModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <SearchHeader searchValue={searchValue} setSearchValue={setSearchValue}>
-        <BtnGhost color="#fff" onPress={() => {}} btnStyle={styles.btn}>
+        <BtnGhost
+          color="#fff"
+          onPress={() => setPresetModalVisible(true)}
+          btnStyle={styles.btn}>
           + Add
         </BtnGhost>
       </SearchHeader>
@@ -62,6 +82,7 @@ const Presets = () => {
           keyExtractor={preset => preset.id}
         />
       )}
+      <PresetModal visible={presetModalVisible} onClose={onPresetModalClose} />
     </View>
   );
 };
@@ -84,5 +105,16 @@ const styles = EStyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  item: {
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    backgroundColor: '#222',
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
+  },
+  itemText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });

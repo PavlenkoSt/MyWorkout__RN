@@ -13,8 +13,11 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.2.0",
+    "@react-native-masked-view/masked-view": "^0.2.9",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
+    "@react-navigation/native-stack": "^6.9.13",
+    "@react-navigation/stack": "^6.3.17",
     "@realm/react": "^0.5.2",
     "@reduxjs/toolkit": "^1.9.5",
     "lottie-react-native": "^6.3.1",
