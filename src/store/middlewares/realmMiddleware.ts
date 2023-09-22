@@ -1,6 +1,7 @@
 import {Middleware} from '@reduxjs/toolkit';
 
 import {syncDaysRealm} from '@app/db/actions/syncDaysRealm';
+import {syncPresetsRealm} from '@app/db/actions/syncPresetRealm';
 import {syncRecordsRealm} from '@app/db/actions/syncRecordsRealm';
 
 import {RootState} from '../index';
@@ -29,6 +30,7 @@ const realmMiddleware: Middleware = store => next => action => {
   }
 
   if (action.type.includes('presets')) {
+    syncPresetsRealm(currentState.presets.presets);
   }
 
   return result;
