@@ -1,5 +1,3 @@
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useCallback, useMemo, useState} from 'react';
 import {
   FlatList,
@@ -18,6 +16,7 @@ import SearchHeader from '@app/components/SearchHeader';
 import BtnGhost from '@app/components/UI-kit/BtnGhost';
 import useGetPresetsFromDB from '@app/hooks/useGetPresetsFromDB';
 import useMounted from '@app/hooks/useMounted';
+import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';
 import {IPreset} from '@app/types/IPreset';
 
@@ -27,8 +26,7 @@ const Presets = () => {
 
   const {mounted} = useMounted();
 
-  const navigation =
-    useNavigation<NativeStackNavigationProp<{Preset: {id: string}}>>();
+  const navigation = useTypedNavigation();
 
   const presets = useSelector(presetsSelector);
 
@@ -44,7 +42,12 @@ const Presets = () => {
     return (
       <TouchableOpacity
         style={styles.item}
-        onPress={() => navigation.navigate('Preset', {id: info.item.id})}>
+        onPress={() =>
+          navigation.navigate('Preset', {
+            id: info.item.id,
+            name: info.item.name,
+          })
+        }>
         <Text style={styles.itemText}>
           {info.item.name} ({info.item.exercises.length}{' '}
           {info.item.exercises.length === 1 ? 'exercise' : 'exercises'})

@@ -9,12 +9,13 @@ import ProgressIcon from '@app/components/Icons/ProgressIcon';
 import SettingsIcon from '@app/components/Icons/SettingsIcon';
 
 import PresetsStack from './PresetsStack';
+import {BottomTabScreenPropsType} from './types';
 
 import Records from '@app/screens/Records';
 import Settings from '@app/screens/Settings';
 import Training from '@app/screens/Training';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<BottomTabScreenPropsType>();
 
 const Navigation = () => {
   return (

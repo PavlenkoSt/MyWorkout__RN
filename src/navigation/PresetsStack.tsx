@@ -1,10 +1,12 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
+import React, {FC} from 'react';
+
+import {PresetsParams} from './types';
 
 import Preset from '@app/screens/Preset';
 import Presets from '@app/screens/Presets';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<PresetsParams>();
 
 const PresetsStack = () => {
   return (
@@ -16,8 +18,9 @@ const PresetsStack = () => {
       />
       <Stack.Screen
         name="Preset"
-        component={Preset}
-        initialParams={{id: '0'}}
+        component={Preset as FC}
+        initialParams={{id: '0', name: 'Preset'}}
+        options={({route}) => ({headerTitle: route.params.name})}
       />
     </Stack.Navigator>
   );
