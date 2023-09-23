@@ -1,14 +1,14 @@
 import {NavigationProp, NavigatorScreenParams} from '@react-navigation/native';
 
 export type BottomTabScreenPropsType = {
-  Training: {};
-  Records: {};
-  Presets: {};
-  Settings: {};
+  Training: undefined;
+  Records: undefined;
+  Presets: undefined;
+  Settings: undefined;
 };
 
 export type PresetsParams = {
-  PresetsList: NavigatorScreenParams<{}>;
+  PresetsList: NavigatorScreenParams<undefined>;
   Preset: {id: string; name: string; isAfterCreation?: boolean};
 };
 
