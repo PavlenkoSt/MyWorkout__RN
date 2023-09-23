@@ -1,7 +1,7 @@
 {
   "name": "workout",
-  "version": "17",
-  "versionCode": 17,
+  "version": "18",
+  "versionCode": 18,
   "private": true,
   "scripts": {
     "android": "react-native run-android",
