@@ -3,10 +3,9 @@ import {FlatList, ListRenderItem, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
-import PresetModal from './PresetModal';
-
 import ConfirmModal from '@app/components/ConfirmModal';
 import Loader from '@app/components/Loader';
+import PresetModal from '@app/components/PresetModal';
 import SearchHeader from '@app/components/SearchHeader';
 import BtnGhost from '@app/components/UI-kit/BtnGhost';
 import useGetPresetsFromDB from '@app/hooks/useGetPresetsFromDB';

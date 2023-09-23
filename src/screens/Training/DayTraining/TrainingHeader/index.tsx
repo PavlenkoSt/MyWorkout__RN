@@ -1,6 +1,6 @@
 import LottieView from 'lottie-react-native';
 import React, {FC, useState} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
@@ -9,6 +9,9 @@ import {
   trainingDateSelector,
 } from '@app/store/selectors/trainingDaySelectors';
 
+import ContextMenu from '@app/components/UI-kit/ContextMenu';
+
+import PresetModal from '@app/components/PresetModal';
 import CopyDayModal from './CopyDayModal';
 
 const TrainingHeader: FC = () => {
@@ -16,41 +19,51 @@ const TrainingHeader: FC = () => {
   const trainingDay = useSelector(trainingDateSelector);
 
   const [copyDayModalVisible, setCopyDayModalVisible] = useState(false);
+  const [presetModalVisible, setPresetModalVisible] = useState(false);
 
   const atLeastOneExercise = !!trainingDay?.exercises.length;
   const allExercisesDone = trainingDay?.exercises.every(
     ex => ex.setsDone >= ex.sets,
   );
 
-  const onLongPress = () => {
-    if (!atLeastOneExercise) return;
-
-    setCopyDayModalVisible(true);
-  };
-
   return (
     <>
-      <TouchableOpacity
-        onLongPress={onLongPress}
-        activeOpacity={atLeastOneExercise ? 0.2 : 1}
-        style={styles.header}>
-        <Text style={styles.text}>
-          Workout session - {new Date(activeDate).toDateString()}
-        </Text>
-        {atLeastOneExercise && allExercisesDone && (
-          <LottieView
-            source={require('@app/assets/animations/Check.json')}
-            autoPlay
-            loop={false}
-            style={{width: 35, height: 35}}
-          />
-        )}
-      </TouchableOpacity>
+      <ContextMenu
+        disabled={!atLeastOneExercise}
+        actions={[
+          {
+            action: () => setCopyDayModalVisible(true),
+            text: 'Copy training day to',
+          },
+          {action: () => setPresetModalVisible(true), text: 'Save as preset'},
+        ]}>
+        <View style={styles.header}>
+          <Text style={styles.text}>
+            Workout session - {new Date(activeDate).toDateString()}
+          </Text>
+          {atLeastOneExercise && allExercisesDone && (
+            <LottieView
+              source={require('@app/assets/animations/Check.json')}
+              autoPlay
+              loop={false}
+              style={{width: 35, height: 35}}
+            />
+          )}
+        </View>
+      </ContextMenu>
       {atLeastOneExercise && (
-        <CopyDayModal
-          visible={copyDayModalVisible}
-          onClose={() => setCopyDayModalVisible(false)}
-        />
+        <>
+          <CopyDayModal
+            visible={copyDayModalVisible}
+            onClose={() => setCopyDayModalVisible(false)}
+          />
+          <PresetModal
+            visible={presetModalVisible}
+            onClose={() => setPresetModalVisible(false)}
+            presetToEdit={null}
+            initialExercises={trainingDay.exercises}
+          />
+        </>
       )}
     </>
   );

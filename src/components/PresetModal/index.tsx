@@ -10,23 +10,42 @@ import ModalWrapper from '@app/components/ModalWrapper';
 import Btn from '@app/components/UI-kit/Btn';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {addPreset, updatePreset} from '@app/store/slices/presetsSlice';
+import {IExercise} from '@app/types/IExercise';
 import {IPreset} from '@app/types/IPreset';
 import showToast from '@app/utilts/showToast';
 import {presetValidation} from '@app/validations/preset.validation';
 
-import {PRESET_EDITED_NAME} from '../constants';
+import {PRESET_EDITED_NAME, PRESET_SAVED} from './constants';
 
 interface IForm {
   name: string;
+}
+
+enum MODE {
+  CREATE,
+  UPDATE,
+  SAVE_TRAINING_AS_PRESET,
 }
 
 interface IProps {
   visible: boolean;
   onClose: () => void;
   presetToEdit: IPreset | null;
+  initialExercises?: IExercise[];
 }
 
-const PresetModal: FC<IProps> = ({onClose, visible, presetToEdit}) => {
+const PresetModal: FC<IProps> = ({
+  onClose,
+  visible,
+  presetToEdit,
+  initialExercises,
+}) => {
+  const mode: MODE = presetToEdit
+    ? MODE.UPDATE
+    : initialExercises
+    ? MODE.SAVE_TRAINING_AS_PRESET
+    : MODE.CREATE;
+
   const {
     control,
     handleSubmit,
@@ -61,8 +80,13 @@ const PresetModal: FC<IProps> = ({onClose, visible, presetToEdit}) => {
       showToast.success(PRESET_EDITED_NAME);
     } else {
       const id = Date.now().toString();
-      dispatch(addPreset({id, name, exercises: []}));
-      navigation.navigate('Preset', {id, name, isAfterCreation: true});
+      dispatch(addPreset({id, name, exercises: initialExercises || []}));
+
+      if (!initialExercises) {
+        navigation.navigate('Preset', {id, name, isAfterCreation: true});
+      } else {
+        showToast.success(PRESET_SAVED);
+      }
     }
 
     onClose();
@@ -73,7 +97,11 @@ const PresetModal: FC<IProps> = ({onClose, visible, presetToEdit}) => {
       <View style={styles.container}>
         <ScrollView keyboardShouldPersistTaps="always">
           <Text style={styles.title}>
-            {presetToEdit ? 'Update preset' : 'Add new preset'}
+            {mode === MODE.UPDATE
+              ? 'Update preset'
+              : mode === MODE.SAVE_TRAINING_AS_PRESET
+              ? 'Save training as preset'
+              : 'Add new preset'}
           </Text>
           <View style={styles.form}>
             <FormItem
@@ -84,7 +112,11 @@ const PresetModal: FC<IProps> = ({onClose, visible, presetToEdit}) => {
             />
           </View>
           <Btn onPress={handleSubmit(onSubmit)}>
-            {presetToEdit ? 'Update' : 'Create'}
+            {mode === MODE.UPDATE
+              ? 'Update'
+              : mode === MODE.SAVE_TRAINING_AS_PRESET
+              ? 'Save'
+              : 'Create'}
           </Btn>
         </ScrollView>
       </View>

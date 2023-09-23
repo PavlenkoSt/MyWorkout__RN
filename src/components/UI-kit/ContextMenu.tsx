@@ -15,12 +15,13 @@ interface IAction {
 interface IProps {
   actions: IAction[];
   children: React.ReactNode;
+  disabled?: boolean;
 }
 
-const ContextMenu: FC<IProps> = ({actions, children}) => {
+const ContextMenu: FC<IProps> = ({actions, disabled, children}) => {
   return (
     <Menu>
-      <MenuTrigger>{children}</MenuTrigger>
+      <MenuTrigger disabled={disabled}>{children}</MenuTrigger>
       <MenuOptions>
         {actions.map((action, idx) => (
           <MenuOption
