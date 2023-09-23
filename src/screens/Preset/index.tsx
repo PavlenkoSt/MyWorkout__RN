@@ -7,10 +7,14 @@ import DraggableFlatList, {
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
+import ConfirmModal from '@app/components/ConfirmModal';
 import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import Btn from '@app/components/UI-kit/Btn';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';
-import {changeExercisesOrderingInPreset} from '@app/store/slices/presetsSlice';
+import {
+  changeExercisesOrderingInPreset,
+  deleteExerciseInPreset,
+} from '@app/store/slices/presetsSlice';
 import {IExercise} from '@app/types/IExercise';
 
 import Exercise from './Exercise';
@@ -35,8 +39,17 @@ const Preset: FC<IProps> = ({route}) => {
 
   const [exerciseModalVisible, setExerciseModalVisible] = useState(false);
   const [exerciseToEdit, setExerciseToEdit] = useState<IExercise | null>(null);
+  const [deleteCandidate, setDeleteCandidate] = useState<IExercise | null>(
+    null,
+  );
 
-  const onEditExercise = (exercise: IExercise) => {
+  const onDeleteExercise = () => {
+    if (!deleteCandidate) return;
+
+    dispatch(deleteExerciseInPreset({exercise: deleteCandidate, presetId}));
+  };
+
+  const onEditPress = (exercise: IExercise) => {
     setExerciseToEdit(exercise);
     setExerciseModalVisible(true);
   };
@@ -49,7 +62,8 @@ const Preset: FC<IProps> = ({route}) => {
           idx={getIndex() || 0}
           isActive={isActive}
           drag={drag}
-          onEditExercise={onEditExercise}
+          onEditPress={onEditPress}
+          onDeletePress={setDeleteCandidate}
         />
       );
     },
@@ -97,6 +111,11 @@ const Preset: FC<IProps> = ({route}) => {
         presetId={presetId}
         exerciseToEdit={exerciseToEdit}
       />
+      <ConfirmModal
+        visible={!!deleteCandidate}
+        onClose={() => setDeleteCandidate(null)}
+        onConfirm={onDeleteExercise}
+      />
     </View>
   );
 };
@@ -111,8 +130,9 @@ const styles = EStyleSheet.create({
   noItemsText: {
     fontSize: 18,
     color: '$white',
-    marginVertical: 20,
-    marginHorizontal: 10,
+    marginTop: 20,
+    marginBottom: 5,
+    textAlign: 'center',
   },
   btnContainer: {
     justifyContent: 'center',

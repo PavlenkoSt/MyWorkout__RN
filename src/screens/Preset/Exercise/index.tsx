@@ -20,7 +20,8 @@ interface IProps {
   idx: number;
   isActive: boolean;
   drag: () => void;
-  onEditExercise: (exercise: IExercise) => void;
+  onEditPress: (exercise: IExercise) => void;
+  onDeletePress: (exercise: IExercise) => void;
 }
 
 const BTN_WIDTH = 100;
@@ -32,7 +33,8 @@ const Exercise: FC<IProps> = ({
   idx,
   isActive,
   drag,
-  onEditExercise,
+  onEditPress,
+  onDeletePress,
 }) => {
   const itemRef = useRef<SwipeableItemImperativeRef | null>(null);
 
@@ -44,11 +46,14 @@ const Exercise: FC<IProps> = ({
           btnStyle={styles.btn}
           onPress={() => {
             itemRef.current?.close();
-            onEditExercise(exercise);
+            onEditPress(exercise);
           }}>
           {UPDATE_OPTION}
         </BtnGhost>
-        <BtnGhost color="red" btnStyle={styles.btn} onPress={() => {}}>
+        <BtnGhost
+          color="red"
+          btnStyle={styles.btn}
+          onPress={() => onDeletePress(exercise)}>
           {DELETE_OPTION}
         </BtnGhost>
       </View>

@@ -75,6 +75,23 @@ const presetsSlice = createSlice({
         return preset;
       });
     },
+    deleteExerciseInPreset(
+      state,
+      action: PayloadAction<{exercise: IExercise; presetId: string}>,
+    ) {
+      state.presets = state.presets.map(preset => {
+        if (preset.id === action.payload.presetId) {
+          return {
+            ...preset,
+            exercises: preset.exercises.filter(
+              ex => ex.id !== action.payload.exercise.id,
+            ),
+          };
+        }
+
+        return preset;
+      });
+    },
     changeExercisesOrderingInPreset(
       state,
       action: PayloadAction<{exercises: IExercise[]; presetId: string}>,
@@ -97,6 +114,7 @@ export const {
   updatePreset,
   addExerciseToPreset,
   updateExerciseInPreset,
+  deleteExerciseInPreset,
   changeExercisesOrderingInPreset,
 } = presetsSlice.actions;
 export default presetsSlice.reducer;
