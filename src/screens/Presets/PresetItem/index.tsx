@@ -1,29 +1,53 @@
-import React, {Dispatch, FC, SetStateAction, useCallback} from 'react';
+import React, {Dispatch, FC, SetStateAction, useCallback, useRef} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-import SwipeableItem from 'react-native-swipeable-item';
+import SwipeableItem, {
+  SwipeableItemImperativeRef,
+} from 'react-native-swipeable-item';
 
 import BtnGhost from '@app/components/UI-kit/BtnGhost';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {IPreset} from '@app/types/IPreset';
-import {DELETE_OPTION, SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
+import {
+  DELETE_OPTION,
+  SWIPABLE_ITEM_CONFIG,
+  UPDATE_OPTION,
+} from '@app/utilts/constants';
 
-const OPENED_SNAP_POINT = 120;
+const BTN_WIDTH = 100;
+const BTN_OFFSET = 5;
+const OPENED_SNAP_POINT = BTN_WIDTH * 2 + BTN_OFFSET * 3;
 
 interface IProps {
   preset: IPreset;
   setDeleteConfirmCandidate: Dispatch<SetStateAction<string | null>>;
+  onEditPress: (preset: IPreset) => void;
 }
 
-const PresetItem: FC<IProps> = ({preset, setDeleteConfirmCandidate}) => {
+const PresetItem: FC<IProps> = ({
+  preset,
+  setDeleteConfirmCandidate,
+  onEditPress,
+}) => {
   const navigation = useTypedNavigation();
+
+  const swipableRef = useRef<SwipeableItemImperativeRef | null>(null);
 
   const renderUnderlayLeft = useCallback((preset: IPreset) => {
     return (
       <View style={styles.btns}>
         <BtnGhost
+          color="orange"
+          btnStyle={styles.btn}
+          onPress={() => {
+            onEditPress(preset);
+            swipableRef.current?.close();
+          }}>
+          {UPDATE_OPTION}
+        </BtnGhost>
+        <BtnGhost
           color="red"
-          btnStyle={{width: 110}}
+          btnStyle={styles.btn}
           onPress={() => setDeleteConfirmCandidate(preset.id)}>
           {DELETE_OPTION}
         </BtnGhost>
@@ -34,14 +58,10 @@ const PresetItem: FC<IProps> = ({preset, setDeleteConfirmCandidate}) => {
   return (
     <SwipeableItem
       key={preset.id}
+      ref={swipableRef}
       item={preset}
       {...SWIPABLE_ITEM_CONFIG}
       renderUnderlayLeft={params => renderUnderlayLeft(preset)}
-      onChange={({snapPoint}) => {
-        if (snapPoint === OPENED_SNAP_POINT) {
-          setDeleteConfirmCandidate(preset.id);
-        }
-      }}
       snapPointsLeft={[OPENED_SNAP_POINT]}>
       <TouchableOpacity
         style={styles.item}
@@ -75,7 +95,13 @@ const styles = EStyleSheet.create({
     fontSize: 16,
   },
   btns: {
-    alignItems: 'flex-end',
-    padding: 5,
+    gap: BTN_OFFSET,
+    padding: BTN_OFFSET,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  btn: {
+    width: BTN_WIDTH,
+    paddingHorizontal: 0,
   },
 });

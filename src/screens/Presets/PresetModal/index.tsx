@@ -9,8 +9,12 @@ import FormItem from '@app/components/FormItem';
 import ModalWrapper from '@app/components/ModalWrapper';
 import Btn from '@app/components/UI-kit/Btn';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
-import {addPreset} from '@app/store/slices/presetsSlice';
+import {addPreset, updatePreset} from '@app/store/slices/presetsSlice';
+import {IPreset} from '@app/types/IPreset';
+import showToast from '@app/utilts/showToast';
 import {presetValidation} from '@app/validations/preset.validation';
+
+import {PRESET_EDITED_NAME} from '../constants';
 
 interface IForm {
   name: string;
@@ -19,16 +23,21 @@ interface IForm {
 interface IProps {
   visible: boolean;
   onClose: () => void;
+  presetToEdit: IPreset | null;
 }
 
-const PresetModal: FC<IProps> = ({onClose, visible}) => {
+const PresetModal: FC<IProps> = ({onClose, visible, presetToEdit}) => {
   const {
     control,
     handleSubmit,
     formState: {errors},
     reset,
+    setValue,
   } = useForm<IForm>({
     resolver: yupResolver(presetValidation),
+    defaultValues: {
+      name: presetToEdit?.name || '',
+    },
   });
 
   const dispatch = useDispatch();
@@ -40,20 +49,32 @@ const PresetModal: FC<IProps> = ({onClose, visible}) => {
     }
   }, [visible]);
 
-  const onSubmit = ({name}: IForm) => {
-    const id = Date.now().toString();
+  useEffect(() => {
+    if (visible && presetToEdit) {
+      setValue('name', presetToEdit.name);
+    }
+  }, [visible, presetToEdit]);
 
-    dispatch(addPreset({id, name, exercises: []}));
+  const onSubmit = ({name}: IForm) => {
+    if (presetToEdit) {
+      dispatch(updatePreset({...presetToEdit, name}));
+      showToast.success(PRESET_EDITED_NAME);
+    } else {
+      const id = Date.now().toString();
+      dispatch(addPreset({id, name, exercises: []}));
+      navigation.navigate('Preset', {id, name});
+    }
 
     onClose();
-    navigation.navigate('Preset', {id, name});
   };
 
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
       <View style={styles.container}>
         <ScrollView keyboardShouldPersistTaps="always">
-          <Text style={styles.title}>Add new preset</Text>
+          <Text style={styles.title}>
+            {presetToEdit ? 'Update preset' : 'Add new preset'}
+          </Text>
           <View style={styles.form}>
             <FormItem
               control={control}
@@ -62,7 +83,9 @@ const PresetModal: FC<IProps> = ({onClose, visible}) => {
               name="name"
             />
           </View>
-          <Btn onPress={handleSubmit(onSubmit)}>Create</Btn>
+          <Btn onPress={handleSubmit(onSubmit)}>
+            {presetToEdit ? 'Update' : 'Create'}
+          </Btn>
         </ScrollView>
       </View>
     </ModalWrapper>

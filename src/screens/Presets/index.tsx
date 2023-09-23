@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {FlatList, ListRenderItem, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
@@ -17,9 +17,12 @@ import {IPreset} from '@app/types/IPreset';
 
 import PresetItem from './PresetItem';
 
+let timer: NodeJS.Timeout | null = null;
+
 const Presets = () => {
   const [searchValue, setSearchValue] = useState('');
   const [presetModalVisible, setPresetModalVisible] = useState(false);
+  const [presetToEdit, setPresetToEdit] = useState<IPreset | null>(null);
   const [deleteConfirmCandidate, setDeleteConfirmCandidate] = useState<
     string | null
   >(null);
@@ -31,12 +34,25 @@ const Presets = () => {
   const presets = useSelector(presetsSelector);
 
   const presetsWithSearching = useMemo(() => {
+    const trimed = searchValue.trim();
+
+    if (!trimed) return presets;
+
     return presets.filter(preset =>
-      preset.name.toLowerCase().includes(searchValue.toLowerCase()),
+      preset.name.toLowerCase().includes(trimed.toLowerCase()),
     );
   }, [presets, searchValue]);
 
   useGetPresetsFromDB();
+
+  useEffect(() => {
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    };
+  }, []);
 
   const onDelete = (presetId: string | null) => {
     if (!presetId) return;
@@ -44,17 +60,32 @@ const Presets = () => {
     dispatch(deletePreset(presetId));
   };
 
+  const onEditPress = (presetToEdit: IPreset) => {
+    setPresetToEdit(presetToEdit);
+    setPresetModalVisible(true);
+  };
+
   const renderItem: ListRenderItem<IPreset> = useCallback(info => {
     return (
       <PresetItem
         preset={info.item}
         setDeleteConfirmCandidate={setDeleteConfirmCandidate}
+        onEditPress={onEditPress}
       />
     );
   }, []);
 
   const onPresetModalClose = () => {
     setPresetModalVisible(false);
+
+    if (presetToEdit) {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+
+      timer = setTimeout(() => setPresetToEdit(null), 200);
+    }
   };
 
   return (
@@ -79,10 +110,15 @@ const Presets = () => {
         <FlatList
           data={presetsWithSearching}
           renderItem={renderItem}
+          extraData={[presets]}
           keyExtractor={preset => preset.id}
         />
       )}
-      <PresetModal visible={presetModalVisible} onClose={onPresetModalClose} />
+      <PresetModal
+        presetToEdit={presetToEdit}
+        visible={presetModalVisible}
+        onClose={onPresetModalClose}
+      />
       <ConfirmModal
         visible={!!deleteConfirmCandidate}
         onClose={() => setDeleteConfirmCandidate(null)}
