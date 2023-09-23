@@ -1,6 +1,7 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {
   CompositeScreenProps,
+  NavigationProp,
   NavigatorScreenParams,
 } from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -17,7 +18,6 @@ export type PresetsParams = {
   Preset: {id: string; name: string};
 };
 
-export type NavigationPropsType = CompositeScreenProps<
-  BottomTabScreenProps<BottomTabScreenPropsType>,
-  StackScreenProps<PresetsParams>
+export type NavigationPropsType = NavigationProp<
+  PresetsParams & BottomTabScreenPropsType
 >;
