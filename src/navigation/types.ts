@@ -9,7 +9,7 @@ export type BottomTabScreenPropsType = {
 
 export type PresetsParams = {
   PresetsList: NavigatorScreenParams<{}>;
-  Preset: {id: string; name: string};
+  Preset: {id: string; name: string; isAfterCreation?: boolean};
 };
 
 export type NavigationPropsType = NavigationProp<

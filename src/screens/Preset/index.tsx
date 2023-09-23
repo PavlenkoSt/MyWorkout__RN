@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import DraggableFlatList, {
   DragEndParams,
@@ -24,12 +24,15 @@ interface IProps {
   route: {
     params: {
       id: string;
+      name: string;
+      isAfterCreation?: boolean;
     };
   };
 }
 
 const Preset: FC<IProps> = ({route}) => {
   const presetId = route.params.id;
+  const isAfterCreation = route.params.isAfterCreation || false;
 
   const preset = useSelector(presetsSelector).find(
     preset => preset.id === presetId,
@@ -42,6 +45,12 @@ const Preset: FC<IProps> = ({route}) => {
   const [deleteCandidate, setDeleteCandidate] = useState<IExercise | null>(
     null,
   );
+
+  useEffect(() => {
+    if (isAfterCreation) {
+      setExerciseModalVisible(true);
+    }
+  }, [isAfterCreation]);
 
   const onDeleteExercise = () => {
     if (!deleteCandidate) return;

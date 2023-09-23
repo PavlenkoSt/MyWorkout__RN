@@ -62,7 +62,7 @@ const PresetModal: FC<IProps> = ({onClose, visible, presetToEdit}) => {
     } else {
       const id = Date.now().toString();
       dispatch(addPreset({id, name, exercises: []}));
-      navigation.navigate('Preset', {id, name});
+      navigation.navigate('Preset', {id, name, isAfterCreation: true});
     }
 
     onClose();
