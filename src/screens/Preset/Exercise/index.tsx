@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useRef} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {ScaleDecorator} from 'react-native-draggable-flatlist';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import SwipeableItem, {
@@ -7,13 +7,9 @@ import SwipeableItem, {
 } from 'react-native-swipeable-item';
 
 import ExerciseTable from '@app/components/ExerciseTable';
-import BtnGhost from '@app/components/UI-kit/BtnGhost';
+import ListUnderlayActions from '@app/components/ListUnderlayActions';
 import {IExercise} from '@app/types/IExercise';
-import {
-  DELETE_OPTION,
-  SWIPABLE_ITEM_CONFIG,
-  UPDATE_OPTION,
-} from '@app/utilts/constants';
+import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 
 interface IProps {
   exercise: IExercise;
@@ -40,23 +36,15 @@ const Exercise: FC<IProps> = ({
 
   const renderUnderlayLeft = useCallback((exercise: IExercise) => {
     return (
-      <View style={styles.btns}>
-        <BtnGhost
-          color="orange"
-          btnStyle={styles.btn}
-          onPress={() => {
-            itemRef.current?.close();
-            onEditPress(exercise);
-          }}>
-          {UPDATE_OPTION}
-        </BtnGhost>
-        <BtnGhost
-          color="red"
-          btnStyle={styles.btn}
-          onPress={() => onDeletePress(exercise)}>
-          {DELETE_OPTION}
-        </BtnGhost>
-      </View>
+      <ListUnderlayActions
+        onDeletePress={() => onDeletePress(exercise)}
+        onEditPress={() => {
+          itemRef.current?.close();
+          onEditPress(exercise);
+        }}
+        actionPanelWidth={SNAP_POINT}
+        inRow
+      />
     );
   }, []);
 
@@ -90,17 +78,5 @@ const styles = EStyleSheet.create({
     paddingVertical: 10,
     borderBottomColor: '#333',
     borderBottomWidth: 1,
-  },
-  btns: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    flex: 1,
-    gap: BTN_OFFSET,
-    paddingHorizontal: BTN_OFFSET,
-  },
-  btn: {
-    width: BTN_WIDTH,
-    paddingHorizontal: 0,
   },
 });

@@ -1,22 +1,18 @@
 import React, {Dispatch, FC, SetStateAction, useCallback, useRef} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import SwipeableItem, {
   SwipeableItemImperativeRef,
 } from 'react-native-swipeable-item';
 
-import BtnGhost from '@app/components/UI-kit/BtnGhost';
+import ListUnderlayActions from '@app/components/ListUnderlayActions';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {IPreset} from '@app/types/IPreset';
-import {
-  DELETE_OPTION,
-  SWIPABLE_ITEM_CONFIG,
-  UPDATE_OPTION,
-} from '@app/utilts/constants';
+import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 
 const BTN_WIDTH = 100;
 const BTN_OFFSET = 5;
-const OPENED_SNAP_POINT = BTN_WIDTH * 2 + BTN_OFFSET * 3;
+const SNAP_POINT = BTN_WIDTH * 2 + BTN_OFFSET * 3;
 
 interface IProps {
   preset: IPreset;
@@ -35,23 +31,15 @@ const PresetItem: FC<IProps> = ({
 
   const renderUnderlayLeft = useCallback((preset: IPreset) => {
     return (
-      <View style={styles.btns}>
-        <BtnGhost
-          color="orange"
-          btnStyle={styles.btn}
-          onPress={() => {
-            onEditPress(preset);
-            swipableRef.current?.close();
-          }}>
-          {UPDATE_OPTION}
-        </BtnGhost>
-        <BtnGhost
-          color="red"
-          btnStyle={styles.btn}
-          onPress={() => setDeleteConfirmCandidate(preset.id)}>
-          {DELETE_OPTION}
-        </BtnGhost>
-      </View>
+      <ListUnderlayActions
+        onDeletePress={() => setDeleteConfirmCandidate(preset.id)}
+        onEditPress={() => {
+          onEditPress(preset);
+          swipableRef.current?.close();
+        }}
+        actionPanelWidth={SNAP_POINT}
+        inRow
+      />
     );
   }, []);
 
@@ -62,7 +50,7 @@ const PresetItem: FC<IProps> = ({
       item={preset}
       {...SWIPABLE_ITEM_CONFIG}
       renderUnderlayLeft={params => renderUnderlayLeft(preset)}
-      snapPointsLeft={[OPENED_SNAP_POINT]}>
+      snapPointsLeft={[SNAP_POINT]}>
       <TouchableOpacity
         style={styles.item}
         onPress={() =>
@@ -93,15 +81,5 @@ const styles = EStyleSheet.create({
   itemText: {
     color: '#fff',
     fontSize: 16,
-  },
-  btns: {
-    gap: BTN_OFFSET,
-    padding: BTN_OFFSET,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  btn: {
-    width: BTN_WIDTH,
-    paddingHorizontal: 0,
   },
 });
