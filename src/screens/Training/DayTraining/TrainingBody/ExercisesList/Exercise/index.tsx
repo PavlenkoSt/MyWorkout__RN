@@ -89,6 +89,7 @@ const Exercise: FC<IProps> = ({
               exercise={exercise}
               isCompleted={isCompleted}
               idx={idx}
+              containerStyle={styles.tableContainer}
             />
             <ExCounter
               canDecrease={canDecrease}
@@ -115,6 +116,9 @@ const styles = EStyleSheet.create({
     borderWidth: 1,
     borderColor: '#222',
     borderRadius: 16,
-    overflow: 'hidden',
+  },
+  tableContainer: {
+    borderTopEndRadius: 14,
+    borderTopStartRadius: 14,
   },
 });

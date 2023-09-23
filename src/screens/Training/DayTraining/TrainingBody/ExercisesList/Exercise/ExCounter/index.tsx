@@ -81,6 +81,8 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    borderBottomEndRadius: 15,
+    borderBottomStartRadius: 15,
   },
   btn: {
     backgroundColor: '$primaryColor',
