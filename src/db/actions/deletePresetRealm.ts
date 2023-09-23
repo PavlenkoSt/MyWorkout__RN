@@ -1,13 +1,13 @@
 import realm from '../index';
 
 import {IPreset} from '@app/types/IPreset';
-import {PRESET_DB} from '../realm.constants';
+import {PRESETS_DB} from '../realm.constants';
 
 export const deletePresetRealm = (preset: IPreset) => {
   realm.write(() => {
     try {
       const targetPreset = realm
-        .objects(PRESET_DB)
+        .objects(PRESETS_DB)
         .find(value => value.toJSON().id === preset.id);
 
       if (!targetPreset) {
