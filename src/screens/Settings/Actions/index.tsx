@@ -5,10 +5,15 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
 
+import {presetsSelector} from '@app/store/selectors/presetsSelector';
 import {recordsSelector} from '@app/store/selectors/recordsSelector';
 import {allTrainingDaysSelector} from '@app/store/selectors/trainingDaySelectors';
+import {setPresets} from '@app/store/slices/presetsSlice';
 import {setRecords} from '@app/store/slices/recordsSlice';
 import {setTrainingDays} from '@app/store/slices/trainingDaySlice';
+import {IPreset} from '@app/types/IPreset';
+import {IRecord} from '@app/types/IRecord';
+import {ITrainingDay} from '@app/types/ITrainingDay';
 import {
   CORRUPTED_JSON,
   DB_EXPORTED,
@@ -17,14 +22,23 @@ import {
 } from '@app/utilts/constants';
 import showToast from '@app/utilts/showToast';
 
+interface IDB {
+  trainingDays: ITrainingDay[];
+  records: IRecord[];
+  presets: IPreset[];
+}
+
 const Actions = () => {
   const dispatch = useDispatch();
 
   const trainingDays = useSelector(allTrainingDaysSelector);
   const records = useSelector(recordsSelector);
+  const presets = useSelector(presetsSelector);
 
   const onExportDatabase = async () => {
-    const string = JSON.stringify({trainingDays, records});
+    const dbToExport: IDB = {trainingDays, records, presets};
+
+    const string = JSON.stringify(dbToExport);
 
     const path = RNFetchBlob.fs.dirs.DownloadDir + '/WorkoutDatabase.json';
 
@@ -55,9 +69,13 @@ const Actions = () => {
 
       const json = await RNFetchBlob.fs.readFile(result.uri, 'utf8');
 
-      const parsedJSON = JSON.parse(json);
+      const parsedJSON: IDB = JSON.parse(json);
 
-      if (!parsedJSON.trainingDays || !parsedJSON.records) {
+      if (
+        !parsedJSON.trainingDays &&
+        !parsedJSON.records &&
+        !parsedJSON.presets
+      ) {
         return showToast.error(CORRUPTED_JSON);
       }
 
@@ -67,6 +85,10 @@ const Actions = () => {
 
       if (parsedJSON.records?.length) {
         dispatch(setRecords(parsedJSON.records));
+      }
+
+      if (parsedJSON.presets?.length) {
+        dispatch(setPresets(parsedJSON.presets));
       }
 
       showToast.success(DB_IMPORTED);
