@@ -10,6 +10,7 @@ import {
 interface IAction {
   text: string;
   action: () => void;
+  danger?: boolean;
 }
 
 interface IProps {
@@ -29,7 +30,7 @@ const ContextMenu: FC<IProps> = ({actions, disabled, children}) => {
             key={idx}
             onSelect={action.action}
             customStyles={{
-              optionText: styles.optionText,
+              optionText: [styles.optionText, action.danger && {color: 'red'}],
             }}
             text={action.text}
           />

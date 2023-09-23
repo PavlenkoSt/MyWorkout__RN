@@ -2,29 +2,44 @@ import LottieView from 'lottie-react-native';
 import React, {FC, useState} from 'react';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
+import ConfirmModal from '@app/components/ConfirmModal';
+import PresetModal from '@app/components/PresetModal';
+import ContextMenu from '@app/components/UI-kit/ContextMenu';
 import {
   activeDateSelector,
   trainingDateSelector,
 } from '@app/store/selectors/trainingDaySelectors';
+import {deleteExercise} from '@app/store/slices/trainingDaySlice';
+import showToast from '@app/utilts/showToast';
 
-import ContextMenu from '@app/components/UI-kit/ContextMenu';
-
-import PresetModal from '@app/components/PresetModal';
 import CopyDayModal from './CopyDayModal';
+import {TRAINING_DAY_DELETED} from './constants';
 
 const TrainingHeader: FC = () => {
   const activeDate = useSelector(activeDateSelector);
   const trainingDay = useSelector(trainingDateSelector);
 
+  const dispatch = useDispatch();
+
   const [copyDayModalVisible, setCopyDayModalVisible] = useState(false);
   const [presetModalVisible, setPresetModalVisible] = useState(false);
+  const [deleteConfirmVisible, setDeleteConfirmVisible] = useState(false);
 
   const atLeastOneExercise = !!trainingDay?.exercises.length;
   const allExercisesDone = trainingDay?.exercises.every(
     ex => ex.setsDone >= ex.sets,
   );
+
+  const onDeleteTrainingDay = () => {
+    if (!trainingDay?.exercises?.length) return;
+
+    trainingDay.exercises.forEach(ex => {
+      dispatch(deleteExercise({id: ex.id}));
+    });
+    showToast.success(TRAINING_DAY_DELETED);
+  };
 
   return (
     <>
@@ -33,9 +48,17 @@ const TrainingHeader: FC = () => {
         actions={[
           {
             action: () => setCopyDayModalVisible(true),
-            text: 'Copy training day to',
+            text: 'Copy training day',
           },
-          {action: () => setPresetModalVisible(true), text: 'Save as preset'},
+          {
+            action: () => setPresetModalVisible(true),
+            text: 'Save as preset',
+          },
+          {
+            action: () => setDeleteConfirmVisible(true),
+            text: 'Delete training',
+            danger: true,
+          },
         ]}>
         <View style={styles.header}>
           <Text style={styles.text}>
@@ -62,6 +85,11 @@ const TrainingHeader: FC = () => {
             onClose={() => setPresetModalVisible(false)}
             presetToEdit={null}
             initialExercises={trainingDay.exercises}
+          />
+          <ConfirmModal
+            visible={deleteConfirmVisible}
+            onClose={() => setDeleteConfirmVisible(false)}
+            onConfirm={onDeleteTrainingDay}
           />
         </>
       )}
