@@ -4,6 +4,7 @@ import {useForm} from 'react-hook-form';
 import {ScrollView, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
+import {v4} from 'uuid';
 
 import FormItem from '@app/components/FormItem';
 import ModalWrapper from '@app/components/ModalWrapper';
@@ -50,9 +51,7 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
         updateRecord({name: name.trim(), count, units, id: recordToEdit.id}),
       );
     } else {
-      dispatch(
-        addRecord({name: name.trim(), count, units, id: Date.now().toString()}),
-      );
+      dispatch(addRecord({name: name.trim(), count, units, id: v4()}));
     }
     onClose();
   };

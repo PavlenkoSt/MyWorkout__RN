@@ -1,3 +1,5 @@
+import {v4} from 'uuid';
+
 import {
   ExerciseTypeEnum,
   IExercise,
@@ -11,7 +13,7 @@ const createExercise = (data: ILadderExerciseForm, i: number) => ({
   sets: 1,
   type: ExerciseTypeEnum.DYNAMIC,
   setsDone: 0,
-  id: Date.now().toString() + i,
+  id: v4(),
 });
 
 const generateLadderExercises = (data: ILadderExerciseForm) => {

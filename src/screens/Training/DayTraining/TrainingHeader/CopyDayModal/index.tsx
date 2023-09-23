@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
+import {v4} from 'uuid';
 
 import DatePicker from '@app/components/DatePicker';
 import ModalWrapper from '@app/components/ModalWrapper';
@@ -55,7 +56,7 @@ const CopyDayModal: FC<IProps> = ({onClose, visible}) => {
         addExercisesToDay({
           exercises: [
             {
-              id: (Date.now() + index * 16).toString(),
+              id: v4(),
               setsDone: 0,
               reps: exercise.reps,
               rest: exercise.rest,

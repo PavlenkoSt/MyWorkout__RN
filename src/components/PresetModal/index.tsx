@@ -4,6 +4,7 @@ import {useForm} from 'react-hook-form';
 import {ScrollView, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
+import {v4} from 'uuid';
 
 import FormItem from '@app/components/FormItem';
 import ModalWrapper from '@app/components/ModalWrapper';
@@ -79,12 +80,23 @@ const PresetModal: FC<IProps> = ({
       dispatch(updatePreset({...presetToEdit, name}));
       showToast.success(PRESET_EDITED_NAME);
     } else {
-      const id = Date.now().toString();
-      dispatch(addPreset({id, name, exercises: initialExercises || []}));
+      const id = v4();
 
       if (!initialExercises) {
+        dispatch(addPreset({id, name, exercises: []}));
         navigation.navigate('Preset', {id, name, isAfterCreation: true});
       } else {
+        dispatch(
+          addPreset({
+            id,
+            name,
+            exercises: initialExercises.map(ex => ({
+              ...ex,
+              setsDone: 0,
+              id: v4(),
+            })),
+          }),
+        );
         showToast.success(PRESET_SAVED);
       }
     }

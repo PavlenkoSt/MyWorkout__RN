@@ -2,6 +2,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
+import {v4} from 'uuid';
 
 import ExerciseForm from '@app/components/ExerciseForm';
 import ModalWrapper from '@app/components/ModalWrapper';
@@ -67,7 +68,7 @@ const ExerciseModal: FC<IProps> = ({
               ...data,
               type,
               setsDone: 0,
-              id: Date.now().toString(),
+              id: v4(),
             },
           ],
           presetId,

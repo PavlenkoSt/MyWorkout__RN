@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {v4} from 'uuid';
 
 import ExerciseForm from '@app/components/ExerciseForm';
 import ModalWrapper from '@app/components/ModalWrapper';
@@ -64,7 +65,7 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
           exercise: data.exercise.trim(),
           type,
           setsDone: 0,
-          id: Date.now().toString(),
+          id: v4(),
         }),
       );
     }

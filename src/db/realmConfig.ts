@@ -1,3 +1,5 @@
+import {v4} from 'uuid';
+
 import {Exercise} from './schemas/Exercise.schema';
 import {Preset} from './schemas/Preset.schema';
 import {Record} from './schemas/Record.schema';
@@ -12,7 +14,7 @@ const performMigration = (oldRealm: Realm, newRealm: Realm) => {
 
     newObjects.forEach(day =>
       day.exercises.forEach(ex => {
-        ex.id = Date.now().toString();
+        ex.id = v4();
       }),
     );
 
