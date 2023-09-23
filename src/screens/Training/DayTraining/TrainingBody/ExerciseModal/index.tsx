@@ -12,12 +12,12 @@ import {
 } from '@app/store/slices/trainingDaySlice';
 import {
   ExerciseTypeEnum,
-  IExercise,
   IExerciseBackup,
   IExerciseForm,
   IExerciseWithId,
   ILadderExerciseForm,
 } from '@app/types/IExercise';
+import generateLadderExercises from '@app/utilts/generateLadderExercises';
 import showToast from '@app/utilts/showToast';
 
 interface IProps {
@@ -25,16 +25,6 @@ interface IProps {
   onClose: () => void;
   exerciseToEdit: IExerciseWithId | null;
 }
-
-const generateLadderExercise = (data: ILadderExerciseForm, i: number) => ({
-  exercise: data.exercise.trim(),
-  rest: data.rest,
-  reps: i,
-  sets: 1,
-  type: ExerciseTypeEnum.DYNAMIC,
-  setsDone: 0,
-  id: Date.now().toString() + i,
-});
 
 const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
   const [exerciseBackup, setExerciseBackup] = useState<IExerciseBackup | null>(
@@ -82,36 +72,18 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
     onClose();
   };
 
-  const onLadderExerciseSubmit = (data: ILadderExerciseForm) => {
-    const {from, to, step} = data;
+  const onLadderExerciseSubmit = async (data: ILadderExerciseForm) => {
+    try {
+      const exercisesToCreate = await generateLadderExercises(data);
 
-    if (from === to) {
-      return showToast.error('"From" and "To" cannot be equal');
+      dispatch(
+        addExercisesToDay({date: activeDate, exercises: exercisesToCreate}),
+      );
+
+      onClose();
+    } catch (e: any) {
+      showToast.error(e);
     }
-
-    const exercisesToCreate: IExercise[] = [];
-
-    const fromLessThanTo = from < to;
-
-    if (fromLessThanTo) {
-      for (let i = from; i <= to; i += step) {
-        exercisesToCreate.push(generateLadderExercise(data, i));
-      }
-    } else {
-      for (let i = from; i >= to; i -= step) {
-        exercisesToCreate.push(generateLadderExercise(data, i));
-      }
-    }
-
-    if (!exercisesToCreate.length || exercisesToCreate.length === 1) {
-      return showToast.error('No exercises is generated, check on your step');
-    }
-
-    dispatch(
-      addExercisesToDay({date: activeDate, exercises: exercisesToCreate}),
-    );
-
-    onClose();
   };
 
   return (
