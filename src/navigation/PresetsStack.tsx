@@ -1,5 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React, {FC} from 'react';
+import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import {PresetsParams} from './types';
 
@@ -20,7 +21,16 @@ const PresetsStack = () => {
         name="Preset"
         component={Preset as FC}
         initialParams={{id: '0', name: 'Preset'}}
-        options={({route}) => ({headerTitle: route.params.name})}
+        options={({route}) => ({
+          headerTitle: route.params.name,
+          headerStyle: {
+            backgroundColor: EStyleSheet.value('$primaryColor'),
+          },
+          headerTitleStyle: {
+            color: '#fff',
+          },
+          headerTintColor: '#fff',
+        })}
       />
     </Stack.Navigator>
   );
