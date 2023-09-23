@@ -3,48 +3,41 @@ import React, {Dispatch, FC, SetStateAction} from 'react';
 import {useForm} from 'react-hook-form';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-import {useDispatch} from 'react-redux';
 
 import FormItem from '@app/components/FormItem';
 import Btn from '@app/components/UI-kit/Btn';
 import useSaveFormFallback from '@app/hooks/useSaveFormFallback';
-import {addExercise, updateExercise} from '@app/store/slices/trainingDaySlice';
-import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
+import {
+  ExerciseTypeEnum,
+  IExerciseBackup,
+  IExerciseForm,
+  IExerciseWithId,
+} from '@app/types/IExercise';
 import {DEFAULT_REST_SEC} from '@app/utilts/constants';
 import {exerciseValidation} from '@app/validations/exercise.validation';
-import {IExerciseBackup} from '../../index';
-
-interface IForm {
-  exercise: string;
-  reps: number;
-  sets: number;
-  rest: number;
-}
 
 interface IProps {
   exerciseToEdit: IExerciseWithId | null;
   type: ExerciseTypeEnum;
-  onAfterSubmit: () => void;
   exerciseBackup: IExerciseBackup | null;
   setExerciseBackup: Dispatch<SetStateAction<IExerciseBackup | null>>;
+  onSingleExerciseSubmit: (data: IExerciseForm, type: ExerciseTypeEnum) => void;
 }
 
 const SingleExercise: FC<IProps> = ({
   exerciseToEdit,
   type,
-  onAfterSubmit,
   exerciseBackup,
   setExerciseBackup,
+  onSingleExerciseSubmit,
 }) => {
-  const dispatch = useDispatch();
-
   const {
     control,
     handleSubmit,
     formState: {errors},
     watch,
     reset,
-  } = useForm<IForm>({
+  } = useForm<IExerciseForm>({
     resolver: yupResolver(exerciseValidation),
     defaultValues: exerciseToEdit
       ? exerciseToEdit
@@ -54,35 +47,9 @@ const SingleExercise: FC<IProps> = ({
         },
   });
 
-  useSaveFormFallback<IForm>({watch, reset, setExerciseBackup});
+  useSaveFormFallback<IExerciseForm>({watch, reset, setExerciseBackup});
 
-  const onSubmit = (data: IForm) => {
-    if (exerciseToEdit) {
-      const {id, setsDone} = exerciseToEdit;
-
-      dispatch(
-        updateExercise({
-          id,
-          type,
-          setsDone,
-          ...data,
-          exercise: data.exercise.trim(),
-        }),
-      );
-    } else {
-      dispatch(
-        addExercise({
-          ...data,
-          exercise: data.exercise.trim(),
-          type,
-          setsDone: 0,
-          id: Date.now().toString(),
-        }),
-      );
-    }
-
-    onAfterSubmit();
-  };
+  const onSubmit = (data: IExerciseForm) => onSingleExerciseSubmit(data, type);
 
   return (
     <View>

@@ -4,31 +4,37 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 import Dropdown from '@app/components/UI-kit/Dropdown';
-import {ExerciseTypeEnum, IExerciseWithId} from '@app/types/IExercise';
+import {
+  ExerciseTypeEnum,
+  IExerciseBackup,
+  IExerciseForm,
+  IExerciseWithId,
+  ILadderExerciseForm,
+} from '@app/types/IExercise';
 
-import {IExerciseBackup} from '../index';
 import LadderExercise from './LadderExercise';
 import SingleExercise from './SingleExercise';
 
 interface IProps {
   exerciseToEdit: IExerciseWithId | null;
-  onAfterSubmit: () => void;
   exerciseBackup: IExerciseBackup | null;
   setExerciseBackup: Dispatch<SetStateAction<IExerciseBackup | null>>;
+  onSingleExerciseSubmit: (data: IExerciseForm, type: ExerciseTypeEnum) => void;
+  onLadderExerciseSubmit: (data: ILadderExerciseForm) => void;
 }
 
 const ExerciseForm: FC<IProps> = ({
   exerciseToEdit,
-  onAfterSubmit,
   exerciseBackup,
   setExerciseBackup,
+  onSingleExerciseSubmit,
+  onLadderExerciseSubmit,
 }) => {
   const [type, setType] = useState(
     () => exerciseToEdit?.type || ExerciseTypeEnum.DYNAMIC,
   );
 
   const commonFormsProps = {
-    onAfterSubmit,
     exerciseBackup,
     setExerciseBackup,
   };
@@ -49,11 +55,15 @@ const ExerciseForm: FC<IProps> = ({
           />
         </View>
         {type === ExerciseTypeEnum.LADDER ? (
-          <LadderExercise {...commonFormsProps} />
+          <LadderExercise
+            {...commonFormsProps}
+            onLadderExerciseSubmit={onLadderExerciseSubmit}
+          />
         ) : (
           <SingleExercise
             {...commonFormsProps}
             exerciseToEdit={exerciseToEdit}
+            onSingleExerciseSubmit={onSingleExerciseSubmit}
             type={type}
           />
         )}
