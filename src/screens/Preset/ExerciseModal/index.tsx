@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
@@ -37,6 +37,12 @@ const ExerciseModal: FC<IProps> = ({
   );
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!visible) {
+      setExerciseBackup(null);
+    }
+  }, [visible]);
 
   const onSingleExerciseSubmit = (
     data: IExerciseForm,

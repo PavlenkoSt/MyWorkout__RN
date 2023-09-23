@@ -4,6 +4,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import {PresetsParams} from './types';
 
+import UsePreset from '@app/components/NavigationComponents/UsePreset';
 import Preset from '@app/screens/Preset';
 import Presets from '@app/screens/Presets';
 
@@ -30,6 +31,7 @@ const PresetsStack = () => {
             color: '#fff',
           },
           headerTintColor: '#fff',
+          headerRight: props => <UsePreset presetId={route.params.id} />,
         })}
       />
     </Stack.Navigator>

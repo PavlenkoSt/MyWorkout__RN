@@ -1,10 +1,10 @@
 import React, {FC, useState} from 'react';
 import {Text, View} from 'react-native';
-import DatePicker from 'react-native-date-picker';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 
+import DatePicker from '@app/components/DatePicker';
 import ModalWrapper from '@app/components/ModalWrapper';
 import Btn from '@app/components/UI-kit/Btn';
 import {
@@ -81,15 +81,7 @@ const CopyDayModal: FC<IProps> = ({onClose, visible}) => {
       <View style={styles.container}>
         <Text style={styles.header}>Copy training day to</Text>
         <View style={styles.datePickerContainer}>
-          <DatePicker
-            date={date}
-            onDateChange={setDate}
-            mode="date"
-            androidVariant="iosClone"
-            fadeToColor="none"
-            theme="dark"
-            locale="en"
-          />
+          <DatePicker date={date} setDate={setDate} />
         </View>
         <Btn onPress={onCopy}>Copy</Btn>
       </View>
