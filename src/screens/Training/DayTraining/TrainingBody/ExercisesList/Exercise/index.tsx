@@ -7,6 +7,7 @@ import SwipeableItem, {
 } from 'react-native-swipeable-item';
 import {useDispatch} from 'react-redux';
 
+import ExerciseTable from '@app/components/ExerciseTable';
 import ListUnderlayActions from '@app/components/ListUnderlayActions';
 import {
   decrementSet,
@@ -17,7 +18,6 @@ import {IExercise, IExerciseWithId} from '@app/types/IExercise';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 
 import ExCounter from './ExCounter';
-import ExTable from './ExTable';
 
 interface IProps {
   exercise: IExerciseWithId;
@@ -85,7 +85,11 @@ const Exercise: FC<IProps> = ({
           onLongPress={drag}
           style={styles.container}>
           <View style={styles.containerInner}>
-            <ExTable exercise={exercise} isCompleted={isCompleted} idx={idx} />
+            <ExerciseTable
+              exercise={exercise}
+              isCompleted={isCompleted}
+              idx={idx}
+            />
             <ExCounter
               canDecrease={canDecrease}
               decrement={decrement}
@@ -111,5 +115,6 @@ const styles = EStyleSheet.create({
     borderWidth: 1,
     borderColor: '#222',
     borderRadius: 16,
+    overflow: 'hidden',
   },
 });

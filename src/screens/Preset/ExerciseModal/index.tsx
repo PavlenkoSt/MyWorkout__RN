@@ -6,7 +6,12 @@ import {useDispatch} from 'react-redux';
 import ExerciseForm from '@app/components/ExerciseForm';
 import ModalWrapper from '@app/components/ModalWrapper';
 import {
+  addExerciseToPreset,
+  updateExerciseInPreset,
+} from '@app/store/slices/presetsSlice';
+import {
   ExerciseTypeEnum,
+  IExercise,
   IExerciseBackup,
   IExerciseForm,
   ILadderExerciseForm,
@@ -16,9 +21,15 @@ interface IProps {
   visible: boolean;
   onClose: () => void;
   presetId: string;
+  exerciseToEdit: IExercise | null;
 }
 
-const ExerciseModal: FC<IProps> = ({onClose, visible, presetId}) => {
+const ExerciseModal: FC<IProps> = ({
+  onClose,
+  visible,
+  presetId,
+  exerciseToEdit,
+}) => {
   const [exerciseBackup, setExerciseBackup] = useState<IExerciseBackup | null>(
     null,
   );
@@ -28,7 +39,34 @@ const ExerciseModal: FC<IProps> = ({onClose, visible, presetId}) => {
   const onSingleExerciseSubmit = (
     data: IExerciseForm,
     type: ExerciseTypeEnum,
-  ) => {};
+  ) => {
+    if (exerciseToEdit) {
+      dispatch(
+        updateExerciseInPreset({
+          exercise: {
+            ...exerciseToEdit,
+            ...data,
+            type,
+          },
+          presetId,
+        }),
+      );
+    } else {
+      dispatch(
+        addExerciseToPreset({
+          exercise: {
+            ...data,
+            type,
+            setsDone: 0,
+            id: Date.now().toString(),
+          },
+          presetId,
+        }),
+      );
+    }
+
+    onClose();
+  };
 
   const onLadderExerciseSubmit = (data: ILadderExerciseForm) => {};
 
@@ -38,7 +76,7 @@ const ExerciseModal: FC<IProps> = ({onClose, visible, presetId}) => {
         <ExerciseForm
           exerciseBackup={exerciseBackup}
           setExerciseBackup={setExerciseBackup}
-          exerciseToEdit={null}
+          exerciseToEdit={exerciseToEdit}
           onLadderExerciseSubmit={onLadderExerciseSubmit}
           onSingleExerciseSubmit={onSingleExerciseSubmit}
         />

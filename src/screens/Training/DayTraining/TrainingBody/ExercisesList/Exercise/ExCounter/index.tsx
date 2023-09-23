@@ -78,8 +78,6 @@ export default ExCounter;
 const styles = EStyleSheet.create({
   container: {
     backgroundColor: '#112b40',
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

@@ -25,7 +25,7 @@ const App = (): JSX.Element => {
 
   return (
     <NavigationContainer>
-      <GestureHandlerRootView style={{flex: 1}}>
+      <GestureHandlerRootView style={{flex: 1, backgroundColor: '#000'}}>
         <MenuProvider>
           <Provider store={store}>
             <Navigation />

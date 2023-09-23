@@ -1,6 +1,9 @@
 import React, {FC} from 'react';
-import {Text, View} from 'react-native';
-import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
+import {StyleProp, Text, View} from 'react-native';
+import {
+  EStyleSheet,
+  ViewStyle,
+} from 'react-native-extended-stylesheet-typescript';
 
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
 
@@ -8,11 +11,17 @@ interface IProps {
   exercise: IExercise;
   isCompleted: boolean;
   idx: number;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
-const ExTable: FC<IProps> = ({exercise, idx, isCompleted}) => {
+const ExerciseTable: FC<IProps> = ({
+  exercise,
+  idx,
+  isCompleted,
+  containerStyle,
+}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <View style={styles.col}>
         <Text style={[styles.colText, isCompleted ? styles.textDone : void 0]}>
           {idx + 1}. {exercise.exercise}
@@ -39,17 +48,14 @@ const ExTable: FC<IProps> = ({exercise, idx, isCompleted}) => {
   );
 };
 
-export default ExTable;
+export default ExerciseTable;
 
 const styles = EStyleSheet.create({
   container: {
     padding: 5,
     flexDirection: 'row',
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
     backgroundColor: '#222',
     justifyContent: 'space-between',
-    paddingRight: 15,
   },
   col: {
     flex: 1,

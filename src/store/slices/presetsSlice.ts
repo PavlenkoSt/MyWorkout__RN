@@ -1,6 +1,7 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 import {deletePresetRealm} from '@app/db/actions/deletePresetRealm';
+import {IExercise} from '@app/types/IExercise';
 import {IPreset} from '@app/types/IPreset';
 
 export interface RecordsSlice {
@@ -38,9 +39,64 @@ const presetsSlice = createSlice({
         return true;
       });
     },
+    addExerciseToPreset(
+      state,
+      action: PayloadAction<{exercise: IExercise; presetId: string}>,
+    ) {
+      state.presets = state.presets.map(preset => {
+        if (preset.id === action.payload.presetId) {
+          return {
+            ...preset,
+            exercises: [...preset.exercises, action.payload.exercise],
+          };
+        }
+
+        return preset;
+      });
+    },
+    updateExerciseInPreset(
+      state,
+      action: PayloadAction<{exercise: IExercise; presetId: string}>,
+    ) {
+      state.presets = state.presets.map(preset => {
+        if (preset.id === action.payload.presetId) {
+          return {
+            ...preset,
+            exercises: preset.exercises.map(exercise => {
+              if (exercise.id === action.payload.exercise.id) {
+                return action.payload.exercise;
+              }
+
+              return exercise;
+            }),
+          };
+        }
+
+        return preset;
+      });
+    },
+    changeExercisesOrderingInPreset(
+      state,
+      action: PayloadAction<{exercises: IExercise[]; presetId: string}>,
+    ) {
+      state.presets = state.presets.map(preset => {
+        if (preset.id === action.payload.presetId) {
+          return {...preset, exercises: action.payload.exercises};
+        }
+
+        return preset;
+      });
+    },
   },
 });
 
-export const {addPreset, deletePreset, setPresets, updatePreset} =
-  presetsSlice.actions;
+export const {
+  addPreset,
+  deletePreset,
+  setPresets,
+  updatePreset,
+  addExerciseToPreset,
+  updateExerciseInPreset,
+  changeExercisesOrderingInPreset,
+} = presetsSlice.actions;
 export default presetsSlice.reducer;

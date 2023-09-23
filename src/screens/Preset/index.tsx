@@ -1,13 +1,18 @@
 import React, {FC, useCallback, useState} from 'react';
-import {FlatList, ListRenderItem, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
+import DraggableFlatList, {
+  DragEndParams,
+  RenderItem,
+} from 'react-native-draggable-flatlist';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import Btn from '@app/components/UI-kit/Btn';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';
-
+import {changeExercisesOrderingInPreset} from '@app/store/slices/presetsSlice';
 import {IExercise} from '@app/types/IExercise';
+
 import Exercise from './Exercise';
 import ExerciseModal from './ExerciseModal';
 
@@ -26,11 +31,38 @@ const Preset: FC<IProps> = ({route}) => {
     preset => preset.id === presetId,
   );
 
-  const [exerciseModalVisible, setExerciseModalVisible] = useState(false);
+  const dispatch = useDispatch();
 
-  const renderItem: ListRenderItem<IExercise> = useCallback(info => {
-    return <Exercise exercise={info.item} />;
-  }, []);
+  const [exerciseModalVisible, setExerciseModalVisible] = useState(false);
+  const [exerciseToEdit, setExerciseToEdit] = useState<IExercise | null>(null);
+
+  const onEditExercise = (exercise: IExercise) => {
+    setExerciseToEdit(exercise);
+    setExerciseModalVisible(true);
+  };
+
+  const renderItem: RenderItem<IExercise> = useCallback(
+    ({item, isActive, getIndex, drag}) => {
+      return (
+        <Exercise
+          exercise={item}
+          idx={getIndex() || 0}
+          isActive={isActive}
+          drag={drag}
+          onEditExercise={onEditExercise}
+        />
+      );
+    },
+    [],
+  );
+
+  const onDragEnd = (params: DragEndParams<IExercise>) => {
+    if (params.from === params.to) return;
+
+    dispatch(
+      changeExercisesOrderingInPreset({exercises: params.data, presetId}),
+    );
+  };
 
   if (!preset) return <Text>Preset not found</Text>;
 
@@ -41,21 +73,29 @@ const Preset: FC<IProps> = ({route}) => {
         barStyle="light-content"
       />
       {!preset.exercises.length ? (
-        <View style={styles.noItemsContainer}>
-          <Text style={styles.noItemsText}>No exercises in preset yet</Text>
-          <Btn onPress={() => setExerciseModalVisible(true)}>+ Add</Btn>
-        </View>
+        <Text style={styles.noItemsText}>No exercises in preset yet</Text>
       ) : (
-        <FlatList
-          data={preset.exercises}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
+        <View>
+          <DraggableFlatList
+            data={preset.exercises}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            onDragEnd={onDragEnd}
+            extraData={[preset.exercises]}
+          />
+        </View>
       )}
+      <View style={styles.btnContainer}>
+        <Btn onPress={() => setExerciseModalVisible(true)}>+ Add</Btn>
+      </View>
       <ExerciseModal
         visible={exerciseModalVisible}
-        onClose={() => setExerciseModalVisible(false)}
+        onClose={() => {
+          setExerciseModalVisible(false);
+          setExerciseToEdit(null);
+        }}
         presetId={presetId}
+        exerciseToEdit={exerciseToEdit}
       />
     </View>
   );
@@ -68,15 +108,16 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: '$bgColor',
   },
-  noItemsContainer: {
-    marginVertical: 20,
-    marginHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   noItemsText: {
     fontSize: 18,
     color: '$white',
-    marginBottom: 10,
+    marginVertical: 20,
+    marginHorizontal: 10,
+  },
+  btnContainer: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    flexDirection: 'row',
+    marginTop: 10,
   },
 });
