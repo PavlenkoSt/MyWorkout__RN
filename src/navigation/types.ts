@@ -1,10 +1,4 @@
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {
-  CompositeScreenProps,
-  NavigationProp,
-  NavigatorScreenParams,
-} from '@react-navigation/native';
-import {StackScreenProps} from '@react-navigation/stack';
+import {NavigationProp, NavigatorScreenParams} from '@react-navigation/native';
 
 export type BottomTabScreenPropsType = {
   Training: {};
