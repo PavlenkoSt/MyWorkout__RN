@@ -39,15 +39,15 @@ const presetsSlice = createSlice({
         return true;
       });
     },
-    addExerciseToPreset(
+    addExercisesToPreset(
       state,
-      action: PayloadAction<{exercise: IExercise; presetId: string}>,
+      action: PayloadAction<{exercises: IExercise[]; presetId: string}>,
     ) {
       state.presets = state.presets.map(preset => {
         if (preset.id === action.payload.presetId) {
           return {
             ...preset,
-            exercises: [...preset.exercises, action.payload.exercise],
+            exercises: [...preset.exercises, ...action.payload.exercises],
           };
         }
 
@@ -112,7 +112,7 @@ export const {
   deletePreset,
   setPresets,
   updatePreset,
-  addExerciseToPreset,
+  addExercisesToPreset,
   updateExerciseInPreset,
   deleteExerciseInPreset,
   changeExercisesOrderingInPreset,

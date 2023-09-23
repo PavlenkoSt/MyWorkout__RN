@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import ExerciseForm from '@app/components/ExerciseForm';
 import ModalWrapper from '@app/components/ModalWrapper';
 import {
-  addExerciseToPreset,
+  addExercisesToPreset,
   updateExerciseInPreset,
 } from '@app/store/slices/presetsSlice';
 import {
@@ -16,6 +16,8 @@ import {
   IExerciseForm,
   ILadderExerciseForm,
 } from '@app/types/IExercise';
+import generateLadderExercises from '@app/utilts/generateLadderExercises';
+import showToast from '@app/utilts/showToast';
 
 interface IProps {
   visible: boolean;
@@ -53,13 +55,15 @@ const ExerciseModal: FC<IProps> = ({
       );
     } else {
       dispatch(
-        addExerciseToPreset({
-          exercise: {
-            ...data,
-            type,
-            setsDone: 0,
-            id: Date.now().toString(),
-          },
+        addExercisesToPreset({
+          exercises: [
+            {
+              ...data,
+              type,
+              setsDone: 0,
+              id: Date.now().toString(),
+            },
+          ],
           presetId,
         }),
       );
@@ -68,7 +72,17 @@ const ExerciseModal: FC<IProps> = ({
     onClose();
   };
 
-  const onLadderExerciseSubmit = (data: ILadderExerciseForm) => {};
+  const onLadderExerciseSubmit = async (data: ILadderExerciseForm) => {
+    try {
+      const exercisesToCreate = await generateLadderExercises(data);
+
+      dispatch(addExercisesToPreset({exercises: exercisesToCreate, presetId}));
+
+      onClose();
+    } catch (e: any) {
+      showToast.error(e);
+    }
+  };
 
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
