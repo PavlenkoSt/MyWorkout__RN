@@ -75,6 +75,7 @@ const SearchHeader: FC<IProps> = ({
           style={styles.input}
           placeholder="Type to search..."
           cursorColor="#333"
+          placeholderTextColor="#666"
         />
         <Animated.View style={[styles.closeWrapper, closeBtnAnimatedStyles]}>
           <TouchableOpacity style={styles.close} onPress={onClose}>
@@ -112,6 +113,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     height: HEIGHT,
     paddingHorizontal: 0,
+    color: '#333',
   },
   searchIcon: {
     paddingHorizontal: 10,
