@@ -136,6 +136,7 @@ const ExercisesList: FC<IProps> = ({
       onScrollToIndexFailed={onScrollToIndexFailed}
       keyExtractor={item => item.id}
       onDragEnd={onDragEnd}
+      keyboardShouldPersistTaps="always"
       ListHeaderComponent={TrainingHeader}
       ListFooterComponent={renderFooter}
     />
