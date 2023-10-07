@@ -16,14 +16,16 @@ import {
   View,
 } from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import useDebounce from '@app/hooks/useDebounce';
 import {
   enableAutocompleteSelector,
   exercisesForAutocompleteSelector,
 } from '@app/store/selectors/settingsSelector';
+import {removeExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
 import HighlightText from '@sanar/react-native-highlight-text';
+import CloseIcon from '../Icons/CloseIcon';
 import Input from '../UI-kit/Input';
 
 export interface IExerciseInputProps extends TextInputProps {
@@ -54,6 +56,8 @@ const ExerciseInput: FC<IExerciseInputProps> = ({
 }) => {
   const exercises = useSelector(exercisesForAutocompleteSelector);
   const enableAutocomplete = useSelector(enableAutocompleteSelector);
+
+  const dispatch = useDispatch();
 
   const [isFocused, setIsFocused] = useState(false);
 
@@ -94,6 +98,10 @@ const ExerciseInput: FC<IExerciseInputProps> = ({
             style={styles.itemText}>
             {item}
           </HighlightText>
+          <TouchableOpacity
+            onPress={() => dispatch(removeExerciseForAutocomplete(item))}>
+            <CloseIcon fill="red" />
+          </TouchableOpacity>
         </TouchableOpacity>
       </View>
     ),
@@ -176,6 +184,8 @@ const styles = EStyleSheet.create({
   item: {
     paddingVertical: 8,
     paddingHorizontal: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   itemText: {
     color: '$white',
