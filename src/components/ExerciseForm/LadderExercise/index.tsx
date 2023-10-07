@@ -4,6 +4,7 @@ import {useForm} from 'react-hook-form';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
+import ExerciseInput from '@app/components/ExerciseInput';
 import FormItem from '@app/components/FormItem';
 import Btn from '@app/components/UI-kit/Btn';
 import useSaveFormFallback from '@app/hooks/useSaveFormFallback';
@@ -46,6 +47,7 @@ const LadderExercise: FC<IProps> = ({
         errors={errors}
         label="Exercise"
         name="exercise"
+        Component={ExerciseInput}
       />
       <View style={styles.formLine}>
         <FormItem

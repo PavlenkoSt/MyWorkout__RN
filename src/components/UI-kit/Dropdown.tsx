@@ -1,7 +1,9 @@
 import React, {FC} from 'react';
-import {Text} from 'react-native';
+import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import SelectDropdown from 'react-native-select-dropdown';
+
+import ArrowUpIcon from '../Icons/ArrowUpIcon';
 
 interface IProps {
   data: any[];
@@ -21,7 +23,11 @@ const Dropdown: FC<IProps> = ({data, defaultValue, onSelect}) => {
       rowTextStyle={styles.rowTextStyles}
       rowStyle={styles.rowStyle}
       dropdownIconPosition="right"
-      renderDropdownIcon={() => <Text style={styles.icon}>&#8964;</Text>}
+      renderDropdownIcon={() => (
+        <View style={styles.arrowContainer}>
+          <ArrowUpIcon stroke={EStyleSheet.value('$white')} />
+        </View>
+      )}
     />
   );
 };
@@ -52,9 +58,7 @@ const styles = EStyleSheet.create({
     fontSize: 15,
     color: '#fff',
   },
-  icon: {
-    fontSize: 20,
-    top: -5,
-    color: '#fff',
+  arrowContainer: {
+    transform: [{rotate: '180deg'}],
   },
 });

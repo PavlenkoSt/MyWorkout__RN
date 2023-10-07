@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import Loader from '@app/components/Loader';
 import Btn from '@app/components/UI-kit/Btn';
-import useGetRecordsFromDB from '@app/hooks/useGetRecordsFromDB';
+import useGetRecordsFromDB from '@app/hooks/db/useGetRecordsFromDB';
 import useMounted from '@app/hooks/useMounted';
 import {recordsSelector} from '@app/store/selectors/recordsSelector';
 import {IRecord} from '@app/types/IRecord';

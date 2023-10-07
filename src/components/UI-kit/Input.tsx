@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
-import {KeyboardTypeOptions, TextInput} from 'react-native';
+import {KeyboardTypeOptions, TextInput, TextInputProps} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
-interface IProps {
+interface IProps extends TextInputProps {
   placeholder?: string;
   value: string;
   onChangeText: (text: string) => void;

@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 import {v4} from 'uuid';
@@ -10,6 +10,7 @@ import {
   addExercisesToPreset,
   updateExerciseInPreset,
 } from '@app/store/slices/presetsSlice';
+import {addExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
 import {
   ExerciseTypeEnum,
   IExercise,
@@ -76,6 +77,8 @@ const ExerciseModal: FC<IProps> = ({
       );
     }
 
+    dispatch(addExerciseForAutocomplete(data.exercise));
+
     onClose();
   };
 
@@ -84,6 +87,7 @@ const ExerciseModal: FC<IProps> = ({
       const exercisesToCreate = await generateLadderExercises(data);
 
       dispatch(addExercisesToPreset({exercises: exercisesToCreate, presetId}));
+      dispatch(addExerciseForAutocomplete(data.exercise));
 
       onClose();
     } catch (e: any) {
@@ -93,14 +97,18 @@ const ExerciseModal: FC<IProps> = ({
 
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
-      <View style={styles.container}>
-        <ExerciseForm
-          exerciseBackup={exerciseBackup}
-          setExerciseBackup={setExerciseBackup}
-          exerciseToEdit={exerciseToEdit}
-          onLadderExerciseSubmit={onLadderExerciseSubmit}
-          onSingleExerciseSubmit={onSingleExerciseSubmit}
-        />
+      <View>
+        <ScrollView keyboardShouldPersistTaps="always">
+          <View style={styles.container}>
+            <ExerciseForm
+              exerciseBackup={exerciseBackup}
+              setExerciseBackup={setExerciseBackup}
+              exerciseToEdit={exerciseToEdit}
+              onLadderExerciseSubmit={onLadderExerciseSubmit}
+              onSingleExerciseSubmit={onSingleExerciseSubmit}
+            />
+          </View>
+        </ScrollView>
       </View>
     </ModalWrapper>
   );

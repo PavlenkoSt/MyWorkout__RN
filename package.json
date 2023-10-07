@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.2.0",
+    "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-native-masked-view/masked-view": "^0.2.9",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
@@ -20,6 +21,7 @@
     "@react-navigation/stack": "^6.3.17",
     "@realm/react": "^0.5.2",
     "@reduxjs/toolkit": "^1.9.5",
+    "@sanar/react-native-highlight-text": "^1.0.2",
     "lottie-react-native": "^6.3.1",
     "react": "18.2.0",
     "react-hook-form": "^7.45.4",

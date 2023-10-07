@@ -4,27 +4,38 @@ import {Text, TextInputProps, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import Input from '../UI-kit/Input';
+import {IExerciseInputProps} from '../ExerciseInput';
 
 interface IProps extends TextInputProps {
   control: Control<any, any>;
   name: string;
   errors: FieldErrors<any>;
   label: string;
+  Component?: FC<IExerciseInputProps>;
 }
 
-const FormItem: FC<IProps> = ({control, name, errors, label, ...rest}) => {
+const FormItem: FC<IProps> = ({
+  control,
+  name,
+  errors,
+  label,
+  Component,
+  ...rest
+}) => {
   return (
     <View style={styles.formItem}>
       <Text style={styles.title}>{label}</Text>
       <Controller
         control={control}
-        render={({field}) => (
-          <Input
-            value={String(field.value || '')}
-            onChangeText={field.onChange}
-            {...rest}
-          />
-        )}
+        render={({field}) => {
+          const props = {
+            value: String(field.value || ''),
+            onChangeText: field.onChange,
+            ...rest,
+          };
+
+          return Component ? <Component {...props} /> : <Input {...props} />;
+        }}
         name={name}
       />
       {!!errors[name] && (

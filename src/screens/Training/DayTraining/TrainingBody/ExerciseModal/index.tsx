@@ -1,11 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4} from 'uuid';
 
 import ExerciseForm from '@app/components/ExerciseForm';
 import ModalWrapper from '@app/components/ModalWrapper';
 import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
+import {addExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
 import {
   addExercise,
   addExercisesToDay,
@@ -69,6 +70,7 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
         }),
       );
     }
+    dispatch(addExerciseForAutocomplete(data.exercise));
 
     onClose();
   };
@@ -80,6 +82,7 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
       dispatch(
         addExercisesToDay({date: activeDate, exercises: exercisesToCreate}),
       );
+      dispatch(addExerciseForAutocomplete(data.exercise));
 
       onClose();
     } catch (e: any) {
@@ -89,14 +92,18 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
 
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
-      <View style={{padding: 20, backgroundColor: '#333'}}>
-        <ExerciseForm
-          exerciseToEdit={exerciseToEdit}
-          exerciseBackup={exerciseBackup}
-          setExerciseBackup={setExerciseBackup}
-          onSingleExerciseSubmit={onSingleExerciseSubmit}
-          onLadderExerciseSubmit={onLadderExerciseSubmit}
-        />
+      <View>
+        <ScrollView keyboardShouldPersistTaps="always">
+          <View style={{padding: 20, backgroundColor: '#333'}}>
+            <ExerciseForm
+              exerciseToEdit={exerciseToEdit}
+              exerciseBackup={exerciseBackup}
+              setExerciseBackup={setExerciseBackup}
+              onSingleExerciseSubmit={onSingleExerciseSubmit}
+              onLadderExerciseSubmit={onLadderExerciseSubmit}
+            />
+          </View>
+        </ScrollView>
       </View>
     </ModalWrapper>
   );

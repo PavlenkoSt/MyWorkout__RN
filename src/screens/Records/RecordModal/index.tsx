@@ -11,6 +11,7 @@ import ModalWrapper from '@app/components/ModalWrapper';
 import Btn from '@app/components/UI-kit/Btn';
 import Dropdown from '@app/components/UI-kit/Dropdown';
 import {addRecord, updateRecord} from '@app/store/slices/recordsSlice';
+import {addExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
 import {IRecord, RecordUnitsEnum} from '@app/types/IRecord';
 import {recordValidation} from '@app/validations/record.validation';
 
@@ -46,13 +47,17 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
   const onSubmit = (formValues: IForm) => {
     const {name, count} = formValues;
 
+    const trimmedName = name.trim();
+
     if (recordToEdit) {
       dispatch(
-        updateRecord({name: name.trim(), count, units, id: recordToEdit.id}),
+        updateRecord({name: trimmedName, count, units, id: recordToEdit.id}),
       );
     } else {
-      dispatch(addRecord({name: name.trim(), count, units, id: v4()}));
+      dispatch(addRecord({name: trimmedName, count, units, id: v4()}));
     }
+    dispatch(addExerciseForAutocomplete(trimmedName));
+
     onClose();
   };
 

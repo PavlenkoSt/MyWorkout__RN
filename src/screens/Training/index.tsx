@@ -6,7 +6,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
 import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
-import useGetTrainingDaysFromDB from '@app/hooks/useGetTrainingDaysFromDB';
+import useGetTrainingDaysFromDB from '@app/hooks/db/useGetTrainingDaysFromDB';
 import datesService from '@app/services/dates.service';
 import {
   activeDateSelector,

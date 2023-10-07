@@ -8,7 +8,7 @@ import Loader from '@app/components/Loader';
 import PresetModal from '@app/components/PresetModal';
 import SearchHeader from '@app/components/SearchHeader';
 import BtnGhost from '@app/components/UI-kit/BtnGhost';
-import useGetPresetsFromDB from '@app/hooks/useGetPresetsFromDB';
+import useGetPresetsFromDB from '@app/hooks/db/useGetPresetsFromDB';
 import useMounted from '@app/hooks/useMounted';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';
 import {deletePreset} from '@app/store/slices/presetsSlice';

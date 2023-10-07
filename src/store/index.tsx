@@ -4,6 +4,7 @@ import realmMiddleware from './middlewares/realmMiddleware';
 
 import presetsReducer from './slices/presetsSlice';
 import recordsReducer from './slices/recordsSlice';
+import settingsReducer from './slices/settingsSlice';
 import trainingDayReducer from './slices/trainingDaySlice';
 
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
     trainingDay: trainingDayReducer,
     records: recordsReducer,
     presets: presetsReducer,
+    settings: settingsReducer,
   },
   middleware: [realmMiddleware],
 });

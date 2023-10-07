@@ -1,5 +1,5 @@
 import React, {Dispatch, FC, SetStateAction, useState} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
@@ -40,7 +40,7 @@ const ExerciseForm: FC<IProps> = ({
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="always">
+    <>
       <View style={styles.container}>
         <View style={styles.formItem}>
           <Text style={styles.title}>Type</Text>
@@ -69,7 +69,7 @@ const ExerciseForm: FC<IProps> = ({
         )}
       </View>
       <Toast />
-    </ScrollView>
+    </>
   );
 };
 

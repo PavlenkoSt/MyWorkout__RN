@@ -40,6 +40,7 @@ const Navigation = () => {
           tabBarIcon: ({focused, color, size}) => (
             <ProgressIcon fill={color} width={20} height={20} />
           ),
+          lazy: false,
         }}
       />
       <Tab.Screen
@@ -49,6 +50,7 @@ const Navigation = () => {
           tabBarIcon: ({focused, color, size}) => (
             <ChecklistIcon fill={color} width={20} height={20} />
           ),
+          lazy: true,
         }}
       />
       <Tab.Screen
@@ -58,6 +60,7 @@ const Navigation = () => {
           tabBarIcon: ({focused, color, size}) => (
             <HandstandIcon fill={color} width={20} height={20} />
           ),
+          lazy: true,
         }}
       />
       <Tab.Screen
@@ -67,6 +70,7 @@ const Navigation = () => {
           tabBarIcon: ({focused, color, size}) => (
             <SettingsIcon fill={color} width={20} height={20} />
           ),
+          lazy: false,
         }}
       />
     </Tab.Navigator>
