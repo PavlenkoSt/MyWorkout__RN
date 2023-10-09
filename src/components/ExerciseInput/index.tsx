@@ -12,7 +12,6 @@ import {
   ListRenderItem,
   TextInputProps,
   TouchableOpacity,
-  UIManager,
   View,
 } from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -32,9 +31,6 @@ export interface IExerciseInputProps extends TextInputProps {
   value: string;
   onChangeText: (text: string) => void;
 }
-
-UIManager.setLayoutAnimationEnabledExperimental &&
-  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const UIManagerConfig = {
   duration: 250,
