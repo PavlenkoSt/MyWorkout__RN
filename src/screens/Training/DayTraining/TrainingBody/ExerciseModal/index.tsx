@@ -10,6 +10,7 @@ import {addExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
 import {
   addExercise,
   addExercisesToDay,
+  deleteExercise,
   updateExercise,
 } from '@app/store/slices/trainingDaySlice';
 import {
@@ -52,10 +53,10 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
 
       dispatch(
         updateExercise({
+          ...data,
           id,
           type,
           setsDone,
-          ...data,
           exercise: data.exercise.trim(),
         }),
       );
@@ -77,6 +78,10 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
 
   const onLadderExerciseSubmit = async (data: ILadderExerciseForm) => {
     try {
+      if (exerciseToEdit) {
+        dispatch(deleteExercise({id: exerciseToEdit.id}));
+      }
+
       const exercisesToCreate = await generateLadderExercises(data);
 
       dispatch(

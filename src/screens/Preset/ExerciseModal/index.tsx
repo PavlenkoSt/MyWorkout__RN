@@ -8,6 +8,7 @@ import ExerciseForm from '@app/components/ExerciseForm';
 import ModalWrapper from '@app/components/ModalWrapper';
 import {
   addExercisesToPreset,
+  deleteExerciseInPreset,
   updateExerciseInPreset,
 } from '@app/store/slices/presetsSlice';
 import {addExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
@@ -84,6 +85,10 @@ const ExerciseModal: FC<IProps> = ({
 
   const onLadderExerciseSubmit = async (data: ILadderExerciseForm) => {
     try {
+      if (exerciseToEdit) {
+        dispatch(deleteExerciseInPreset({exercise: exerciseToEdit, presetId}));
+      }
+
       const exercisesToCreate = await generateLadderExercises(data);
 
       dispatch(addExercisesToPreset({exercises: exercisesToCreate, presetId}));
