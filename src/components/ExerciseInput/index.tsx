@@ -62,7 +62,7 @@ const ExerciseInput: FC<IExerciseInputProps> = ({
   const filteredSuggestions = useMemo(() => {
     if (!enableAutocomplete) return [];
 
-    if (!isFocused || !debouncedValue) {
+    if (!isFocused || !debouncedValue || debouncedValue.length < 2) {
       LayoutAnimation.configureNext(UIManagerConfig);
       return [];
     }
