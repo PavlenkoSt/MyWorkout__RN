@@ -33,8 +33,6 @@ const Settings = () => {
         (await localStorage.get(LocalStorageKeysEnum.AUTOCOMPLETE_EXERCISES)) ||
         '[]';
 
-      console.log('exercises12', exercises);
-
       dispatch(setExercisesForAutocomplete(JSON.parse(exercises) || []));
       onChangeAutocomplete(value === '1');
     };
