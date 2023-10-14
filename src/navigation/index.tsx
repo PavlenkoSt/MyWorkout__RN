@@ -4,6 +4,7 @@ import {Text} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import ChecklistIcon from '@app/components/Icons/ChecklistIcon';
+import GoalIcon from '@app/components/Icons/GoalIcon';
 import HandstandIcon from '@app/components/Icons/HandstandIcon';
 import ProgressIcon from '@app/components/Icons/ProgressIcon';
 import SettingsIcon from '@app/components/Icons/SettingsIcon';
@@ -11,6 +12,7 @@ import SettingsIcon from '@app/components/Icons/SettingsIcon';
 import PresetsStack from './PresetsStack';
 import {BottomTabScreenPropsType} from './types';
 
+import Goals from '@app/screens/Goals';
 import Records from '@app/screens/Records';
 import Settings from '@app/screens/Settings';
 import Training from '@app/screens/Training';
@@ -31,6 +33,7 @@ const Navigation = () => {
         tabBarLabel: ({children, color}) => (
           <Text style={{color}}>{children}</Text>
         ),
+        tabBarHideOnKeyboard: true,
         headerShown: false,
       }}>
       <Tab.Screen
@@ -41,6 +44,16 @@ const Navigation = () => {
             <ProgressIcon fill={color} width={20} height={20} />
           ),
           lazy: false,
+        }}
+      />
+      <Tab.Screen
+        name="Goals"
+        component={Goals}
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <GoalIcon fill={color} width={20} height={20} />
+          ),
+          lazy: true,
         }}
       />
       <Tab.Screen
