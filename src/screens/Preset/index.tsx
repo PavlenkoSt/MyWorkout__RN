@@ -7,7 +7,6 @@ import DraggableFlatList, {
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
-import ConfirmModal from '@app/components/ConfirmModal';
 import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import Btn from '@app/components/UI-kit/Btn';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';
@@ -42,9 +41,6 @@ const Preset: FC<IProps> = ({route}) => {
 
   const [exerciseModalVisible, setExerciseModalVisible] = useState(false);
   const [exerciseToEdit, setExerciseToEdit] = useState<IExercise | null>(null);
-  const [deleteCandidate, setDeleteCandidate] = useState<IExercise | null>(
-    null,
-  );
 
   useEffect(() => {
     if (isAfterCreation) {
@@ -52,10 +48,8 @@ const Preset: FC<IProps> = ({route}) => {
     }
   }, [isAfterCreation]);
 
-  const onDeleteExercise = () => {
-    if (!deleteCandidate) return;
-
-    dispatch(deleteExerciseInPreset({exercise: deleteCandidate, presetId}));
+  const onDeleteExercise = (exercise: IExercise) => {
+    dispatch(deleteExerciseInPreset({exercise, presetId}));
   };
 
   const onEditPress = (exercise: IExercise) => {
@@ -72,7 +66,7 @@ const Preset: FC<IProps> = ({route}) => {
           isActive={isActive}
           drag={drag}
           onEditPress={onEditPress}
-          onDeletePress={setDeleteCandidate}
+          onDeletePress={onDeleteExercise}
         />
       );
     },
@@ -119,11 +113,6 @@ const Preset: FC<IProps> = ({route}) => {
         }}
         presetId={presetId}
         exerciseToEdit={exerciseToEdit}
-      />
-      <ConfirmModal
-        visible={!!deleteCandidate}
-        onClose={() => setDeleteCandidate(null)}
-        onConfirm={onDeleteExercise}
       />
     </View>
   );
