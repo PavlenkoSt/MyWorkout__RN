@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export enum LocalStorageKeysEnum {
   ENABLE_AUTOCOMPLETE = 'ENABLE_AUTOCOMPLETE',
   AUTOCOMPLETE_EXERCISES = 'AUTOCOMPLETE_EXERCISES',
+  DEFAULT_GOALS_FILTER = 'DEFAULT_GOALS_FILTER',
 }
 
 class LocalStorage {

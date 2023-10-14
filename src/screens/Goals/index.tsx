@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
@@ -15,6 +15,7 @@ import useGetRecordsFromDB from '@app/hooks/db/useGetRecordsFromDB';
 import useMounted from '@app/hooks/useMounted';
 import {goalsSelector} from '@app/store/selectors/goalsSelector';
 import {recordsSelector} from '@app/store/selectors/recordsSelector';
+import {defaultGoalsFilterSelector} from '@app/store/selectors/settingsSelector';
 import {deleteGoal} from '@app/store/slices/goalsSlice';
 import {addRecord, updateRecord} from '@app/store/slices/recordsSlice';
 import {IGoal} from '@app/types/IGoal';
@@ -25,22 +26,29 @@ import GoalsBody from './GoalsBody';
 import {FilterGoalsEnum} from './constants';
 
 const Goals = () => {
+  const defaultGoalsFilter = useSelector(defaultGoalsFilterSelector);
+  const goals = useSelector(goalsSelector);
+  const records = useSelector(recordsSelector);
+
   const [modalVisible, setModalVisible] = useState(false);
   const [goalToEdit, setGoalToEdit] = useState<IGoal | null>(null);
   const [goalToDelete, setGoalToDelete] = useState<IGoal | null>(null);
 
   const [searchValue, setSearchValue] = useState('');
-  const [filter, setFilter] = useState<FilterGoalsEnum>(FilterGoalsEnum.ALL);
-
-  const dispatch = useDispatch();
+  const [filter, setFilter] = useState<FilterGoalsEnum>(
+    defaultGoalsFilter || FilterGoalsEnum.ALL,
+  );
 
   useGetGoalsFromDB();
   useGetRecordsFromDB();
 
   const {mounted} = useMounted();
 
-  const goals = useSelector(goalsSelector);
-  const records = useSelector(recordsSelector);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setFilter(defaultGoalsFilter);
+  }, [defaultGoalsFilter]);
 
   const divinedGoals = useMemo(() => {
     const completed: IGoal[] = [];

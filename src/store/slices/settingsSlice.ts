@@ -1,15 +1,18 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
+import {FilterGoalsEnum} from '@app/screens/Goals/constants';
 import localStorage, {LocalStorageKeysEnum} from '@app/utilts/localStorage';
 
 export interface SettingsSlice {
   enableAutocomplete: boolean;
   exercisesForAutocomplete: string[];
+  defaultGoalsFilter: FilterGoalsEnum;
 }
 
 const initialState: SettingsSlice = {
   enableAutocomplete: true,
   exercisesForAutocomplete: [],
+  defaultGoalsFilter: FilterGoalsEnum.ALL,
 };
 
 const settingsSlice = createSlice({
@@ -21,6 +24,9 @@ const settingsSlice = createSlice({
     },
     setExercisesForAutocomplete: (state, action: PayloadAction<string[]>) => {
       state.exercisesForAutocomplete = action.payload;
+    },
+    setDefaultGoalsFilter: (state, action: PayloadAction<FilterGoalsEnum>) => {
+      state.defaultGoalsFilter = action.payload;
     },
     addExerciseForAutocomplete: (state, action: PayloadAction<string>) => {
       const exercises = [
@@ -52,6 +58,7 @@ const settingsSlice = createSlice({
 
 export const {
   setEnableAutocomplete,
+  setDefaultGoalsFilter,
   setExercisesForAutocomplete,
   addExerciseForAutocomplete,
   removeExerciseForAutocomplete,
