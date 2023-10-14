@@ -1,12 +1,14 @@
-import React, {Dispatch, FC, SetStateAction, useCallback, useRef} from 'react';
+import React, {FC, useCallback, useRef} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import SwipeableItem, {
   SwipeableItemImperativeRef,
 } from 'react-native-swipeable-item';
+import {useDispatch} from 'react-redux';
 
 import ListUnderlayActions from '@app/components/ListUnderlayActions';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
+import {deletePreset} from '@app/store/slices/presetsSlice';
 import {IPreset} from '@app/types/IPreset';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 
@@ -16,23 +18,26 @@ const SNAP_POINT = BTN_WIDTH * 2 + BTN_OFFSET * 3;
 
 interface IProps {
   preset: IPreset;
-  setDeleteConfirmCandidate: Dispatch<SetStateAction<string | null>>;
   onEditPress: (preset: IPreset) => void;
 }
 
-const PresetItem: FC<IProps> = ({
-  preset,
-  setDeleteConfirmCandidate,
-  onEditPress,
-}) => {
+const PresetItem: FC<IProps> = ({preset, onEditPress}) => {
   const navigation = useTypedNavigation();
 
+  const dispatch = useDispatch();
+
   const swipableRef = useRef<SwipeableItemImperativeRef | null>(null);
+
+  const onDelete = (presetId: string | null) => {
+    if (!presetId) return;
+
+    dispatch(deletePreset(presetId));
+  };
 
   const renderUnderlayLeft = useCallback((preset: IPreset) => {
     return (
       <ListUnderlayActions
-        onDeletePress={() => setDeleteConfirmCandidate(preset.id)}
+        onDeletePress={() => onDelete(preset.id)}
         onEditPress={() => {
           onEditPress(preset);
           swipableRef.current?.close();

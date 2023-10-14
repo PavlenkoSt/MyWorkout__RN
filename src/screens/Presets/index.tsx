@@ -1,9 +1,8 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {FlatList, ListRenderItem, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import ConfirmModal from '@app/components/ConfirmModal';
 import Loader from '@app/components/Loader';
 import PresetModal from '@app/components/PresetModal';
 import SearchHeader from '@app/components/SearchHeader';
@@ -11,7 +10,6 @@ import BtnGhost from '@app/components/UI-kit/BtnGhost';
 import useGetPresetsFromDB from '@app/hooks/db/useGetPresetsFromDB';
 import useMounted from '@app/hooks/useMounted';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';
-import {deletePreset} from '@app/store/slices/presetsSlice';
 import {IPreset} from '@app/types/IPreset';
 
 import PresetItem from './PresetItem';
@@ -22,13 +20,8 @@ const Presets = () => {
   const [searchValue, setSearchValue] = useState('');
   const [presetModalVisible, setPresetModalVisible] = useState(false);
   const [presetToEdit, setPresetToEdit] = useState<IPreset | null>(null);
-  const [deleteConfirmCandidate, setDeleteConfirmCandidate] = useState<
-    string | null
-  >(null);
 
   const {mounted} = useMounted();
-
-  const dispatch = useDispatch();
 
   const presets = useSelector(presetsSelector);
 
@@ -53,25 +46,13 @@ const Presets = () => {
     };
   }, []);
 
-  const onDelete = (presetId: string | null) => {
-    if (!presetId) return;
-
-    dispatch(deletePreset(presetId));
-  };
-
   const onEditPress = (presetToEdit: IPreset) => {
     setPresetToEdit(presetToEdit);
     setPresetModalVisible(true);
   };
 
   const renderItem: ListRenderItem<IPreset> = useCallback(info => {
-    return (
-      <PresetItem
-        preset={info.item}
-        setDeleteConfirmCandidate={setDeleteConfirmCandidate}
-        onEditPress={onEditPress}
-      />
-    );
+    return <PresetItem preset={info.item} onEditPress={onEditPress} />;
   }, []);
 
   const onPresetModalClose = () => {
@@ -117,11 +98,6 @@ const Presets = () => {
         presetToEdit={presetToEdit}
         visible={presetModalVisible}
         onClose={onPresetModalClose}
-      />
-      <ConfirmModal
-        visible={!!deleteConfirmCandidate}
-        onClose={() => setDeleteConfirmCandidate(null)}
-        onConfirm={() => onDelete(deleteConfirmCandidate)}
       />
     </View>
   );
