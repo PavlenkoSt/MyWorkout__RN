@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux';
 
 import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import Loader from '@app/components/Loader';
+import ScreenContainer from '@app/components/ScreenContainer';
 import Btn from '@app/components/UI-kit/Btn';
 import useGetRecordsFromDB from '@app/hooks/db/useGetRecordsFromDB';
 import useMounted from '@app/hooks/useMounted';
@@ -30,7 +31,7 @@ const Records = () => {
   useGetRecordsFromDB();
 
   return (
-    <View style={styles.container}>
+    <ScreenContainer>
       <FocusAwareStatusBar
         backgroundColor={EStyleSheet.value('$primaryColor')}
         barStyle="light-content"
@@ -59,19 +60,15 @@ const Records = () => {
         }}
         recordToEdit={recordToEdit}
       />
-    </View>
+    </ScreenContainer>
   );
 };
 
 export default Records;
 
 const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '$bgColor',
-  },
   noDataText: {
-    color: '#fff',
+    color: '$white',
     textAlign: 'center',
     marginTop: 20,
     fontSize: 16,

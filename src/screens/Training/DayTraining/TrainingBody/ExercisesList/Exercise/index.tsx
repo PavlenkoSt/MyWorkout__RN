@@ -7,6 +7,7 @@ import SwipeableItem, {
 } from 'react-native-swipeable-item';
 import {useDispatch} from 'react-redux';
 
+import ExerciseCounter from '@app/components/ExerciseCounter';
 import ExerciseTable from '@app/components/ExerciseTable';
 import ListUnderlayActions from '@app/components/ListUnderlayActions';
 import {
@@ -16,8 +17,6 @@ import {
 } from '@app/store/slices/trainingDaySlice';
 import {IExercise, IExerciseWithId} from '@app/types/IExercise';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
-
-import ExCounter from './ExCounter';
 
 interface IProps {
   exercise: IExerciseWithId;
@@ -91,7 +90,7 @@ const Exercise: FC<IProps> = ({
               idx={idx}
               containerStyle={styles.tableContainer}
             />
-            <ExCounter
+            <ExerciseCounter
               canDecrease={canDecrease}
               decrement={decrement}
               increment={increment}

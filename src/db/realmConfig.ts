@@ -1,6 +1,7 @@
 import {v4} from 'uuid';
 
 import {Exercise} from './schemas/Exercise.schema';
+import {Goal} from './schemas/Goal.schema';
 import {Preset} from './schemas/Preset.schema';
 import {Record} from './schemas/Record.schema';
 import {TrainingDay} from './schemas/TrainingDay.schema';
@@ -23,7 +24,7 @@ const performMigration = (oldRealm: Realm, newRealm: Realm) => {
 };
 
 const realmConfig: Realm.Configuration = {
-  schema: [TrainingDay, Exercise, Record, Preset],
+  schema: [TrainingDay, Exercise, Record, Preset, Goal],
   schemaVersion,
   deleteRealmIfMigrationNeeded: __DEV__,
 };

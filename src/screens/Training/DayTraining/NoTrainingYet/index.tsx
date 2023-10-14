@@ -34,6 +34,6 @@ const styles = EStyleSheet.create({
     gap: 10,
   },
   text: {
-    color: '#fff',
+    color: '$white',
   },
 });

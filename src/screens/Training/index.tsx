@@ -1,11 +1,10 @@
 import React, {useMemo} from 'react';
-import {View} from 'react-native';
 import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import {MarkedDates} from 'react-native-calendars/src/types';
-import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
 import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
+import ScreenContainer from '@app/components/ScreenContainer';
 import useGetTrainingDaysFromDB from '@app/hooks/db/useGetTrainingDaysFromDB';
 import datesService from '@app/services/dates.service';
 import {
@@ -50,7 +49,7 @@ const Training = () => {
   useGetTrainingDaysFromDB();
 
   return (
-    <View style={styles.container}>
+    <ScreenContainer>
       <FocusAwareStatusBar backgroundColor="#fff" barStyle="dark-content" />
       <CalendarProvider
         date={activeDate}
@@ -63,15 +62,8 @@ const Training = () => {
         <DayTraining />
         <CalendarTodayBtn />
       </CalendarProvider>
-    </View>
+    </ScreenContainer>
   );
 };
 
 export default Training;
-
-const styles = EStyleSheet.create({
-  container: {
-    backgroundColor: '$bgColor',
-    flex: 1,
-  },
-});

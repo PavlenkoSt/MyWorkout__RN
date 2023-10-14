@@ -10,9 +10,9 @@ import FormItem from '@app/components/FormItem';
 import ModalWrapper from '@app/components/ModalWrapper';
 import Btn from '@app/components/UI-kit/Btn';
 import Dropdown from '@app/components/UI-kit/Dropdown';
-import {addRecord, updateRecord} from '@app/store/slices/recordsSlice';
+import {addGoal, updateGoal} from '@app/store/slices/goalsSlice';
 import {addExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
-import {IRecord} from '@app/types/IRecord';
+import {IGoal} from '@app/types/IGoal';
 import {UnitsEnum} from '@app/types/common/Units';
 import {recordValidation} from '@app/validations/record.validation';
 
@@ -24,10 +24,10 @@ interface IForm {
 interface IProps {
   visible: boolean;
   onClose: () => void;
-  recordToEdit: IRecord | null;
+  goalToEdit: IGoal | null;
 }
 
-const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
+const GoalModal: FC<IProps> = ({visible, onClose, goalToEdit}) => {
   const {
     control,
     handleSubmit,
@@ -36,8 +36,8 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
     setValue,
   } = useForm<IForm>({
     resolver: yupResolver(recordValidation),
-    defaultValues: recordToEdit
-      ? {name: recordToEdit.name, count: recordToEdit.count}
+    defaultValues: goalToEdit
+      ? {name: goalToEdit.name, count: goalToEdit.count}
       : {},
   });
 
@@ -47,28 +47,33 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
 
   const onSubmit = (formValues: IForm) => {
     const {name, count} = formValues;
-
     const trimmedName = name.trim();
-
-    if (recordToEdit) {
+    if (goalToEdit) {
       dispatch(
-        updateRecord({name: trimmedName, count, units, id: recordToEdit.id}),
+        updateGoal({
+          name: trimmedName,
+          count,
+          units,
+          id: goalToEdit.id,
+          countArchived: goalToEdit.countArchived,
+        }),
       );
     } else {
-      dispatch(addRecord({name: trimmedName, count, units, id: v4()}));
+      dispatch(
+        addGoal({name: trimmedName, count, units, id: v4(), countArchived: 0}),
+      );
     }
     dispatch(addExerciseForAutocomplete(trimmedName));
-
     onClose();
   };
 
   useEffect(() => {
-    if (recordToEdit) {
-      setValue('name', recordToEdit.name);
-      setValue('count', recordToEdit.count);
-      setUnits(recordToEdit.units as UnitsEnum.REPS);
+    if (goalToEdit) {
+      setValue('name', goalToEdit.name);
+      setValue('count', goalToEdit.count);
+      setUnits(goalToEdit.units as UnitsEnum.REPS);
     }
-  }, [recordToEdit]);
+  }, [goalToEdit]);
 
   useEffect(() => {
     if (!visible) {
@@ -81,9 +86,7 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
     <ModalWrapper visible={visible} onClose={onClose}>
       <View style={styles.container}>
         <ScrollView keyboardShouldPersistTaps="always">
-          <Text style={styles.title}>
-            {recordToEdit ? 'Update' : 'Add'} record
-          </Text>
+          <Text style={styles.title}>{goalToEdit ? 'Update' : 'Add'} goal</Text>
           <View style={styles.form}>
             <FormItem
               control={control}
@@ -114,7 +117,7 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
           </View>
           <View style={styles.btnContainer}>
             <Btn onPress={handleSubmit(onSubmit)}>
-              {recordToEdit ? 'Save' : '+ Add'}
+              {goalToEdit ? 'Save' : '+ Add'}
             </Btn>
           </View>
         </ScrollView>
@@ -123,7 +126,7 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
   );
 };
 
-export default RecordModal;
+export default GoalModal;
 
 const styles = EStyleSheet.create({
   container: {

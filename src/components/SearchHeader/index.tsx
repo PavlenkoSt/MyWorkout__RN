@@ -16,6 +16,7 @@ interface IProps {
   setSearchValue: Dispatch<SetStateAction<string>>;
   verticalOffset?: number;
   children?: ReactNode;
+  column?: boolean;
 }
 
 const HEIGHT = 40;
@@ -26,6 +27,7 @@ const SearchHeader: FC<IProps> = ({
   searchValue,
   setSearchValue,
   verticalOffset,
+  column,
   children,
 }) => {
   const inputRef = useRef<TextInput | null>(null);
@@ -56,12 +58,13 @@ const SearchHeader: FC<IProps> = ({
       style={[
         styles.container,
         {paddingVertical: verticalOffset ? verticalOffset : 15},
+        column && {flexDirection: 'column'},
       ]}>
       <FocusAwareStatusBar
         backgroundColor={EStyleSheet.value('$primaryColor')}
         barStyle="light-content"
       />
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, !column && {flex: 1}]}>
         <TouchableOpacity
           onPress={onFocus}
           activeOpacity={1}
@@ -105,7 +108,6 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     overflow: 'hidden',
     height: HEIGHT,
-    flex: 1,
   },
   input: {
     paddingVertical: 5,

@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import Loader from '@app/components/Loader';
+import ScreenContainer from '@app/components/ScreenContainer';
 import Switch from '@app/components/UI-kit/Switch';
 import useMounted from '@app/hooks/useMounted';
 import {enableAutocompleteSelector} from '@app/store/selectors/settingsSelector';
@@ -49,7 +50,7 @@ const Settings = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScreenContainer>
       <FocusAwareStatusBar
         backgroundColor={EStyleSheet.value('$bgColor')}
         barStyle="light-content"
@@ -68,17 +69,13 @@ const Settings = () => {
           </View>
         </>
       )}
-    </View>
+    </ScreenContainer>
   );
 };
 
 export default Settings;
 
 const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '$bgColor',
-  },
   settings: {
     paddingHorizontal: 10,
   },

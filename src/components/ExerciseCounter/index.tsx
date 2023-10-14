@@ -13,7 +13,7 @@ interface IProps {
   doneGoalCount: number;
 }
 
-const ExCounter: FC<IProps> = ({
+const ExerciseCounter: FC<IProps> = ({
   canDecrease,
   isCompleted,
   decrement,
@@ -73,7 +73,7 @@ const ExCounter: FC<IProps> = ({
   );
 };
 
-export default ExCounter;
+export default ExerciseCounter;
 
 const styles = EStyleSheet.create({
   container: {
@@ -86,8 +86,7 @@ const styles = EStyleSheet.create({
   },
   btn: {
     backgroundColor: '$primaryColor',
-    paddingVertical: 5,
-    paddingHorizontal: 20,
+    padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,

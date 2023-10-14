@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View} from 'react-native';
+import {StyleProp, TextStyle, View, ViewStyle} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import SelectDropdown from 'react-native-select-dropdown';
 
@@ -9,23 +9,33 @@ interface IProps {
   data: any[];
   defaultValue: any;
   onSelect: (selectedItem: any, index: number) => void;
+  buttonStyle?: StyleProp<ViewStyle>;
+  buttonTextStyle?: StyleProp<TextStyle>;
+  arrowColor?: string;
 }
 
-const Dropdown: FC<IProps> = ({data, defaultValue, onSelect}) => {
+const Dropdown: FC<IProps> = ({
+  data,
+  defaultValue,
+  onSelect,
+  buttonStyle,
+  buttonTextStyle,
+  arrowColor,
+}) => {
   return (
     <SelectDropdown
       data={data}
       onSelect={onSelect}
       defaultValue={defaultValue}
-      buttonStyle={styles.buttonStyle}
-      buttonTextStyle={styles.buttonText}
+      buttonStyle={[styles.buttonStyle, buttonStyle]}
+      buttonTextStyle={[styles.buttonText, buttonTextStyle]}
       dropdownStyle={styles.dropdownStyle}
       rowTextStyle={styles.rowTextStyles}
       rowStyle={styles.rowStyle}
       dropdownIconPosition="right"
       renderDropdownIcon={() => (
         <View style={styles.arrowContainer}>
-          <ArrowUpIcon stroke={EStyleSheet.value('$white')} />
+          <ArrowUpIcon stroke={arrowColor || EStyleSheet.value('$white')} />
         </View>
       )}
     />

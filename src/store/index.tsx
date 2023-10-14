@@ -2,6 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 
 import realmMiddleware from './middlewares/realmMiddleware';
 
+import goalsReducer from './slices/goalsSlice';
 import presetsReducer from './slices/presetsSlice';
 import recordsReducer from './slices/recordsSlice';
 import settingsReducer from './slices/settingsSlice';
@@ -13,6 +14,7 @@ const store = configureStore({
     records: recordsReducer,
     presets: presetsReducer,
     settings: settingsReducer,
+    goals: goalsReducer,
   },
   middleware: [realmMiddleware],
 });

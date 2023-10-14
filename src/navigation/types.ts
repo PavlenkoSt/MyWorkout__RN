@@ -5,6 +5,7 @@ export type BottomTabScreenPropsType = {
   Records: undefined;
   Presets: undefined;
   Settings: undefined;
+  Goals: undefined;
 };
 
 export type PresetsParams = {

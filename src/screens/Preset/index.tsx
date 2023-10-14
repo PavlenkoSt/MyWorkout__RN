@@ -8,6 +8,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
 import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
+import ScreenContainer from '@app/components/ScreenContainer';
 import Btn from '@app/components/UI-kit/Btn';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';
 import {
@@ -84,7 +85,7 @@ const Preset: FC<IProps> = ({route}) => {
   if (!preset) return <Text>Preset not found</Text>;
 
   return (
-    <View style={styles.container}>
+    <ScreenContainer>
       <FocusAwareStatusBar
         backgroundColor={EStyleSheet.value('$primaryColor')}
         barStyle="light-content"
@@ -114,17 +115,13 @@ const Preset: FC<IProps> = ({route}) => {
         presetId={presetId}
         exerciseToEdit={exerciseToEdit}
       />
-    </View>
+    </ScreenContainer>
   );
 };
 
 export default Preset;
 
 const styles = EStyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '$bgColor',
-  },
   noItemsText: {
     fontSize: 18,
     color: '$white',

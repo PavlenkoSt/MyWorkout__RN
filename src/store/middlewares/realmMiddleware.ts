@@ -1,6 +1,7 @@
 import {Middleware} from '@reduxjs/toolkit';
 
 import {syncDaysRealm} from '@app/db/actions/syncDaysRealm';
+import {syncGoalsRealm} from '@app/db/actions/syncGoalsRealm';
 import {syncPresetsRealm} from '@app/db/actions/syncPresetRealm';
 import {syncRecordsRealm} from '@app/db/actions/syncRecordsRealm';
 
@@ -27,6 +28,10 @@ const realmMiddleware: Middleware = store => next => action => {
       currentState.records.records,
       action.type === 'recordsSlice/setRecords',
     );
+  }
+
+  if (action.type.includes('goals')) {
+    syncGoalsRealm(currentState.goals.goals);
   }
 
   if (action.type.includes('presets')) {
