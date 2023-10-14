@@ -1,5 +1,5 @@
 import React, {Dispatch, FC, SetStateAction} from 'react';
-import {Text, View} from 'react-native';
+import {Dimensions, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 
@@ -71,13 +71,16 @@ const GoalItem: FC<IProps> = ({
 
 export default GoalItem;
 
+const {width} = Dimensions.get('window');
+
 const styles = EStyleSheet.create({
   container: {
-    width: '49%',
+    width: width / 2 - 15,
     backgroundColor: '#222',
     borderRadius: 15,
     borderWidth: 1,
     borderColor: '#111',
+    marginBottom: 10,
   },
   innerContainer: {
     paddingTop: 10,

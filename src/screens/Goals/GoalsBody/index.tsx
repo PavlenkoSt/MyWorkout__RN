@@ -97,7 +97,7 @@ const GoalsBody: FC<IProps> = ({
         <>
           {!divinedGoals.incompleted.length ? (
             <Text style={styles.notFoundText}>No incompleted goals yet</Text>
-          ) : divinedGoalsWithQuery.incompleted.length ? (
+          ) : !divinedGoalsWithQuery.incompleted.length ? (
             <Text style={styles.notFoundText}>
               No incompleted goals were found for your request.
             </Text>

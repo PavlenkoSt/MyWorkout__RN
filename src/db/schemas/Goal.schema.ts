@@ -8,6 +8,7 @@ export class Goal extends Realm.Object {
   count!: number;
   countArchived!: number;
   units!: string;
+  completionUpdatedAtTimestamp!: number;
 
   static schema = {
     name: GOALS_DB,
@@ -17,6 +18,7 @@ export class Goal extends Realm.Object {
       countArchived: 'int',
       count: 'int',
       units: 'string',
+      completionUpdatedAtTimestamp: 'int',
     },
     primaryKey: 'id',
   };

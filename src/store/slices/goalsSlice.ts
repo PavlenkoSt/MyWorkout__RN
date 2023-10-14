@@ -41,7 +41,15 @@ const goalsSlice = createSlice({
     incrementGoal(state, action: PayloadAction<string>) {
       state.goals = state.goals.map(goal => {
         if (goal.id === action.payload) {
-          return {...goal, countArchived: goal.countArchived + 1};
+          const countArchived = goal.countArchived + 1;
+          return {
+            ...goal,
+            countArchived,
+            completionUpdatedAtTimestamp:
+              countArchived >= goal.count
+                ? Date.now()
+                : goal.completionUpdatedAtTimestamp,
+          };
         }
         return goal;
       });
@@ -49,7 +57,15 @@ const goalsSlice = createSlice({
     decrementGoal(state, action: PayloadAction<string>) {
       state.goals = state.goals.map(goal => {
         if (goal.id === action.payload) {
-          return {...goal, countArchived: goal.countArchived - 1};
+          const countArchived = goal.countArchived - 1;
+          return {
+            ...goal,
+            countArchived,
+            completionUpdatedAtTimestamp:
+              goal.countArchived >= goal.count
+                ? Date.now()
+                : goal.completionUpdatedAtTimestamp,
+          };
         }
         return goal;
       });

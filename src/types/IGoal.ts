@@ -4,4 +4,5 @@ export interface IGoal {
   count: number;
   countArchived: number;
   units: string;
+  completionUpdatedAtTimestamp: number;
 }

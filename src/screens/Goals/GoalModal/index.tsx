@@ -56,11 +56,19 @@ const GoalModal: FC<IProps> = ({visible, onClose, goalToEdit}) => {
           units,
           id: goalToEdit.id,
           countArchived: goalToEdit.countArchived,
+          completionUpdatedAtTimestamp: goalToEdit.completionUpdatedAtTimestamp,
         }),
       );
     } else {
       dispatch(
-        addGoal({name: trimmedName, count, units, id: v4(), countArchived: 0}),
+        addGoal({
+          name: trimmedName,
+          count,
+          units,
+          id: v4(),
+          countArchived: 0,
+          completionUpdatedAtTimestamp: Date.now(),
+        }),
       );
     }
     dispatch(addExerciseForAutocomplete(trimmedName));

@@ -46,7 +46,11 @@ const Goals = () => {
     const completed: IGoal[] = [];
     const incompleted: IGoal[] = [];
 
-    goals.forEach(goal => {
+    const sorted = [...goals].sort(
+      (a, b) => b.completionUpdatedAtTimestamp - a.completionUpdatedAtTimestamp,
+    );
+
+    sorted.forEach(goal => {
       if (goal.countArchived >= goal.count) {
         completed.push(goal);
       } else {
