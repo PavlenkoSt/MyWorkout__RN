@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
@@ -20,14 +20,9 @@ import {addRecord, updateRecord} from '@app/store/slices/recordsSlice';
 import {IGoal} from '@app/types/IGoal';
 import showToast from '@app/utilts/showToast';
 
-import GoalItem from './GoalItem';
 import GoalModal from './GoalModal';
-
-enum FilterGoalsEnum {
-  ALL = 'All',
-  INCOMPLETED = 'Incompleted',
-  COMPLETED = 'Completed',
-}
+import GoalsBody from './GoalsBody';
+import {FilterGoalsEnum} from './constants';
 
 const Goals = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -46,6 +41,24 @@ const Goals = () => {
 
   const goals = useSelector(goalsSelector);
   const records = useSelector(recordsSelector);
+
+  const divinedGoals = useMemo(() => {
+    const completed: IGoal[] = [];
+    const incompleted: IGoal[] = [];
+
+    goals.forEach(goal => {
+      if (goal.countArchived >= goal.count) {
+        completed.push(goal);
+      } else {
+        incompleted.push(goal);
+      }
+    });
+
+    return {
+      completed,
+      incompleted,
+    };
+  }, [goals]);
 
   const onMoveToRecords = (goal: IGoal) => {
     const candidateInRecords = records.find(
@@ -129,17 +142,14 @@ const Goals = () => {
               You haven't set any goals yet
             </Text>
           ) : (
-            <View style={styles.goalsContainer}>
-              {goals.map(goal => (
-                <GoalItem
-                  key={goal.id}
-                  moveToRecord={onMoveToRecords}
-                  goal={goal}
-                  setGoalToDelete={setGoalToDelete}
-                  onEditPress={onEditPress}
-                />
-              ))}
-            </View>
+            <GoalsBody
+              divinedGoals={divinedGoals}
+              filter={filter}
+              searchValue={searchValue}
+              onEditPress={onEditPress}
+              onMoveToRecords={onMoveToRecords}
+              setGoalToDelete={setGoalToDelete}
+            />
           )}
         </View>
       ) : (
@@ -184,12 +194,5 @@ const styles = EStyleSheet.create({
     color: '$white',
     textAlign: 'center',
     fontSize: 16,
-  },
-  goalsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    justifyContent: 'space-between',
   },
 });
