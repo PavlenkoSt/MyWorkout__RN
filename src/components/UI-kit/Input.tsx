@@ -14,6 +14,7 @@ const Input: FC<IProps> = props => {
     <TextInput
       {...props}
       cursorColor={EStyleSheet.value('$white')}
+      selectionColor={EStyleSheet.value('$white')}
       style={styles.input}
     />
   );
@@ -29,5 +30,6 @@ const styles = EStyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     color: '#fff',
+    height: 40,
   },
 });

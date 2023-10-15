@@ -54,40 +54,42 @@ const SearchHeader: FC<IProps> = ({
   };
 
   return (
-    <View
-      style={[
-        styles.container,
-        {paddingVertical: verticalOffset ? verticalOffset : 15},
-        column && {flexDirection: 'column'},
-      ]}>
+    <>
       <FocusAwareStatusBar
         backgroundColor={EStyleSheet.value('$primaryColor')}
         barStyle="light-content"
       />
-      <View style={[styles.inputContainer, !column && {flex: 1}]}>
-        <TouchableOpacity
-          onPress={onFocus}
-          activeOpacity={1}
-          style={styles.searchIcon}>
-          <SearchIcon fill="#333" width={25} height={25} />
-        </TouchableOpacity>
-        <TextInput
-          ref={inputRef}
-          value={searchValue}
-          onChangeText={onChangeText}
-          style={styles.input}
-          placeholder="Type to search..."
-          cursorColor="#333"
-          placeholderTextColor="#666"
-        />
-        <Animated.View style={[styles.closeWrapper, closeBtnAnimatedStyles]}>
-          <TouchableOpacity style={styles.close} onPress={onClose}>
-            <CloseIcon fill="#333" width={25} height={25} />
+      <View
+        style={[
+          styles.container,
+          {paddingVertical: verticalOffset ? verticalOffset : 15},
+          column && {flexDirection: 'column'},
+        ]}>
+        <View style={[styles.inputContainer, !column && {flex: 1}]}>
+          <TouchableOpacity
+            onPress={onFocus}
+            activeOpacity={1}
+            style={styles.searchIcon}>
+            <SearchIcon fill="#333" width={25} height={25} />
           </TouchableOpacity>
-        </Animated.View>
+          <TextInput
+            ref={inputRef}
+            value={searchValue}
+            onChangeText={onChangeText}
+            style={styles.input}
+            placeholder="Type to search..."
+            cursorColor="#333"
+            placeholderTextColor="#666"
+          />
+          <Animated.View style={[styles.closeWrapper, closeBtnAnimatedStyles]}>
+            <TouchableOpacity style={styles.close} onPress={onClose}>
+              <CloseIcon fill="#333" width={25} height={25} />
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
+        {children}
       </View>
-      {children}
-    </View>
+    </>
   );
 };
 

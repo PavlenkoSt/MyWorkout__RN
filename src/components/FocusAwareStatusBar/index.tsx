@@ -1,12 +1,30 @@
 import React, {FC} from 'react';
-import {StatusBar, StatusBarProps} from 'react-native';
-
+import {Platform, StatusBar, StatusBarProps, View} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 
-const FocusAwareStatusBar: FC<StatusBarProps> = props => {
+interface IProps extends StatusBarProps {
+  height?: number;
+}
+
+const FocusAwareStatusBar: FC<IProps> = props => {
   const isFocused = useIsFocused();
 
-  return isFocused ? <StatusBar {...props} /> : <></>;
+  return isFocused ? (
+    <View
+      style={{
+        backgroundColor: props.backgroundColor,
+        height:
+          props.height !== void 0
+            ? props.height
+            : Platform.OS === 'ios'
+            ? 30
+            : 0,
+      }}>
+      <StatusBar {...props} />
+    </View>
+  ) : (
+    <></>
+  );
 };
 
 export default FocusAwareStatusBar;

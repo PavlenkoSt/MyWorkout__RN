@@ -1,7 +1,7 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import React, {FC, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {ScrollView, Text, View} from 'react-native';
+import {Platform, ScrollView, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 import {v4} from 'uuid';
@@ -17,6 +17,7 @@ import showToast from '@app/utilts/showToast';
 import {presetValidation} from '@app/validations/preset.validation';
 
 import {PRESET_EDITED_NAME, PRESET_SAVED} from './constants';
+import CrossKeyboardAvoidingView from '../CrossKeyboardAvoidingView';
 
 interface IForm {
   name: string;
@@ -34,6 +35,8 @@ interface IProps {
   presetToEdit: IPreset | null;
   initialExercises?: IExercise[];
 }
+
+let timer: NodeJS.Timeout | null = null;
 
 const PresetModal: FC<IProps> = ({
   onClose,
@@ -75,16 +78,35 @@ const PresetModal: FC<IProps> = ({
     }
   }, [visible, presetToEdit]);
 
+  useEffect(() => {
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    };
+  }, []);
+
   const onSubmit = ({name}: IForm) => {
     if (presetToEdit) {
       dispatch(updatePreset({...presetToEdit, name}));
       showToast.success(PRESET_EDITED_NAME);
+      onClose();
     } else {
       const id = v4();
 
       if (!initialExercises) {
         dispatch(addPreset({id, name, exercises: []}));
-        navigation.navigate('Preset', {id, name, isAfterCreation: true});
+        onClose();
+        if (timer) {
+          clearTimeout(timer);
+        }
+        timer = setTimeout(
+          () => {
+            navigation.navigate('Preset', {id, name, isAfterCreation: true});
+          },
+          Platform.OS === 'ios' ? 600 : 0,
+        );
       } else {
         dispatch(
           addPreset({
@@ -98,40 +120,41 @@ const PresetModal: FC<IProps> = ({
           }),
         );
         showToast.success(PRESET_SAVED);
+        onClose();
       }
     }
-
-    onClose();
   };
 
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
-      <View style={styles.container}>
-        <ScrollView keyboardShouldPersistTaps="always">
-          <Text style={styles.title}>
-            {mode === MODE.UPDATE
-              ? 'Update preset'
-              : mode === MODE.SAVE_TRAINING_AS_PRESET
-              ? 'Save training as preset'
-              : 'Add new preset'}
-          </Text>
-          <View style={styles.form}>
-            <FormItem
-              control={control}
-              errors={errors}
-              label="Name"
-              name="name"
-            />
-          </View>
-          <Btn onPress={handleSubmit(onSubmit)}>
-            {mode === MODE.UPDATE
-              ? 'Update'
-              : mode === MODE.SAVE_TRAINING_AS_PRESET
-              ? 'Save'
-              : 'Create'}
-          </Btn>
-        </ScrollView>
-      </View>
+      <CrossKeyboardAvoidingView>
+        <View style={styles.container}>
+          <ScrollView keyboardShouldPersistTaps="always">
+            <Text style={styles.title}>
+              {mode === MODE.UPDATE
+                ? 'Update preset'
+                : mode === MODE.SAVE_TRAINING_AS_PRESET
+                ? 'Save training as preset'
+                : 'Add new preset'}
+            </Text>
+            <View style={styles.form}>
+              <FormItem
+                control={control}
+                errors={errors}
+                label="Name"
+                name="name"
+              />
+            </View>
+            <Btn onPress={handleSubmit(onSubmit)}>
+              {mode === MODE.UPDATE
+                ? 'Update'
+                : mode === MODE.SAVE_TRAINING_AS_PRESET
+                ? 'Save'
+                : 'Create'}
+            </Btn>
+          </ScrollView>
+        </View>
+      </CrossKeyboardAvoidingView>
     </ModalWrapper>
   );
 };

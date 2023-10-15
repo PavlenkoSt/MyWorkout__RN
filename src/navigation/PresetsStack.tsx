@@ -12,7 +12,7 @@ const Stack = createStackNavigator<PresetsParams>();
 
 const PresetsStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="PresetsList">
       <Stack.Screen
         name="PresetsList"
         component={Presets}
@@ -32,6 +32,7 @@ const PresetsStack = () => {
           },
           headerTintColor: '#fff',
           headerRight: props => <UsePreset presetId={route.params.id} />,
+          headerBackTitleVisible: false,
         })}
       />
     </Stack.Navigator>

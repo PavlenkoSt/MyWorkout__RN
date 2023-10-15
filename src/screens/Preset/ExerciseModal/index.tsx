@@ -21,6 +21,7 @@ import {
 } from '@app/types/IExercise';
 import generateLadderExercises from '@app/utilts/generateLadderExercises';
 import showToast from '@app/utilts/showToast';
+import CrossKeyboardAvoidingView from '@app/components/CrossKeyboardAvoidingView';
 
 interface IProps {
   visible: boolean;
@@ -102,7 +103,7 @@ const ExerciseModal: FC<IProps> = ({
 
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
-      <View>
+      <CrossKeyboardAvoidingView>
         <ScrollView keyboardShouldPersistTaps="always">
           <View style={styles.container}>
             <ExerciseForm
@@ -114,7 +115,7 @@ const ExerciseModal: FC<IProps> = ({
             />
           </View>
         </ScrollView>
-      </View>
+      </CrossKeyboardAvoidingView>
     </ModalWrapper>
   );
 };

@@ -33,7 +33,9 @@ const Records = () => {
   return (
     <ScreenContainer>
       <FocusAwareStatusBar
-        backgroundColor={EStyleSheet.value('$primaryColor')}
+        backgroundColor={
+          records.length ? EStyleSheet.value('$primaryColor') : '#333'
+        }
         barStyle="light-content"
       />
       {!mounted ? (

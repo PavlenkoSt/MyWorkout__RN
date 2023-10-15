@@ -89,6 +89,7 @@ const Preset: FC<IProps> = ({route}) => {
       <FocusAwareStatusBar
         backgroundColor={EStyleSheet.value('$primaryColor')}
         barStyle="light-content"
+        height={0}
       />
       {!preset.exercises.length ? (
         <Text style={styles.noItemsText}>No exercises in preset yet</Text>

@@ -22,6 +22,7 @@ const Tab = createBottomTabNavigator<BottomTabScreenPropsType>();
 const Navigation = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Training"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: '#000',

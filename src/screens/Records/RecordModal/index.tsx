@@ -15,6 +15,7 @@ import {addExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
 import {IRecord} from '@app/types/IRecord';
 import {UnitsEnum} from '@app/types/common/Units';
 import {recordValidation} from '@app/validations/record.validation';
+import CrossKeyboardAvoidingView from '@app/components/CrossKeyboardAvoidingView';
 
 interface IForm {
   name: string;
@@ -79,46 +80,48 @@ const RecordModal: FC<IProps> = ({visible, onClose, recordToEdit}) => {
 
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
-      <View style={styles.container}>
-        <ScrollView keyboardShouldPersistTaps="always">
-          <Text style={styles.title}>
-            {recordToEdit ? 'Update' : 'Add'} record
-          </Text>
-          <View style={styles.form}>
-            <FormItem
-              control={control}
-              errors={errors}
-              label="Exercise"
-              name="name"
-            />
-            <FormItem
-              control={control}
-              errors={errors}
-              label="Count"
-              name="count"
-              keyboardType="numeric"
-            />
-            <View style={styles.formItem}>
-              <Text style={styles.formItemTitle}>Units</Text>
-              <Dropdown
-                data={[
-                  UnitsEnum.REPS,
-                  UnitsEnum.SEC,
-                  UnitsEnum.MIN,
-                  UnitsEnum.KM,
-                ]}
-                defaultValue={units}
-                onSelect={value => setUnits(value)}
+      <CrossKeyboardAvoidingView>
+        <View style={styles.container}>
+          <ScrollView keyboardShouldPersistTaps="always">
+            <Text style={styles.title}>
+              {recordToEdit ? 'Update' : 'Add'} record
+            </Text>
+            <View style={styles.form}>
+              <FormItem
+                control={control}
+                errors={errors}
+                label="Exercise"
+                name="name"
               />
+              <FormItem
+                control={control}
+                errors={errors}
+                label="Count"
+                name="count"
+                keyboardType="numeric"
+              />
+              <View style={styles.formItem}>
+                <Text style={styles.formItemTitle}>Units</Text>
+                <Dropdown
+                  data={[
+                    UnitsEnum.REPS,
+                    UnitsEnum.SEC,
+                    UnitsEnum.MIN,
+                    UnitsEnum.KM,
+                  ]}
+                  defaultValue={units}
+                  onSelect={value => setUnits(value)}
+                />
+              </View>
             </View>
-          </View>
-          <View style={styles.btnContainer}>
-            <Btn onPress={handleSubmit(onSubmit)}>
-              {recordToEdit ? 'Save' : '+ Add'}
-            </Btn>
-          </View>
-        </ScrollView>
-      </View>
+            <View style={styles.btnContainer}>
+              <Btn onPress={handleSubmit(onSubmit)}>
+                {recordToEdit ? 'Save' : '+ Add'}
+              </Btn>
+            </View>
+          </ScrollView>
+        </View>
+      </CrossKeyboardAvoidingView>
     </ModalWrapper>
   );
 };
