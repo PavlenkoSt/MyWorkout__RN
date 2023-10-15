@@ -1,7 +1,7 @@
 import {yupResolver} from '@hookform/resolvers/yup';
 import React, {FC, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {Platform, ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 import {v4} from 'uuid';
@@ -16,8 +16,8 @@ import {IPreset} from '@app/types/IPreset';
 import showToast from '@app/utilts/showToast';
 import {presetValidation} from '@app/validations/preset.validation';
 
-import {PRESET_EDITED_NAME, PRESET_SAVED} from './constants';
 import CrossKeyboardAvoidingView from '../CrossKeyboardAvoidingView';
+import {PRESET_EDITED_NAME, PRESET_SAVED} from './constants';
 
 interface IForm {
   name: string;
@@ -101,12 +101,9 @@ const PresetModal: FC<IProps> = ({
         if (timer) {
           clearTimeout(timer);
         }
-        timer = setTimeout(
-          () => {
-            navigation.navigate('Preset', {id, name, isAfterCreation: true});
-          },
-          Platform.OS === 'ios' ? 600 : 0,
-        );
+        timer = setTimeout(() => {
+          navigation.navigate('Preset', {id, name, isAfterCreation: true});
+        }, 600);
       } else {
         dispatch(
           addPreset({
