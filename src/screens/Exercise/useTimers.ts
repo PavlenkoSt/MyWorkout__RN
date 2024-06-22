@@ -43,6 +43,7 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
     }
 
     dispatch(incrementSet({id: exercise.id}));
+    startRestTimer();
   };
 
   const startRestTimer = () => {

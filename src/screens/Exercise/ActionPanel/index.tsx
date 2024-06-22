@@ -34,5 +34,7 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 30,
     gap: 10,
+    minHeight: 150,
+    justifyContent: 'center',
   },
 });
