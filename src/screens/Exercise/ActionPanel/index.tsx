@@ -6,7 +6,6 @@ import Btn from '@app/components/UI-kit/Btn';
 interface IProps {
   finishCurrentSet: () => void;
   canFinishCurrentSet: boolean;
-  isDone: boolean;
   canMoveToNextExercise: boolean;
   moveToNextExercise: () => void;
 }
@@ -15,12 +14,11 @@ const ActionPanel: FC<IProps> = ({
   canFinishCurrentSet,
   finishCurrentSet,
   canMoveToNextExercise,
-  isDone,
   moveToNextExercise,
 }) => {
   return (
     <View style={styles.container}>
-      {canFinishCurrentSet && !isDone ? (
+      {canFinishCurrentSet ? (
         <Btn onPress={finishCurrentSet}>Finish current set</Btn>
       ) : canMoveToNextExercise ? (
         <Btn onPress={moveToNextExercise}>Move to next exercise</Btn>

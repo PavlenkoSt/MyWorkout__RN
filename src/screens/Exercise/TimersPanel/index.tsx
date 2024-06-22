@@ -2,10 +2,8 @@ import React, {FC} from 'react';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import Timer from './Timer';
-import {IExercise} from '@app/types/IExercise';
 
 interface IProps {
-  exercise: IExercise;
   canRest: boolean;
   executeCurrentSet: () => void;
   holdTime: number;
@@ -16,10 +14,10 @@ interface IProps {
   startExerciseTimer: () => void;
   startRestTimer: () => void;
   isTrainingDone: boolean;
+  canStartHoldExerciseTimer: boolean;
 }
 
 const TimersPanel: FC<IProps> = ({
-  exercise,
   canRest,
   restTime,
   isRestTimerRunning,
@@ -28,14 +26,13 @@ const TimersPanel: FC<IProps> = ({
   startExerciseTimer,
   pauseExerciseTimer,
   isTrainingDone,
+  canStartHoldExerciseTimer,
 }) => {
-  const canStartExerciseTimer = false;
-
   return (
     <View style={styles.container}>
       <Timer
         title="Exercise"
-        disabled={isTrainingDone || !canStartExerciseTimer}
+        disabled={isTrainingDone || !canStartHoldExerciseTimer}
         time={0}
         isRunning={false}
         start={startExerciseTimer}

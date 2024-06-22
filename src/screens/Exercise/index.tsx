@@ -43,10 +43,11 @@ export const Exercise: FC<IProps> = ({route}) => {
     pauseExerciseTimer,
     pauseRestTimer,
     restTime,
-    stage,
+    stageStatus,
     startExerciseTimer,
     startRestTimer,
-  } = useTimers({exercise});
+    canStartHoldExerciseTimer,
+  } = useTimers({exercise, hasNextExercise: !!nextExercise});
 
   const {dispatch} = useTypedNavigation();
 
@@ -78,7 +79,6 @@ export const Exercise: FC<IProps> = ({route}) => {
           <ExerciseDetail exercise={exercise} />
           <SetsInfo setsLeft={exercise.sets - exercise.setsDone} />
           <TimersPanel
-            exercise={exercise}
             canRest={canRest}
             executeCurrentSet={executeCurrentSet}
             holdTime={holdTime}
@@ -89,19 +89,21 @@ export const Exercise: FC<IProps> = ({route}) => {
             startExerciseTimer={startExerciseTimer}
             startRestTimer={startRestTimer}
             isTrainingDone={isDone && !nextExercise}
+            canStartHoldExerciseTimer={canStartHoldExerciseTimer}
           />
           <ExerciseStage
-            stage={stage}
+            stageStatus={stageStatus}
             isDone={isDone}
             isTrainingDone={isDone && !nextExercise}
+            setsDone={exercise.setsDone}
           />
           <ActionPanel
             canFinishCurrentSet={
-              stage.stage === IExerciseExecutionStageEnum.Execution ||
-              stage.stage === IExerciseExecutionStageEnum.None
+              !isDone &&
+              (stageStatus === IExerciseExecutionStageEnum.Execution ||
+                stageStatus === IExerciseExecutionStageEnum.None)
             }
             finishCurrentSet={executeCurrentSet}
-            isDone={isDone}
             canMoveToNextExercise={canMoveToNextExercise}
             moveToNextExercise={moveToNextExercise}
           />

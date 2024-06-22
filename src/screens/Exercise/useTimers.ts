@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import {IExerciseExecutionStageEnum, IStage} from './types';
+import {IExerciseExecutionStageEnum} from './types';
 import _BackgroundTimer from 'react-native-background-timer';
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
 import {useDispatch} from 'react-redux';
@@ -8,9 +8,10 @@ import {timerSound} from '@app/utilts/sounds';
 
 interface IProps {
   exercise?: IExercise;
+  hasNextExercise: boolean;
 }
 
-export const useTimers = ({exercise}: IProps) => {
+export const useTimers = ({exercise, hasNextExercise}: IProps) => {
   const restTimerRef = useRef<number | null>(null);
   const exerciseTimerRef = useRef<number | null>(null);
 
@@ -20,11 +21,13 @@ export const useTimers = ({exercise}: IProps) => {
   const [canRest, setCanRest] = useState(false);
 
   const [isRestTimerRunning, setIsRestTimerRunning] = useState(false);
+  const [isHoldExerciseTimerRunning, setIsHoldExerciseTimerRunning] =
+    useState(false);
 
-  const [stage, setStage] = useState<IStage>({
-    set: 0,
-    stage: IExerciseExecutionStageEnum.None,
-  });
+  const [stageStatus, setStageStatus] = useState(
+    IExerciseExecutionStageEnum.None,
+  );
+  const canStartHoldExerciseTimer = exercise?.type === ExerciseTypeEnum.STATIC;
 
   const dispatch = useDispatch();
 
@@ -33,12 +36,7 @@ export const useTimers = ({exercise}: IProps) => {
 
     if (exercise.setsDone >= exercise.sets) return;
 
-    setStage(prev => {
-      return {
-        set: prev.set + 1,
-        stage: IExerciseExecutionStageEnum.Resting,
-      };
-    });
+    setStageStatus(IExerciseExecutionStageEnum.Resting);
     setCanRest(true);
     if (exercise) {
       setRestTime(exercise.rest);
@@ -54,12 +52,7 @@ export const useTimers = ({exercise}: IProps) => {
       setRestTime(prev => {
         if (prev <= 0) {
           _BackgroundTimer.clearInterval(restTimerRef.current!);
-          setStage(prev => {
-            return {
-              set: prev.set,
-              stage: IExerciseExecutionStageEnum.Execution,
-            };
-          });
+          setStageStatus(IExerciseExecutionStageEnum.Execution);
           setCanRest(false);
           setIsRestTimerRunning(false);
           timerSound.play();
@@ -79,15 +72,18 @@ export const useTimers = ({exercise}: IProps) => {
     setIsRestTimerRunning(false);
   };
 
-  const startExerciseTimer = () => {};
+  const startExerciseTimer = () => {
+    if (holdTime <= 0) return;
+  };
 
-  const pauseExerciseTimer = () => {};
+  const pauseExerciseTimer = () => {
+    if (exerciseTimerRef.current) {
+      _BackgroundTimer.clearInterval(exerciseTimerRef.current);
+    }
+    setIsHoldExerciseTimerRunning(false);
+  };
 
   useEffect(() => {
-    setStage(prev => {
-      return {...prev, set: exercise?.setsDone || 0};
-    });
-
     if (!exercise) return;
     setRestTime(exercise.rest * 1000);
 
@@ -111,11 +107,12 @@ export const useTimers = ({exercise}: IProps) => {
     holdTime,
     canRest,
     isRestTimerRunning,
-    stage,
+    stageStatus,
     executeCurrentSet,
     startRestTimer,
     pauseRestTimer,
     startExerciseTimer,
     pauseExerciseTimer,
+    canStartHoldExerciseTimer,
   };
 };
