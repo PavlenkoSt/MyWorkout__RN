@@ -85,7 +85,9 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
     restTimerRef.current = _BackgroundTimer.setInterval(() => {
       setRestTime(prev => {
         if (prev <= 0) {
-          _BackgroundTimer.clearInterval(restTimerRef.current!);
+          if (restTimerRef.current) {
+            _BackgroundTimer.clearInterval(restTimerRef.current);
+          }
           setStageStatus(IExerciseExecutionStageEnum.Execution);
           setCanRest(false);
           setIsRestTimerRunning(false);
@@ -140,6 +142,23 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
     setIsHoldExerciseTimerRunning(false);
   };
 
+  const skipRest = () => {
+    if (restTimerRef.current) {
+      _BackgroundTimer.clearInterval(restTimerRef.current);
+    }
+    setStageStatus(IExerciseExecutionStageEnum.Execution);
+    setCanRest(false);
+    setIsRestTimerRunning(false);
+    setShouldStartStaticExerciseTimer(true);
+    timeToWorkoutSound.play(() => {
+      timerSound.play();
+    });
+
+    if (exercise) {
+      setRestTime(exercise.rest * 1000);
+    }
+  };
+
   useEffect(() => {
     if (
       !shouldStartStaticExerciseTimer ||
@@ -191,6 +210,7 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
     pauseRestTimer,
     startExerciseTimer,
     pauseExerciseTimer,
+    skipRest,
     canStartHoldExerciseTimer,
     isHoldExerciseTimerRunning,
   };

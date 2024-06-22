@@ -4,21 +4,25 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import Btn from '@app/components/UI-kit/Btn';
 
 interface IProps {
+  canFinishCurrentSet: boolean;
+  canMoveToNextExercise: boolean;
+  canSkipSet: boolean;
   finishCurrentSet: ({
     shouldStartRestTimer,
   }: {
     shouldStartRestTimer: boolean;
   }) => void;
-  canFinishCurrentSet: boolean;
-  canMoveToNextExercise: boolean;
   moveToNextExercise: () => void;
+  skipRest: () => void;
 }
 
 const ActionPanel: FC<IProps> = ({
   canFinishCurrentSet,
-  finishCurrentSet,
   canMoveToNextExercise,
+  canSkipSet,
+  finishCurrentSet,
   moveToNextExercise,
+  skipRest,
 }) => {
   return (
     <View style={styles.container}>
@@ -31,6 +35,8 @@ const ActionPanel: FC<IProps> = ({
         </Btn>
       ) : canMoveToNextExercise ? (
         <Btn onPress={moveToNextExercise}>Move to next exercise</Btn>
+      ) : canSkipSet ? (
+        <Btn onPress={skipRest}>Skip rest</Btn>
       ) : null}
     </View>
   );

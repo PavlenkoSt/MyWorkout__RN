@@ -42,17 +42,18 @@ export const Exercise: FC<IProps> = ({route}) => {
 
   const {
     canRest,
-    executeCurrentSet,
     holdTime,
     isRestTimerRunning,
-    pauseExerciseTimer,
-    pauseRestTimer,
     restTime,
     stageStatus,
-    startExerciseTimer,
-    startRestTimer,
     canStartHoldExerciseTimer,
     isHoldExerciseTimerRunning,
+    startExerciseTimer,
+    pauseExerciseTimer,
+    startRestTimer,
+    pauseRestTimer,
+    executeCurrentSet,
+    skipRest,
   } = useTimers({exercise, hasNextExercise: !!nextExercise});
 
   const {dispatch} = useTypedNavigation();
@@ -107,9 +108,11 @@ export const Exercise: FC<IProps> = ({route}) => {
                 stageStatus === IExerciseExecutionStageEnum.None) &&
               exercise.type !== ExerciseTypeEnum.STATIC
             }
-            finishCurrentSet={executeCurrentSet}
             canMoveToNextExercise={canMoveToNextExercise}
+            canSkipSet={isRestTimerRunning}
+            finishCurrentSet={executeCurrentSet}
             moveToNextExercise={moveToNextExercise}
+            skipRest={skipRest}
           />
         </View>
       )}
