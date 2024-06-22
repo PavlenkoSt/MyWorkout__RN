@@ -36,6 +36,10 @@ export const Exercise: FC<IProps> = ({route}) => {
   const exercise = useSelector(exerciseSelector(exerciseId));
   const nextExercise = useSelector(nextExerciseSelector(exerciseId));
 
+  const isDone = !!exercise && exercise.setsDone >= exercise.sets;
+  const canMoveToNextExercise = !!nextExercise && isDone;
+  const isTrainingFinished = isDone && !nextExercise;
+
   const {
     canRest,
     executeCurrentSet,
@@ -49,12 +53,9 @@ export const Exercise: FC<IProps> = ({route}) => {
     startRestTimer,
     canStartHoldExerciseTimer,
     isHoldExerciseTimerRunning,
-  } = useTimers({exercise});
+  } = useTimers({exercise, hasNextExercise: !!nextExercise});
 
   const {dispatch} = useTypedNavigation();
-
-  const isDone = !!exercise && exercise.setsDone >= exercise.sets;
-  const canMoveToNextExercise = !!nextExercise;
 
   const moveToNextExercise = () => {
     if (nextExercise) {
@@ -89,14 +90,14 @@ export const Exercise: FC<IProps> = ({route}) => {
             restTime={restTime}
             startExerciseTimer={startExerciseTimer}
             startRestTimer={startRestTimer}
-            isTrainingDone={isDone && !nextExercise}
+            isTrainingDone={isTrainingFinished}
             canStartHoldExerciseTimer={canStartHoldExerciseTimer}
             isHoldExerciseTimerRunning={isHoldExerciseTimerRunning}
           />
           <ExerciseStage
             stageStatus={stageStatus}
             isDone={isDone}
-            isTrainingDone={isDone && !nextExercise}
+            isTrainingDone={isTrainingFinished}
             setsDone={exercise.setsDone}
           />
           <ActionPanel

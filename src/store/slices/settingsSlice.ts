@@ -7,12 +7,14 @@ export interface SettingsSlice {
   enableAutocomplete: boolean;
   exercisesForAutocomplete: string[];
   defaultGoalsFilter: FilterGoalsEnum;
+  enableStartRestTimerAfterStaticExercise: boolean;
 }
 
 const initialState: SettingsSlice = {
   enableAutocomplete: true,
   exercisesForAutocomplete: [],
   defaultGoalsFilter: FilterGoalsEnum.ALL,
+  enableStartRestTimerAfterStaticExercise: false,
 };
 
 const settingsSlice = createSlice({
@@ -53,6 +55,12 @@ const settingsSlice = createSlice({
         JSON.stringify(filtered || []),
       );
     },
+    setEnableStartRestTimerAfterStaticExercise: (
+      state,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.enableStartRestTimerAfterStaticExercise = action.payload;
+    },
   },
 });
 
@@ -62,5 +70,6 @@ export const {
   setExercisesForAutocomplete,
   addExerciseForAutocomplete,
   removeExerciseForAutocomplete,
+  setEnableStartRestTimerAfterStaticExercise,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;

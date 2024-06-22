@@ -35,5 +35,6 @@ const styles = EStyleSheet.create({
   text: {
     color: '$white',
     fontSize: 18,
+    flex: 1,
   },
 });

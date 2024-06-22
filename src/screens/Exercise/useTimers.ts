@@ -2,21 +2,27 @@ import {useEffect, useRef, useState} from 'react';
 import {IExerciseExecutionStageEnum} from './types';
 import _BackgroundTimer from 'react-native-background-timer';
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {incrementSet} from '@app/store/slices/trainingDaySlice';
 import {
   timeToRestSound,
   timeToWorkoutSound,
   timerSound,
 } from '@app/utilts/sounds';
+import {enableStartRestTimerAfterStaticExerciseSelector} from '@app/store/selectors/settingsSelector';
 
 interface IProps {
   exercise?: IExercise;
+  hasNextExercise: boolean;
 }
 
-export const useTimers = ({exercise}: IProps) => {
+export const useTimers = ({exercise, hasNextExercise}: IProps) => {
   const restTimerRef = useRef<number | null>(null);
   const exerciseTimerRef = useRef<number | null>(null);
+
+  const enableStartRestTimerAfterStaticExercise = useSelector(
+    enableStartRestTimerAfterStaticExerciseSelector,
+  );
 
   const [restTime, setRestTime] = useState(0);
   const [holdTime, setHoldTime] = useState(0);
@@ -26,14 +32,18 @@ export const useTimers = ({exercise}: IProps) => {
   const [isRestTimerRunning, setIsRestTimerRunning] = useState(false);
   const [isHoldExerciseTimerRunning, setIsHoldExerciseTimerRunning] =
     useState(false);
+
   const [shouldExecuteCurrentSet, setShouldExecuteCurrentSet] = useState(false);
+  const [shouldStartStaticExerciseTimer, setShouldStartStaticExerciseTimer] =
+    useState(false);
 
   const [stageStatus, setStageStatus] = useState(
     IExerciseExecutionStageEnum.None,
   );
   const canStartHoldExerciseTimer =
     exercise?.type === ExerciseTypeEnum.STATIC &&
-    stageStatus !== IExerciseExecutionStageEnum.Resting;
+    stageStatus !== IExerciseExecutionStageEnum.Resting &&
+    exercise.setsDone < exercise.sets;
 
   const dispatch = useDispatch();
 
@@ -56,14 +66,21 @@ export const useTimers = ({exercise}: IProps) => {
       timerSound.play();
     });
 
-    dispatch(incrementSet({id: exercise.id}));
     if (shouldStartRestTimer) {
       startRestTimer();
     }
+
+    dispatch(incrementSet({id: exercise.id}));
   };
 
   const startRestTimer = () => {
-    if (restTime <= 0) return;
+    if (
+      restTime <= 0 ||
+      !exercise ||
+      (!hasNextExercise && exercise.setsDone >= exercise.sets - 1)
+    ) {
+      return;
+    }
 
     restTimerRef.current = _BackgroundTimer.setInterval(() => {
       setRestTime(prev => {
@@ -72,6 +89,7 @@ export const useTimers = ({exercise}: IProps) => {
           setStageStatus(IExerciseExecutionStageEnum.Execution);
           setCanRest(false);
           setIsRestTimerRunning(false);
+          setShouldStartStaticExerciseTimer(true);
           timeToWorkoutSound.play(() => {
             timerSound.play();
           });
@@ -92,14 +110,21 @@ export const useTimers = ({exercise}: IProps) => {
   };
 
   const startExerciseTimer = () => {
-    if (holdTime <= 0) return;
+    if (
+      holdTime <= 0 ||
+      !exercise ||
+      exercise.type !== ExerciseTypeEnum.STATIC ||
+      exercise.setsDone >= exercise.sets
+    ) {
+      return;
+    }
 
     exerciseTimerRef.current = _BackgroundTimer.setInterval(() => {
       setHoldTime(prev => {
         if (prev <= 0) {
           _BackgroundTimer.clearInterval(exerciseTimerRef.current!);
           setShouldExecuteCurrentSet(true);
-          return exercise!.rest * 1000;
+          return exercise!.reps * 1000;
         } else {
           setIsHoldExerciseTimerRunning(true);
           return prev - 100;
@@ -116,9 +141,23 @@ export const useTimers = ({exercise}: IProps) => {
   };
 
   useEffect(() => {
+    if (
+      !shouldStartStaticExerciseTimer ||
+      exercise?.type !== ExerciseTypeEnum.STATIC ||
+      !enableStartRestTimerAfterStaticExercise
+    ) {
+      return;
+    }
+    startExerciseTimer();
+    setShouldStartStaticExerciseTimer(false);
+  }, [shouldStartStaticExerciseTimer]);
+
+  useEffect(() => {
     if (!shouldExecuteCurrentSet) return;
     setIsHoldExerciseTimerRunning(false);
-    executeCurrentSet({shouldStartRestTimer: false});
+    executeCurrentSet({
+      shouldStartRestTimer: enableStartRestTimerAfterStaticExercise,
+    });
     setShouldExecuteCurrentSet(false);
   }, [shouldExecuteCurrentSet]);
 

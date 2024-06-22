@@ -11,10 +11,12 @@ import useMounted from '@app/hooks/useMounted';
 import {
   defaultGoalsFilterSelector,
   enableAutocompleteSelector,
+  enableStartRestTimerAfterStaticExerciseSelector,
 } from '@app/store/selectors/settingsSelector';
 import {
   setDefaultGoalsFilter,
   setEnableAutocomplete,
+  setEnableStartRestTimerAfterStaticExercise,
   setExercisesForAutocomplete,
 } from '@app/store/slices/settingsSlice';
 import localStorage, {LocalStorageKeysEnum} from '@app/utilts/localStorage';
@@ -30,6 +32,9 @@ const Settings = () => {
 
   const enableAutocomplete = useSelector(enableAutocompleteSelector);
   const defaultGoalsFilter = useSelector(defaultGoalsFilterSelector);
+  const enableStartRestTimerAfterStaticExercise = useSelector(
+    enableStartRestTimerAfterStaticExerciseSelector,
+  );
 
   useEffect(() => {
     const init = async () => {
@@ -39,6 +44,9 @@ const Settings = () => {
       const enableAutocomplete = await localStorage.get(
         LocalStorageKeysEnum.ENABLE_AUTOCOMPLETE,
       );
+      const enableStartRestTimerAfterStaticExercise = await localStorage.get(
+        LocalStorageKeysEnum.ENABLE_START_REST_TIMER_AFTER_STATIC_EXERCISE,
+      );
 
       const exercises =
         (await localStorage.get(LocalStorageKeysEnum.AUTOCOMPLETE_EXERCISES)) ||
@@ -46,6 +54,9 @@ const Settings = () => {
 
       dispatch(setExercisesForAutocomplete(JSON.parse(exercises) || []));
       onChangeAutocomplete(enableAutocomplete === '1');
+      onChangeEnableStartRestTimerAfterStaticExercise(
+        enableStartRestTimerAfterStaticExercise === '1',
+      );
       onChangeDefaultGoalsFilter(
         defaultGoalsFilter
           ? (defaultGoalsFilter as FilterGoalsEnum)
@@ -60,6 +71,16 @@ const Settings = () => {
     dispatch(setEnableAutocomplete(value));
     await localStorage.set(
       LocalStorageKeysEnum.ENABLE_AUTOCOMPLETE,
+      value ? '1' : '0',
+    );
+  };
+
+  const onChangeEnableStartRestTimerAfterStaticExercise = async (
+    value: boolean,
+  ) => {
+    dispatch(setEnableStartRestTimerAfterStaticExercise(value));
+    await localStorage.set(
+      LocalStorageKeysEnum.ENABLE_START_REST_TIMER_AFTER_STATIC_EXERCISE,
       value ? '1' : '0',
     );
   };
@@ -85,6 +106,11 @@ const Settings = () => {
               value={enableAutocomplete}
               onValueChange={onChangeAutocomplete}>
               Enable autocomplete for exercise
+            </Switch>
+            <Switch
+              value={enableStartRestTimerAfterStaticExercise}
+              onValueChange={onChangeEnableStartRestTimerAfterStaticExercise}>
+              Enable automatically start rest timer after static exercise
             </Switch>
             <View style={styles.dropdownContainer}>
               <Text style={styles.dropdownLabel}>Default goals filter</Text>
