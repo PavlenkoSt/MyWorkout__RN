@@ -1,5 +1,4 @@
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
-import LottieView from 'lottie-react-native';
 import React, {FC} from 'react';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -8,48 +7,33 @@ interface IProps {
   exercise: IExercise;
 }
 
-export const ExerciseDetail: FC<IProps> = ({exercise}) => {
-  const setsLeft = exercise.sets - exercise.setsDone;
-
+const ExerciseDetail: FC<IProps> = ({exercise}) => {
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.col}>
-          <Text style={styles.colText}>Sets:</Text>
-          <Text style={styles.colText}>
-            {exercise.setsDone}/{exercise.sets}
-          </Text>
-        </View>
-        <View style={styles.col}>
-          <Text style={styles.colText}>Rest:</Text>
-          <Text style={styles.colText}>{exercise.rest} sec.</Text>
-        </View>
-        <View style={styles.col}>
-          <Text style={styles.colText}>
-            {exercise.type === ExerciseTypeEnum.DYNAMIC ? 'Reps: ' : 'Hold: '}
-          </Text>
-          <Text style={styles.colText}>
-            {exercise.reps}
-            {exercise.type === ExerciseTypeEnum.STATIC ? ' sec.' : ''}
-          </Text>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.col}>
+        <Text style={styles.colText}>Sets:</Text>
+        <Text style={styles.colText}>
+          {exercise.setsDone}/{exercise.sets}
+        </Text>
       </View>
-      {setsLeft > 0 ? (
-        <Text style={styles.setsStatusText}>{setsLeft} sets left</Text>
-      ) : (
-        <View style={styles.setsStatusContainer}>
-          <Text style={styles.setsStatusText}>Done</Text>
-          <LottieView
-            source={require('@app/assets/animations/Check.json')}
-            autoPlay
-            loop={false}
-            style={{width: 35, height: 35}}
-          />
-        </View>
-      )}
-    </>
+      <View style={styles.col}>
+        <Text style={styles.colText}>Rest:</Text>
+        <Text style={styles.colText}>{exercise.rest} sec.</Text>
+      </View>
+      <View style={styles.col}>
+        <Text style={styles.colText}>
+          {exercise.type === ExerciseTypeEnum.DYNAMIC ? 'Reps: ' : 'Hold: '}
+        </Text>
+        <Text style={styles.colText}>
+          {exercise.reps}
+          {exercise.type === ExerciseTypeEnum.STATIC ? ' sec.' : ''}
+        </Text>
+      </View>
+    </View>
   );
 };
+
+export default ExerciseDetail;
 
 const styles = EStyleSheet.create({
   container: {
@@ -63,15 +47,4 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   colText: {},
-  setsStatusContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  setsStatusText: {
-    textAlign: 'center',
-    paddingVertical: 10,
-    color: '#fff',
-    fontSize: 18,
-  },
 });
