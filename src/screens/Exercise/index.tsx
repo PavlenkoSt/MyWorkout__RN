@@ -19,6 +19,7 @@ import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {StackActions} from '@react-navigation/native';
 import {TrainingRoutesStack} from '@app/navigation/types';
 import SetsInfo from './SetsInfo';
+import {ExerciseTypeEnum} from '@app/types/IExercise';
 
 interface IProps {
   route: {
@@ -47,6 +48,7 @@ export const Exercise: FC<IProps> = ({route}) => {
     startExerciseTimer,
     startRestTimer,
     canStartHoldExerciseTimer,
+    isHoldExerciseTimerRunning,
   } = useTimers({exercise, hasNextExercise: !!nextExercise});
 
   const {dispatch} = useTypedNavigation();
@@ -80,7 +82,6 @@ export const Exercise: FC<IProps> = ({route}) => {
           <SetsInfo setsLeft={exercise.sets - exercise.setsDone} />
           <TimersPanel
             canRest={canRest}
-            executeCurrentSet={executeCurrentSet}
             holdTime={holdTime}
             isRestTimerRunning={isRestTimerRunning}
             pauseExerciseTimer={pauseExerciseTimer}
@@ -90,6 +91,7 @@ export const Exercise: FC<IProps> = ({route}) => {
             startRestTimer={startRestTimer}
             isTrainingDone={isDone && !nextExercise}
             canStartHoldExerciseTimer={canStartHoldExerciseTimer}
+            isHoldExerciseTimerRunning={isHoldExerciseTimerRunning}
           />
           <ExerciseStage
             stageStatus={stageStatus}
@@ -101,7 +103,8 @@ export const Exercise: FC<IProps> = ({route}) => {
             canFinishCurrentSet={
               !isDone &&
               (stageStatus === IExerciseExecutionStageEnum.Execution ||
-                stageStatus === IExerciseExecutionStageEnum.None)
+                stageStatus === IExerciseExecutionStageEnum.None) &&
+              exercise.type !== ExerciseTypeEnum.STATIC
             }
             finishCurrentSet={executeCurrentSet}
             canMoveToNextExercise={canMoveToNextExercise}

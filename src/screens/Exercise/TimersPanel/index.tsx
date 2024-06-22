@@ -5,9 +5,9 @@ import Timer from './Timer';
 
 interface IProps {
   canRest: boolean;
-  executeCurrentSet: () => void;
   holdTime: number;
   isRestTimerRunning: boolean;
+  isHoldExerciseTimerRunning: boolean;
   pauseExerciseTimer: () => void;
   pauseRestTimer: () => void;
   restTime: number;
@@ -20,12 +20,14 @@ interface IProps {
 const TimersPanel: FC<IProps> = ({
   canRest,
   restTime,
+  holdTime,
   isRestTimerRunning,
   startRestTimer,
   pauseRestTimer,
   startExerciseTimer,
   pauseExerciseTimer,
   isTrainingDone,
+  isHoldExerciseTimerRunning,
   canStartHoldExerciseTimer,
 }) => {
   return (
@@ -33,8 +35,8 @@ const TimersPanel: FC<IProps> = ({
       <Timer
         title="Exercise"
         disabled={isTrainingDone || !canStartHoldExerciseTimer}
-        time={0}
-        isRunning={false}
+        time={holdTime}
+        isRunning={isHoldExerciseTimerRunning}
         start={startExerciseTimer}
         pause={pauseExerciseTimer}
       />

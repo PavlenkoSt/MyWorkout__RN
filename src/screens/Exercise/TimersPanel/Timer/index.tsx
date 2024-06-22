@@ -50,6 +50,8 @@ const Timer: FC<IProps> = ({
   return (
     <TouchableOpacity
       onPress={() => {
+        if (disabled) return;
+
         if (isRunning) {
           pause();
         } else {

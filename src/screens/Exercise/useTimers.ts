@@ -27,11 +27,17 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
   const [stageStatus, setStageStatus] = useState(
     IExerciseExecutionStageEnum.None,
   );
-  const canStartHoldExerciseTimer = exercise?.type === ExerciseTypeEnum.STATIC;
+  const canStartHoldExerciseTimer =
+    exercise?.type === ExerciseTypeEnum.STATIC &&
+    stageStatus !== IExerciseExecutionStageEnum.Resting;
 
   const dispatch = useDispatch();
 
-  const executeCurrentSet = () => {
+  const executeCurrentSet = ({
+    shouldStartRestTimer,
+  }: {
+    shouldStartRestTimer: boolean;
+  }) => {
     if (!exercise) return;
 
     if (exercise.setsDone >= exercise.sets) return;
@@ -43,7 +49,9 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
     }
 
     dispatch(incrementSet({id: exercise.id}));
-    startRestTimer();
+    if (shouldStartRestTimer) {
+      startRestTimer();
+    }
   };
 
   const startRestTimer = () => {
@@ -75,6 +83,21 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
 
   const startExerciseTimer = () => {
     if (holdTime <= 0) return;
+
+    exerciseTimerRef.current = _BackgroundTimer.setInterval(() => {
+      setHoldTime(prev => {
+        if (prev <= 0) {
+          _BackgroundTimer.clearInterval(exerciseTimerRef.current!);
+          setIsHoldExerciseTimerRunning(false);
+          executeCurrentSet({shouldStartRestTimer: false});
+          timerSound.play();
+          return exercise!.rest * 1000;
+        } else {
+          setIsHoldExerciseTimerRunning(true);
+          return prev - 100;
+        }
+      });
+    }, 100);
   };
 
   const pauseExerciseTimer = () => {
@@ -115,5 +138,6 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
     startExerciseTimer,
     pauseExerciseTimer,
     canStartHoldExerciseTimer,
+    isHoldExerciseTimerRunning,
   };
 };
