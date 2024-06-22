@@ -76,6 +76,7 @@ const styles = EStyleSheet.create({
   title: {
     textAlign: 'center',
     marginBottom: 10,
+    color: '$white',
   },
   stage: {
     textAlign: 'center',

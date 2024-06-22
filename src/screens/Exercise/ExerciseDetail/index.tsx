@@ -46,5 +46,7 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  colText: {},
+  colText: {
+    color: '#white',
+  },
 });

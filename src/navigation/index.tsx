@@ -27,13 +27,15 @@ const Navigation = () => {
         tabBarStyle: {
           backgroundColor: '#000',
           borderColor: '#000',
+          minHeight: 55,
         },
         tabBarInactiveTintColor: EStyleSheet.value('$primaryColor'),
         tabBarActiveTintColor: '#fff',
         tabBarActiveBackgroundColor: EStyleSheet.value('$primaryColor'),
         tabBarLabel: ({children, color}) => (
-          <Text style={{color}}>{children}</Text>
+          <Text style={{color, marginBottom: 5}}>{children}</Text>
         ),
+        tabBarIconStyle: {marginTop: 5},
         tabBarHideOnKeyboard: true,
         headerShown: false,
       }}>
@@ -85,7 +87,7 @@ const Navigation = () => {
           tabBarIcon: ({focused, color, size}) => (
             <SettingsIcon fill={color} width={20} height={20} />
           ),
-          lazy: false,
+          lazy: true,
         }}
       />
     </Tab.Navigator>

@@ -7,7 +7,7 @@
 
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import {Platform, UIManager} from 'react-native';
+import {LogBox, Platform, UIManager} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {MenuProvider} from 'react-native-popup-menu';
@@ -27,6 +27,12 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
+
+LogBox.ignoreLogs([
+  '[Reanimated]',
+  'ExpandableCalendar',
+  'new NativeEventEmitter()',
+]);
 
 const App = (): JSX.Element => {
   useEffect(() => {

@@ -47,20 +47,22 @@ const Timer: FC<IProps> = ({
 }) => {
   const {milliseconds, seconds} = convertMilliseconds(time);
 
+  const onPress = () => {
+    if (disabled) return;
+
+    if (isRunning) {
+      pause();
+    } else {
+      start();
+    }
+  };
+
   return (
     <TouchableOpacity
-      onPress={() => {
-        if (disabled) return;
-
-        if (isRunning) {
-          pause();
-        } else {
-          start();
-        }
-      }}
-      activeOpacity={disabled ? 1 : 0.2}
+      onPress={onPress}
+      activeOpacity={disabled ? 0.5 : 0.2}
       style={[styles.container, disabled && styles.containerDisabled]}>
-      <Text>{title}:</Text>
+      <Text style={styles.title}>{title}:</Text>
       <View style={styles.timer}>
         <View style={styles.timerValue}>
           <Text style={styles.timerValueS}>{seconds}</Text>
@@ -92,6 +94,7 @@ const styles = EStyleSheet.create({
   },
   title: {
     textAlign: 'center',
+    color: '$white',
   },
   timer: {
     width: TIMER_SIZE,
@@ -108,9 +111,11 @@ const styles = EStyleSheet.create({
   },
   timerValueS: {
     fontSize: 40,
+    color: '$white',
   },
   timerValueMs: {
     fontSize: 20,
+    color: '$white',
   },
   timerState: {
     position: 'absolute',
