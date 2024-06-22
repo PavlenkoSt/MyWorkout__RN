@@ -19,6 +19,8 @@ import store from './store';
 
 import Navigation from './navigation';
 
+import '@app/utilts/sounds';
+
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental

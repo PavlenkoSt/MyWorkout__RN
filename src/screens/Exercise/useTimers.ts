@@ -4,14 +4,17 @@ import _BackgroundTimer from 'react-native-background-timer';
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
 import {useDispatch} from 'react-redux';
 import {incrementSet} from '@app/store/slices/trainingDaySlice';
-import {timerSound} from '@app/utilts/sounds';
+import {
+  timeToRestSound,
+  timeToWorkoutSound,
+  timerSound,
+} from '@app/utilts/sounds';
 
 interface IProps {
   exercise?: IExercise;
-  hasNextExercise: boolean;
 }
 
-export const useTimers = ({exercise, hasNextExercise}: IProps) => {
+export const useTimers = ({exercise}: IProps) => {
   const restTimerRef = useRef<number | null>(null);
   const exerciseTimerRef = useRef<number | null>(null);
 
@@ -23,6 +26,7 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
   const [isRestTimerRunning, setIsRestTimerRunning] = useState(false);
   const [isHoldExerciseTimerRunning, setIsHoldExerciseTimerRunning] =
     useState(false);
+  const [shouldExecuteCurrentSet, setShouldExecuteCurrentSet] = useState(false);
 
   const [stageStatus, setStageStatus] = useState(
     IExerciseExecutionStageEnum.None,
@@ -48,6 +52,10 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
       setRestTime(exercise.rest);
     }
 
+    timeToRestSound.play(() => {
+      timerSound.play();
+    });
+
     dispatch(incrementSet({id: exercise.id}));
     if (shouldStartRestTimer) {
       startRestTimer();
@@ -64,7 +72,9 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
           setStageStatus(IExerciseExecutionStageEnum.Execution);
           setCanRest(false);
           setIsRestTimerRunning(false);
-          timerSound.play();
+          timeToWorkoutSound.play(() => {
+            timerSound.play();
+          });
           return exercise!.rest * 1000;
         } else {
           setIsRestTimerRunning(true);
@@ -88,9 +98,7 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
       setHoldTime(prev => {
         if (prev <= 0) {
           _BackgroundTimer.clearInterval(exerciseTimerRef.current!);
-          setIsHoldExerciseTimerRunning(false);
-          executeCurrentSet({shouldStartRestTimer: false});
-          timerSound.play();
+          setShouldExecuteCurrentSet(true);
           return exercise!.rest * 1000;
         } else {
           setIsHoldExerciseTimerRunning(true);
@@ -106,6 +114,13 @@ export const useTimers = ({exercise, hasNextExercise}: IProps) => {
     }
     setIsHoldExerciseTimerRunning(false);
   };
+
+  useEffect(() => {
+    if (!shouldExecuteCurrentSet) return;
+    setIsHoldExerciseTimerRunning(false);
+    executeCurrentSet({shouldStartRestTimer: false});
+    setShouldExecuteCurrentSet(false);
+  }, [shouldExecuteCurrentSet]);
 
   useEffect(() => {
     if (!exercise) return;

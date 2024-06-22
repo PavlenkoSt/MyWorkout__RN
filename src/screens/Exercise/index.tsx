@@ -49,7 +49,7 @@ export const Exercise: FC<IProps> = ({route}) => {
     startRestTimer,
     canStartHoldExerciseTimer,
     isHoldExerciseTimerRunning,
-  } = useTimers({exercise, hasNextExercise: !!nextExercise});
+  } = useTimers({exercise});
 
   const {dispatch} = useTypedNavigation();
 
