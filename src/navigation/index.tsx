@@ -10,19 +10,19 @@ import ProgressIcon from '@app/components/Icons/ProgressIcon';
 import SettingsIcon from '@app/components/Icons/SettingsIcon';
 
 import PresetsStack from './PresetsStack';
-import {BottomTabScreenPropsType} from './types';
+import {BottomTabScreenPropsType, TabRoutesEnum} from './types';
 
 import Goals from '@app/screens/Goals';
 import Records from '@app/screens/Records';
 import Settings from '@app/screens/Settings';
-import Training from '@app/screens/Training';
+import TrainingStack from './TrainingStack';
 
 const Tab = createBottomTabNavigator<BottomTabScreenPropsType>();
 
 const Navigation = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Training"
+      initialRouteName={TabRoutesEnum.TrainingStack}
       screenOptions={{
         tabBarStyle: {
           backgroundColor: '#000',
@@ -38,17 +38,18 @@ const Navigation = () => {
         headerShown: false,
       }}>
       <Tab.Screen
-        name="Training"
-        component={Training}
+        name={TabRoutesEnum.TrainingStack}
+        component={TrainingStack}
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <ProgressIcon fill={color} width={20} height={20} />
           ),
           lazy: false,
+          title: 'Training',
         }}
       />
       <Tab.Screen
-        name="Goals"
+        name={TabRoutesEnum.Goals}
         component={Goals}
         options={{
           tabBarIcon: ({focused, color, size}) => (
@@ -58,7 +59,7 @@ const Navigation = () => {
         }}
       />
       <Tab.Screen
-        name="Records"
+        name={TabRoutesEnum.Records}
         component={Records}
         options={{
           tabBarIcon: ({focused, color, size}) => (
@@ -68,7 +69,7 @@ const Navigation = () => {
         }}
       />
       <Tab.Screen
-        name="Presets"
+        name={TabRoutesEnum.Presets}
         component={PresetsStack}
         options={{
           tabBarIcon: ({focused, color, size}) => (
@@ -78,7 +79,7 @@ const Navigation = () => {
         }}
       />
       <Tab.Screen
-        name="Settings"
+        name={TabRoutesEnum.Settings}
         component={Settings}
         options={{
           tabBarIcon: ({focused, color, size}) => (

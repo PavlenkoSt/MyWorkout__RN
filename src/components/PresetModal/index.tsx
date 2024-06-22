@@ -18,6 +18,7 @@ import {presetValidation} from '@app/validations/preset.validation';
 
 import CrossKeyboardAvoidingView from '../CrossKeyboardAvoidingView';
 import {PRESET_EDITED_NAME, PRESET_SAVED} from './constants';
+import {PresetsRoutesStack} from '@app/navigation/types';
 
 interface IForm {
   name: string;
@@ -102,7 +103,11 @@ const PresetModal: FC<IProps> = ({
           clearTimeout(timer);
         }
         timer = setTimeout(() => {
-          navigation.navigate('Preset', {id, name, isAfterCreation: true});
+          navigation.navigate(PresetsRoutesStack.Preset, {
+            id,
+            name,
+            isAfterCreation: true,
+          });
         }, 600);
       } else {
         dispatch(

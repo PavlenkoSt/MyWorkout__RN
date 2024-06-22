@@ -2,7 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React, {FC} from 'react';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
-import {PresetsParams} from './types';
+import {PresetsParams, PresetsRoutesStack} from './types';
 
 import UsePreset from '@app/components/NavigationComponents/UsePreset';
 import Preset from '@app/screens/Preset';
@@ -12,14 +12,14 @@ const Stack = createStackNavigator<PresetsParams>();
 
 const PresetsStack = () => {
   return (
-    <Stack.Navigator initialRouteName="PresetsList">
+    <Stack.Navigator initialRouteName={PresetsRoutesStack.PresetsList}>
       <Stack.Screen
-        name="PresetsList"
+        name={PresetsRoutesStack.PresetsList}
         component={Presets}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="Preset"
+        name={PresetsRoutesStack.Preset}
         component={Preset as FC}
         initialParams={{id: '0', name: 'Preset'}}
         options={({route}) => ({

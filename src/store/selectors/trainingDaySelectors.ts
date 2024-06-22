@@ -10,6 +10,11 @@ export const trainingDateSelector = (state: RootState) => {
   );
 };
 
+export const exerciseSelector = (exerciseId: string) => (state: RootState) => {
+  const trainingDay = trainingDateSelector(state);
+  return trainingDay?.exercises.find(exercise => exercise.id === exerciseId);
+};
+
 export const allTrainingDaysSelector = (state: RootState) => {
   return state.trainingDay.trainingDays;
 };

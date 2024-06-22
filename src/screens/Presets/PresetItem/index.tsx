@@ -11,6 +11,7 @@ import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {deletePreset} from '@app/store/slices/presetsSlice';
 import {IPreset} from '@app/types/IPreset';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
+import {PresetsRoutesStack} from '@app/navigation/types';
 
 const BTN_WIDTH = 100;
 const BTN_OFFSET = 5;
@@ -59,7 +60,7 @@ const PresetItem: FC<IProps> = ({preset, onEditPress}) => {
       <TouchableOpacity
         style={styles.item}
         onPress={() =>
-          navigation.navigate('Preset', {
+          navigation.navigate(PresetsRoutesStack.Preset, {
             id: preset.id,
             name: preset.name,
           })

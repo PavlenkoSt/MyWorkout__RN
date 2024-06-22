@@ -22,6 +22,7 @@ import {
 import showToast from '@app/utilts/showToast';
 
 import {USE_PRESET_FOR_NOT_EMPTY_DAY_ERROR} from './constants';
+import {TabRoutesEnum} from '@app/navigation/types';
 
 interface IProps {
   presetId: string;
@@ -78,7 +79,8 @@ const UsePreset: FC<IProps> = ({presetId}) => {
 
     setModalVisible(false);
 
-    navigation.navigate('Training');
+    // TODO - handle navigation to training subscreen here
+    navigation.navigate(TabRoutesEnum.TrainingStack);
   };
 
   if (!preset || !preset.exercises.length) return <></>;

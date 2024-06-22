@@ -17,6 +17,8 @@ import {
 } from '@app/store/slices/trainingDaySlice';
 import {IExercise, IExerciseWithId} from '@app/types/IExercise';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
+import useTypedNavigation from '@app/hooks/useTypedNavigation';
+import {TrainingRoutesStack} from '@app/navigation/types';
 
 interface IProps {
   exercise: IExerciseWithId;
@@ -35,9 +37,11 @@ const Exercise: FC<IProps> = ({
   onChangeEditExersice,
   isActive,
 }) => {
+  const itemRef = useRef<SwipeableItemImperativeRef>(null);
+
   const dispatch = useDispatch();
 
-  const itemRef = useRef<SwipeableItemImperativeRef>(null);
+  const {navigate} = useTypedNavigation();
 
   const canDecrease = exercise.setsDone > 0;
   const isCompleted = exercise.setsDone >= exercise.sets;
@@ -52,6 +56,14 @@ const Exercise: FC<IProps> = ({
     if (!canDecrease) return;
 
     dispatch(decrementSet({id: exercise.id}));
+  };
+
+  const onItemPress = () => {
+    itemRef.current?.close();
+    navigate(TrainingRoutesStack.Exercise, {
+      id: exercise.id,
+      name: exercise.exercise,
+    });
   };
 
   const renderUnderlayLeft = useCallback(
@@ -79,8 +91,8 @@ const Exercise: FC<IProps> = ({
       snapPointsLeft={[actionPanelWidth]}>
       <ScaleDecorator activeScale={0.9}>
         <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => itemRef.current?.close()}
+          activeOpacity={0.8}
+          onPress={onItemPress}
           onLongPress={drag}
           style={styles.container}>
           <View style={styles.containerInner}>
