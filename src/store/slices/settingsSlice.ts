@@ -11,10 +11,10 @@ export interface SettingsSlice {
 }
 
 const initialState: SettingsSlice = {
-  enableAutocomplete: true,
+  enableAutocomplete: false,
+  enableStartRestTimerAfterStaticExercise: false,
   exercisesForAutocomplete: [],
   defaultGoalsFilter: FilterGoalsEnum.ALL,
-  enableStartRestTimerAfterStaticExercise: false,
 };
 
 const settingsSlice = createSlice({
