@@ -20,6 +20,17 @@ class DateTime {
   public isToday(dateString: string) {
     return dateString === this.getTodayDate();
   }
+
+  public getCurrentTime() {
+    const date = new Date();
+    return `${this.addZero(date.getHours())}-${this.addZero(
+      date.getMinutes(),
+    )}-${this.addZero(date.getSeconds())}`;
+  }
+
+  public getCurrentDateTime() {
+    return this.getTodayDate() + 'T' + this.getCurrentTime();
+  }
 }
 
 export default new DateTime();

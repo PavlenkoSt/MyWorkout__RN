@@ -21,11 +21,16 @@ import {
   ONLY_JSON_FILE,
 } from '@app/utilts/constants';
 import showToast from '@app/utilts/showToast';
+import {IGoal} from '@app/types/IGoal';
+import {goalsSelector} from '@app/store/selectors/goalsSelector';
+import {setGoals} from '@app/store/slices/goalsSlice';
+import dateTime from '@app/utilts/dateTime';
 
 interface IDB {
   trainingDays: ITrainingDay[];
   records: IRecord[];
   presets: IPreset[];
+  goals: IGoal[];
 }
 
 const Actions = () => {
@@ -34,17 +39,16 @@ const Actions = () => {
   const trainingDays = useSelector(allTrainingDaysSelector);
   const records = useSelector(recordsSelector);
   const presets = useSelector(presetsSelector);
+  const goals = useSelector(goalsSelector);
 
   const onExportDatabase = async () => {
-    const dbToExport: IDB = {trainingDays, records, presets};
+    const dbToExport: IDB = {trainingDays, records, presets, goals};
 
     const string = JSON.stringify(dbToExport);
 
-    const path = RNFetchBlob.fs.dirs.DownloadDir + '/WorkoutDatabase.json';
-
-    try {
-      await RNFetchBlob.fs.unlink(path);
-    } catch (e) {}
+    const path =
+      RNFetchBlob.fs.dirs.DownloadDir +
+      `/WorkoutDatabase-${dateTime.getCurrentDateTime()}.json`;
 
     try {
       await RNFetchBlob.fs.createFile(path, string, 'utf8');
@@ -74,7 +78,8 @@ const Actions = () => {
       if (
         !parsedJSON.trainingDays &&
         !parsedJSON.records &&
-        !parsedJSON.presets
+        !parsedJSON.presets &&
+        !parsedJSON.goals
       ) {
         return showToast.error(CORRUPTED_JSON);
       }
@@ -89,6 +94,10 @@ const Actions = () => {
 
       if (parsedJSON.presets?.length) {
         dispatch(setPresets(parsedJSON.presets));
+      }
+
+      if (parsedJSON.goals?.length) {
+        dispatch(setGoals(parsedJSON.goals));
       }
 
       showToast.success(DB_IMPORTED);
