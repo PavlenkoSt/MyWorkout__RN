@@ -13,10 +13,14 @@ const DayTraining: FC = () => {
 
   const [isCreation, setIsCreation] = useState(false);
 
+  const onStartPlanning = () => {
+    setIsCreation(true);
+  };
+
   return (
     <View style={styles.container}>
       {!trainingDay && !isCreation ? (
-        <NoTrainingYet onStartPlanning={() => setIsCreation(true)} />
+        <NoTrainingYet onStartPlanning={onStartPlanning} />
       ) : (
         <TrainingBody isCreation={isCreation} />
       )}

@@ -23,7 +23,7 @@ import {
 import generateLadderExercises from '@app/utilts/generateLadderExercises';
 import showToast from '@app/utilts/showToast';
 import CrossKeyboardAvoidingView from '@app/components/CrossKeyboardAvoidingView';
-import {WARMUP_TITLE} from '@app/utilts/constants';
+import {exerciseConstructor} from '@app/utilts/exerciseConstructor';
 
 interface IProps {
   visible: boolean;
@@ -98,13 +98,7 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
   };
 
   const onWarmupExerciseSubmit = async () => {
-    const exercise = {
-      type: ExerciseTypeEnum.WARMUP,
-      exercise: WARMUP_TITLE,
-      reps: 1,
-      rest: 0,
-      sets: 1,
-    };
+    const exercise = exerciseConstructor.generateWarmupExerciseBody();
 
     if (exerciseToEdit) {
       const {id, setsDone} = exerciseToEdit;
