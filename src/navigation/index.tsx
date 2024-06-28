@@ -87,7 +87,7 @@ const Navigation = () => {
           tabBarIcon: ({focused, color, size}) => (
             <SettingsIcon fill={color} width={20} height={20} />
           ),
-          lazy: true,
+          lazy: false,
         }}
       />
     </Tab.Navigator>

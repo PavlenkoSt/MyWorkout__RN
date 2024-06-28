@@ -1,6 +1,5 @@
+import {IExerciseBackup} from '@app/types/IExercise';
 import {Dispatch, SetStateAction, useEffect} from 'react';
-
-import {IExerciseBackup} from '@app/screens/Training/DayTraining/TrainingBody/ExerciseModal';
 
 interface IProps<T> {
   watch: (fields: keyof T) => any;
