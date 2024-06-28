@@ -5,7 +5,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import SwipeableItem, {
   SwipeableItemImperativeRef,
 } from 'react-native-swipeable-item';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import ExerciseCounter from '@app/components/ExerciseCounter';
 import ExerciseTable from '@app/components/ExerciseTable';
@@ -23,6 +23,7 @@ import {
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {TrainingRoutesStack} from '@app/navigation/types';
+import {enableExerciseScreenSelector} from '@app/store/selectors/settingsSelector';
 
 interface IProps {
   exercise: IExerciseWithId;
@@ -42,6 +43,8 @@ const Exercise: FC<IProps> = ({
   isActive,
 }) => {
   const itemRef = useRef<SwipeableItemImperativeRef>(null);
+
+  const enableExerciseScreen = useSelector(enableExerciseScreenSelector);
 
   const dispatch = useDispatch();
 
@@ -63,6 +66,7 @@ const Exercise: FC<IProps> = ({
   };
 
   const onItemPress = () => {
+    if (!enableExerciseScreen) return;
     if (exercise.type === ExerciseTypeEnum.WARMUP) return;
 
     itemRef.current?.close();

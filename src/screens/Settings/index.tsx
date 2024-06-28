@@ -20,9 +20,11 @@ const Settings = () => {
     defaultGoalsFilter,
     enableAutocomplete,
     enableStartRestTimerAfterStaticExercise,
+    enableExerciseScreen,
     onChangeAutocomplete,
     onChangeDefaultGoalsFilter,
     onChangeEnableStartRestTimerAfterStaticExercise,
+    onChangeEnableExerciseScreen,
   } = useSettings();
 
   return (
@@ -46,6 +48,11 @@ const Settings = () => {
               value={enableStartRestTimerAfterStaticExercise}
               onValueChange={onChangeEnableStartRestTimerAfterStaticExercise}>
               Enable automatically start rest timer after static exercise
+            </Switch>
+            <Switch
+              value={enableExerciseScreen}
+              onValueChange={onChangeEnableExerciseScreen}>
+              Enable exercise screen
             </Switch>
             <View style={styles.dropdownContainer}>
               <Text style={styles.dropdownLabel}>Default goals filter</Text>

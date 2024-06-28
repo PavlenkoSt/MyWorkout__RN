@@ -2,11 +2,13 @@ import {FilterGoalsEnum} from '@app/screens/Goals/constants';
 import {
   defaultGoalsFilterSelector,
   enableAutocompleteSelector,
+  enableExerciseScreenSelector,
   enableStartRestTimerAfterStaticExerciseSelector,
 } from '@app/store/selectors/settingsSelector';
 import {
   setDefaultGoalsFilter,
   setEnableAutocomplete,
+  setEnableExerciseScreen,
   setEnableStartRestTimerAfterStaticExercise,
   setExercisesForAutocomplete,
 } from '@app/store/slices/settingsSlice';
@@ -18,6 +20,7 @@ const useSettings = () => {
   const dispatch = useDispatch();
 
   const enableAutocomplete = useSelector(enableAutocompleteSelector);
+  const enableExerciseScreen = useSelector(enableExerciseScreenSelector);
   const defaultGoalsFilter = useSelector(defaultGoalsFilterSelector);
   const enableStartRestTimerAfterStaticExercise = useSelector(
     enableStartRestTimerAfterStaticExerciseSelector,
@@ -30,6 +33,9 @@ const useSettings = () => {
       );
       const enableAutocomplete = await localStorage.get(
         LocalStorageKeysEnum.ENABLE_AUTOCOMPLETE,
+      );
+      const enableExerciseScreen = await localStorage.get(
+        LocalStorageKeysEnum.ENABLE_EXERCISE_SCREEN,
       );
       const enableStartRestTimerAfterStaticExercise = await localStorage.get(
         LocalStorageKeysEnum.ENABLE_START_REST_TIMER_AFTER_STATIC_EXERCISE,
@@ -49,6 +55,7 @@ const useSettings = () => {
           ? (defaultGoalsFilter as FilterGoalsEnum)
           : FilterGoalsEnum.ALL,
       );
+      onChangeEnableExerciseScreen(enableExerciseScreen === '1');
     };
 
     init();
@@ -58,6 +65,14 @@ const useSettings = () => {
     dispatch(setEnableAutocomplete(value));
     await localStorage.set(
       LocalStorageKeysEnum.ENABLE_AUTOCOMPLETE,
+      value ? '1' : '0',
+    );
+  };
+
+  const onChangeEnableExerciseScreen = async (value: boolean) => {
+    dispatch(setEnableExerciseScreen(value));
+    await localStorage.set(
+      LocalStorageKeysEnum.ENABLE_EXERCISE_SCREEN,
       value ? '1' : '0',
     );
   };
@@ -81,9 +96,11 @@ const useSettings = () => {
     enableAutocomplete,
     defaultGoalsFilter,
     enableStartRestTimerAfterStaticExercise,
+    enableExerciseScreen,
     onChangeAutocomplete,
     onChangeEnableStartRestTimerAfterStaticExercise,
     onChangeDefaultGoalsFilter,
+    onChangeEnableExerciseScreen,
   };
 };
 

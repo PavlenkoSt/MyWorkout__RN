@@ -3,6 +3,9 @@ import {RootState} from '../index';
 export const enableAutocompleteSelector = (state: RootState) =>
   state.settings.enableAutocomplete;
 
+export const enableExerciseScreenSelector = (state: RootState) =>
+  state.settings.enableExerciseScreen;
+
 export const enableStartRestTimerAfterStaticExerciseSelector = (
   state: RootState,
 ) => state.settings.enableStartRestTimerAfterStaticExercise;
