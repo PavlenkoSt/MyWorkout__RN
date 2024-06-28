@@ -59,7 +59,7 @@ const Training = () => {
           markingType="custom"
           markedDates={datesToMark}
         />
-        <DayTraining />
+        <DayTraining key={activeDate} />
         <CalendarTodayBtn />
       </CalendarProvider>
     </ScreenContainer>
