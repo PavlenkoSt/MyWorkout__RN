@@ -27,23 +27,27 @@ const ExerciseTable: FC<IProps> = ({
           {idx + 1}. {exercise.exercise}
         </Text>
       </View>
-      <View style={[styles.col, styles.colCentered]}>
-        <Text style={styles.colText}>
-          {exercise.type === ExerciseTypeEnum.DYNAMIC ? 'Reps: ' : 'Hold: '}
-        </Text>
-        <Text style={styles.colText}>
-          {exercise.reps}
-          {exercise.type === ExerciseTypeEnum.STATIC ? ' sec.' : ''}
-        </Text>
-      </View>
-      <View style={[styles.col, styles.colCentered]}>
-        <Text style={styles.colText}>Sets:</Text>
-        <Text style={styles.colText}>{exercise.sets}</Text>
-      </View>
-      <View style={[styles.col, styles.colCentered]}>
-        <Text style={styles.colText}>Rest:</Text>
-        <Text style={styles.colText}>{exercise.rest} sec.</Text>
-      </View>
+      {exercise.type !== ExerciseTypeEnum.WARMUP && (
+        <>
+          <View style={[styles.col, styles.colCentered]}>
+            <Text style={styles.colText}>
+              {exercise.type === ExerciseTypeEnum.DYNAMIC ? 'Reps: ' : 'Hold: '}
+            </Text>
+            <Text style={styles.colText}>
+              {exercise.reps}
+              {exercise.type === ExerciseTypeEnum.STATIC ? ' sec.' : ''}
+            </Text>
+          </View>
+          <View style={[styles.col, styles.colCentered]}>
+            <Text style={styles.colText}>Sets:</Text>
+            <Text style={styles.colText}>{exercise.sets}</Text>
+          </View>
+          <View style={[styles.col, styles.colCentered]}>
+            <Text style={styles.colText}>Rest:</Text>
+            <Text style={styles.colText}>{exercise.rest} sec.</Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -60,6 +64,7 @@ const styles = EStyleSheet.create({
   col: {
     flex: 1,
     justifyContent: 'center',
+    minHeight: 35,
   },
   colCentered: {
     alignItems: 'center',

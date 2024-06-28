@@ -15,13 +15,13 @@ import {ladderExerciseValidation} from '@app/validations/ladder-exercise.validat
 interface IProps {
   exerciseBackup: IExerciseBackup | null;
   setExerciseBackup: Dispatch<SetStateAction<IExerciseBackup | null>>;
-  onLadderExerciseSubmit: (data: ILadderExerciseForm) => void;
+  onSubmit: (data: ILadderExerciseForm) => void;
 }
 
 const LadderExercise: FC<IProps> = ({
   exerciseBackup,
   setExerciseBackup,
-  onLadderExerciseSubmit,
+  onSubmit,
 }) => {
   const {
     control,
@@ -80,7 +80,7 @@ const LadderExercise: FC<IProps> = ({
         />
       </View>
       <View style={styles.btnContainer}>
-        <Btn onPress={handleSubmit(onLadderExerciseSubmit)}>+ Add</Btn>
+        <Btn onPress={handleSubmit(onSubmit)}>+ Add</Btn>
       </View>
     </View>
   );
@@ -95,6 +95,6 @@ const styles = EStyleSheet.create({
     marginBottom: 10,
   },
   btnContainer: {
-    marginTop: 30,
+    marginTop: 20,
   },
 });

@@ -22,7 +22,7 @@ interface IProps {
   type: ExerciseTypeEnum;
   exerciseBackup: IExerciseBackup | null;
   setExerciseBackup: Dispatch<SetStateAction<IExerciseBackup | null>>;
-  onSingleExerciseSubmit: (data: IExerciseForm, type: ExerciseTypeEnum) => void;
+  onSubmit: (data: IExerciseForm, type: ExerciseTypeEnum) => void;
 }
 
 const SingleExercise: FC<IProps> = ({
@@ -30,7 +30,7 @@ const SingleExercise: FC<IProps> = ({
   type,
   exerciseBackup,
   setExerciseBackup,
-  onSingleExerciseSubmit,
+  onSubmit,
 }) => {
   const {
     control,
@@ -50,7 +50,7 @@ const SingleExercise: FC<IProps> = ({
 
   useSaveFormFallback<IExerciseForm>({watch, reset, setExerciseBackup});
 
-  const onSubmit = (data: IExerciseForm) => onSingleExerciseSubmit(data, type);
+  const onSubmitWithData = (data: IExerciseForm) => onSubmit(data, type);
 
   return (
     <View>
@@ -85,7 +85,7 @@ const SingleExercise: FC<IProps> = ({
         />
       </View>
       <View style={styles.btnContainer}>
-        <Btn onPress={handleSubmit(onSubmit)}>
+        <Btn onPress={handleSubmit(onSubmitWithData)}>
           {exerciseToEdit ? 'Save' : '+ Add'}
         </Btn>
       </View>
@@ -102,6 +102,6 @@ const styles = EStyleSheet.create({
     marginBottom: 10,
   },
   btnContainer: {
-    marginTop: 30,
+    marginTop: 20,
   },
 });

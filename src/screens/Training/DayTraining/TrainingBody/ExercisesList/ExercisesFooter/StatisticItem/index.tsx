@@ -20,12 +20,14 @@ const StatisticItem: FC<IProps> = ({statItem, isLast}) => {
         <Text style={styles.text}>{statItem.exercise}</Text>
       </View>
       <View style={styles.rateCell}>
-        <View>
-          <Text style={styles.text}>
-            {statItem.totalDone}/{statItem.totalNeed}{' '}
-            {statItem.type === ExerciseTypeEnum.STATIC ? 'sec' : 'reps'}
-          </Text>
-        </View>
+        {statItem.type !== ExerciseTypeEnum.WARMUP && (
+          <View>
+            <Text style={styles.text}>
+              {statItem.totalDone}/{statItem.totalNeed}{' '}
+              {statItem.type === ExerciseTypeEnum.STATIC ? 'sec' : 'reps'}
+            </Text>
+          </View>
+        )}
         <View style={styles.checkmarkContainer}>
           {statItem.totalDone === statItem.totalNeed && (
             <CompletedIcon width={12} height={12} />

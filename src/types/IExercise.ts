@@ -2,6 +2,7 @@ export enum ExerciseTypeEnum {
   DYNAMIC = 'Dynamic',
   STATIC = 'Static',
   LADDER = 'Ladder',
+  WARMUP = 'Warmup',
 }
 
 export interface IExercise {

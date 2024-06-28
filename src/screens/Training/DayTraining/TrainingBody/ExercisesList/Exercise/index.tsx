@@ -15,7 +15,11 @@ import {
   deleteExercise,
   incrementSet,
 } from '@app/store/slices/trainingDaySlice';
-import {IExercise, IExerciseWithId} from '@app/types/IExercise';
+import {
+  ExerciseTypeEnum,
+  IExercise,
+  IExerciseWithId,
+} from '@app/types/IExercise';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {TrainingRoutesStack} from '@app/navigation/types';
@@ -59,6 +63,8 @@ const Exercise: FC<IProps> = ({
   };
 
   const onItemPress = () => {
+    if (exercise.type === ExerciseTypeEnum.WARMUP) return;
+
     itemRef.current?.close();
     navigate(TrainingRoutesStack.Exercise, {
       id: exercise.id,

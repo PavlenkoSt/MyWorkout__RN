@@ -23,6 +23,7 @@ import {
 import generateLadderExercises from '@app/utilts/generateLadderExercises';
 import showToast from '@app/utilts/showToast';
 import CrossKeyboardAvoidingView from '@app/components/CrossKeyboardAvoidingView';
+import {WARMUP_TITLE} from '@app/utilts/constants';
 
 interface IProps {
   visible: boolean;
@@ -96,6 +97,38 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
     }
   };
 
+  const onWarmupExerciseSubmit = async () => {
+    const exercise = {
+      type: ExerciseTypeEnum.WARMUP,
+      exercise: WARMUP_TITLE,
+      reps: 1,
+      rest: 0,
+      sets: 1,
+    };
+
+    if (exerciseToEdit) {
+      const {id, setsDone} = exerciseToEdit;
+
+      dispatch(
+        updateExercise({
+          id,
+          setsDone,
+          ...exercise,
+        }),
+      );
+    } else {
+      dispatch(
+        addExercise({
+          ...exercise,
+          setsDone: 0,
+          id: v4(),
+        }),
+      );
+    }
+
+    onClose();
+  };
+
   return (
     <ModalWrapper visible={visible} onClose={onClose}>
       <CrossKeyboardAvoidingView>
@@ -107,6 +140,7 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
               setExerciseBackup={setExerciseBackup}
               onSingleExerciseSubmit={onSingleExerciseSubmit}
               onLadderExerciseSubmit={onLadderExerciseSubmit}
+              onWarmupExerciseSubmit={onWarmupExerciseSubmit}
             />
           </View>
         </ScrollView>

@@ -14,6 +14,7 @@ import {
 
 import LadderExercise from './LadderExercise';
 import SingleExercise from './SingleExercise';
+import WarmupExercise from './WarmupExercise';
 
 interface IProps {
   exerciseToEdit: IExerciseWithId | null;
@@ -21,6 +22,7 @@ interface IProps {
   setExerciseBackup: Dispatch<SetStateAction<IExerciseBackup | null>>;
   onSingleExerciseSubmit: (data: IExerciseForm, type: ExerciseTypeEnum) => void;
   onLadderExerciseSubmit: (data: ILadderExerciseForm) => void;
+  onWarmupExerciseSubmit: () => void;
 }
 
 const ExerciseForm: FC<IProps> = ({
@@ -29,6 +31,7 @@ const ExerciseForm: FC<IProps> = ({
   setExerciseBackup,
   onSingleExerciseSubmit,
   onLadderExerciseSubmit,
+  onWarmupExerciseSubmit,
 }) => {
   const [type, setType] = useState(
     () => exerciseToEdit?.type || ExerciseTypeEnum.DYNAMIC,
@@ -49,6 +52,7 @@ const ExerciseForm: FC<IProps> = ({
               ExerciseTypeEnum.DYNAMIC,
               ExerciseTypeEnum.STATIC,
               ExerciseTypeEnum.LADDER,
+              ExerciseTypeEnum.WARMUP,
             ]}
             defaultValue={type}
             onSelect={value => setType(value)}
@@ -57,13 +61,15 @@ const ExerciseForm: FC<IProps> = ({
         {type === ExerciseTypeEnum.LADDER ? (
           <LadderExercise
             {...commonFormsProps}
-            onLadderExerciseSubmit={onLadderExerciseSubmit}
+            onSubmit={onLadderExerciseSubmit}
           />
+        ) : type === ExerciseTypeEnum.WARMUP ? (
+          <WarmupExercise onSubmit={onWarmupExerciseSubmit} />
         ) : (
           <SingleExercise
             {...commonFormsProps}
             exerciseToEdit={exerciseToEdit}
-            onSingleExerciseSubmit={onSingleExerciseSubmit}
+            onSubmit={onSingleExerciseSubmit}
             type={type}
           />
         )}
