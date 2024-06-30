@@ -20,10 +20,12 @@ import {
   IExerciseWithId,
   ILadderExerciseForm,
 } from '@app/types/IExercise';
-import generateLadderExercises from '@app/utilts/generateLadderExercises';
 import showToast from '@app/utilts/showToast';
 import CrossKeyboardAvoidingView from '@app/components/CrossKeyboardAvoidingView';
-import {exerciseConstructor} from '@app/utilts/exerciseConstructor';
+import {
+  SimpleExerciseType,
+  exerciseConstructor,
+} from '@app/utilts/exerciseConstructor';
 
 interface IProps {
   visible: boolean;
@@ -84,7 +86,8 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
         dispatch(deleteExercise({id: exerciseToEdit.id}));
       }
 
-      const exercisesToCreate = await generateLadderExercises(data);
+      const exercisesToCreate =
+        await exerciseConstructor.generateLadderExercises(data);
 
       dispatch(
         addExercisesToDay({date: activeDate, exercises: exercisesToCreate}),
@@ -97,8 +100,8 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
     }
   };
 
-  const onWarmupExerciseSubmit = async () => {
-    const exercise = exerciseConstructor.generateWarmupExerciseBody();
+  const onSimpleExerciseSubmit = async (type: SimpleExerciseType) => {
+    const exercise = exerciseConstructor.generateSimpleExercise(type);
 
     if (exerciseToEdit) {
       const {id, setsDone} = exerciseToEdit;
@@ -134,7 +137,7 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
               setExerciseBackup={setExerciseBackup}
               onSingleExerciseSubmit={onSingleExerciseSubmit}
               onLadderExerciseSubmit={onLadderExerciseSubmit}
-              onWarmupExerciseSubmit={onWarmupExerciseSubmit}
+              onSimpleExerciseSubmit={onSimpleExerciseSubmit}
             />
           </View>
         </ScrollView>

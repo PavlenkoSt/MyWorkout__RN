@@ -17,4 +17,6 @@ export const SWIPABLE_ITEM_CONFIG = {
 };
 export const DB_OPERATION_ERROR = 'DB operation has been failed.';
 export const DB_RECORDS_BACKUP_SAVED = 'Records backup data has been saved';
-export const WARMUP_TITLE = 'Warm-up';
+export const TITLE_WARMUP = 'Warm-up';
+export const TITLE_HANDBALANCE = 'Handbalance session';
+export const TITLE_FLEXIBILITY = 'Flexibility session';

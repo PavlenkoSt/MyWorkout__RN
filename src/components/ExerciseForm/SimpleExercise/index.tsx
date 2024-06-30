@@ -7,7 +7,7 @@ interface IProps {
   onSubmit: () => void;
 }
 
-const WarmupExercise: FC<IProps> = ({onSubmit}) => {
+const SimpleExercise: FC<IProps> = ({onSubmit}) => {
   return (
     <View style={styles.btnContainer}>
       <Btn onPress={onSubmit}>+ Add</Btn>
@@ -15,7 +15,7 @@ const WarmupExercise: FC<IProps> = ({onSubmit}) => {
   );
 };
 
-export default WarmupExercise;
+export default SimpleExercise;
 
 const styles = EStyleSheet.create({
   btnContainer: {

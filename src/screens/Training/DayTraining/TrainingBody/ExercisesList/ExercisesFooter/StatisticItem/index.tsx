@@ -5,6 +5,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import CompletedIcon from '@app/components/Icons/CompletedIcon';
 import {ExerciseTypeEnum} from '@app/types/IExercise';
 import {IStatistic} from '../index';
+import {isSimpleExerciseType} from '@app/utilts/isSimpleExerciseType';
 
 interface IProps {
   statItem: IStatistic;
@@ -12,6 +13,8 @@ interface IProps {
 }
 
 const StatisticItem: FC<IProps> = ({statItem, isLast}) => {
+  const isSimpleExercise = isSimpleExerciseType(statItem.type);
+
   return (
     <View
       key={statItem.exercise}
@@ -20,7 +23,7 @@ const StatisticItem: FC<IProps> = ({statItem, isLast}) => {
         <Text style={styles.text}>{statItem.exercise}</Text>
       </View>
       <View style={styles.rateCell}>
-        {statItem.type !== ExerciseTypeEnum.WARMUP && (
+        {!isSimpleExercise && (
           <View>
             <Text style={styles.text}>
               {statItem.totalDone}/{statItem.totalNeed}{' '}

@@ -3,6 +3,8 @@ export enum ExerciseTypeEnum {
   STATIC = 'Static',
   LADDER = 'Ladder',
   WARMUP = 'Warmup',
+  FLEXIBILITY_SESSION = 'Flexibility session',
+  HANDBALANCE_SESSION = 'Handbalance session',
 }
 
 export interface IExercise {

@@ -6,6 +6,7 @@ import {
 } from 'react-native-extended-stylesheet-typescript';
 
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
+import {isSimpleExerciseType} from '@app/utilts/isSimpleExerciseType';
 
 interface IProps {
   exercise: IExercise;
@@ -20,6 +21,8 @@ const ExerciseTable: FC<IProps> = ({
   isCompleted,
   containerStyle,
 }) => {
+  const isSimpleExercise = isSimpleExerciseType(exercise.type);
+
   return (
     <View style={[styles.container, containerStyle]}>
       <View style={styles.col}>
@@ -27,7 +30,7 @@ const ExerciseTable: FC<IProps> = ({
           {idx + 1}. {exercise.exercise}
         </Text>
       </View>
-      {exercise.type !== ExerciseTypeEnum.WARMUP && (
+      {!isSimpleExercise && (
         <>
           <View style={[styles.col, styles.colCentered]}>
             <Text style={styles.colText}>

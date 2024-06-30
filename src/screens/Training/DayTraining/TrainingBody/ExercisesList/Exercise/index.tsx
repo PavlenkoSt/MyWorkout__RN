@@ -24,6 +24,7 @@ import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {TrainingRoutesStack} from '@app/navigation/types';
 import {enableExerciseScreenSelector} from '@app/store/selectors/settingsSelector';
+import {isSimpleExerciseType} from '@app/utilts/isSimpleExerciseType';
 
 interface IProps {
   exercise: IExerciseWithId;
@@ -67,7 +68,7 @@ const Exercise: FC<IProps> = ({
 
   const onItemPress = () => {
     if (!enableExerciseScreen) return;
-    if (exercise.type === ExerciseTypeEnum.WARMUP) return;
+    if (isSimpleExerciseType(exercise.type)) return;
 
     itemRef.current?.close();
     navigate(TrainingRoutesStack.Exercise, {

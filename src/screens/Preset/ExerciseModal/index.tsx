@@ -19,10 +19,12 @@ import {
   IExerciseForm,
   ILadderExerciseForm,
 } from '@app/types/IExercise';
-import generateLadderExercises from '@app/utilts/generateLadderExercises';
 import showToast from '@app/utilts/showToast';
 import CrossKeyboardAvoidingView from '@app/components/CrossKeyboardAvoidingView';
-import {exerciseConstructor} from '@app/utilts/exerciseConstructor';
+import {
+  SimpleExerciseType,
+  exerciseConstructor,
+} from '@app/utilts/exerciseConstructor';
 
 interface IProps {
   visible: boolean;
@@ -91,7 +93,8 @@ const ExerciseModal: FC<IProps> = ({
         dispatch(deleteExerciseInPreset({exercise: exerciseToEdit, presetId}));
       }
 
-      const exercisesToCreate = await generateLadderExercises(data);
+      const exercisesToCreate =
+        await exerciseConstructor.generateLadderExercises(data);
 
       dispatch(addExercisesToPreset({exercises: exercisesToCreate, presetId}));
       dispatch(addExerciseForAutocomplete(data.exercise));
@@ -102,8 +105,8 @@ const ExerciseModal: FC<IProps> = ({
     }
   };
 
-  const onWarmupExerciseSubmit = () => {
-    const exercise = exerciseConstructor.generateWarmupExerciseBody();
+  const onSimpleExerciseSubmit = (type: SimpleExerciseType) => {
+    const exercise = exerciseConstructor.generateSimpleExercise(type);
 
     if (exerciseToEdit) {
       dispatch(
@@ -144,7 +147,7 @@ const ExerciseModal: FC<IProps> = ({
               exerciseToEdit={exerciseToEdit}
               onLadderExerciseSubmit={onLadderExerciseSubmit}
               onSingleExerciseSubmit={onSingleExerciseSubmit}
-              onWarmupExerciseSubmit={onWarmupExerciseSubmit}
+              onSimpleExerciseSubmit={onSimpleExerciseSubmit}
             />
           </View>
         </ScrollView>
