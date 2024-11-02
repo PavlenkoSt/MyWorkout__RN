@@ -1,5 +1,4 @@
 import React, {FC, useCallback} from 'react';
-import {View} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 import {setRecords} from '@app/store/slices/recordsSlice';
@@ -8,9 +7,6 @@ import DraggableFlatList, {
   DragEndParams,
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
-import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-
-import Btn from '@app/components/UI-kit/Btn';
 
 import Record from './Record';
 import RecordsHeader from './RecordsHeader';
@@ -18,14 +14,9 @@ import RecordsHeader from './RecordsHeader';
 interface IProps {
   records: IRecord[];
   onEditRecordPress: (record: IRecord) => void;
-  onAddNewRecordPress: () => void;
 }
 
-const RecordsList: FC<IProps> = ({
-  records,
-  onEditRecordPress,
-  onAddNewRecordPress,
-}) => {
+const RecordsList: FC<IProps> = ({records, onEditRecordPress}) => {
   const dispatch = useDispatch();
 
   const onDragEnd = ({data, from, to}: DragEndParams<IRecord>) => {
@@ -48,15 +39,6 @@ const RecordsList: FC<IProps> = ({
     [],
   );
 
-  const renderFoorter = useCallback(
-    () => (
-      <View style={styles.btnContainer}>
-        <Btn onPress={onAddNewRecordPress}>+ Add record</Btn>
-      </View>
-    ),
-    [],
-  );
-
   return (
     <DraggableFlatList
       extraData={records}
@@ -66,17 +48,8 @@ const RecordsList: FC<IProps> = ({
       renderItem={renderItem}
       keyExtractor={item => item.id}
       onDragEnd={onDragEnd}
-      ListFooterComponent={renderFoorter}
     />
   );
 };
 
 export default RecordsList;
-
-const styles = EStyleSheet.create({
-  btnContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 20,
-  },
-});

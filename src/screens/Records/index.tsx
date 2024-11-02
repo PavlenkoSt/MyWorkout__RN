@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
-import {Text, View} from 'react-native';
+import React, {useMemo, useState} from 'react';
+import {Text} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
-import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
 import Loader from '@app/components/Loader';
 import ScreenContainer from '@app/components/ScreenContainer';
-import Btn from '@app/components/UI-kit/Btn';
 import useGetRecordsFromDB from '@app/hooks/db/useGetRecordsFromDB';
 import useMounted from '@app/hooks/useMounted';
 import {recordsSelector} from '@app/store/selectors/recordsSelector';
@@ -14,12 +12,22 @@ import {IRecord} from '@app/types/IRecord';
 
 import RecordModal from './RecordModal';
 import RecordsList from './RecordsList';
+import SearchHeader from '@app/components/SearchHeader';
+import BtnGhost from '@app/components/UI-kit/BtnGhost';
 
 const Records = () => {
   const records = useSelector(recordsSelector);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [recordToEdit, setRecordToEdit] = useState<IRecord | null>(null);
+  const [searchValue, setSearchValue] = useState('');
+
+  const recordsWithSearch = useMemo(() => {
+    const searchStr = searchValue.trim().toLowerCase();
+    return records.filter(record =>
+      record.name.toLowerCase().includes(searchStr),
+    );
+  }, [records, searchValue]);
 
   const {mounted} = useMounted();
 
@@ -32,27 +40,27 @@ const Records = () => {
 
   return (
     <ScreenContainer>
-      <FocusAwareStatusBar
-        backgroundColor={
-          records.length ? EStyleSheet.value('$primaryColor') : '#333'
-        }
-        barStyle="light-content"
-      />
+      <SearchHeader searchValue={searchValue} setSearchValue={setSearchValue}>
+        <BtnGhost
+          color="#fff"
+          onPress={() => setIsModalVisible(true)}
+          btnStyle={styles.btn}>
+          + Add
+        </BtnGhost>
+      </SearchHeader>
       {!mounted ? (
         <Loader />
-      ) : records.length ? (
-        <RecordsList
-          records={records}
-          onEditRecordPress={onEditRecordPress}
-          onAddNewRecordPress={() => setIsModalVisible(true)}
-        />
+      ) : !recordsWithSearch.length && !searchValue ? (
+        <Text style={styles.noDataText}>No records yet</Text>
+      ) : !recordsWithSearch.length && !!searchValue ? (
+        <Text style={styles.noDataText}>
+          No records matching your request were found
+        </Text>
       ) : (
-        <>
-          <Text style={styles.noDataText}>No records yet</Text>
-          <View style={styles.btnContainer}>
-            <Btn onPress={() => setIsModalVisible(true)}>+ Create first</Btn>
-          </View>
-        </>
+        <RecordsList
+          records={recordsWithSearch}
+          onEditRecordPress={onEditRecordPress}
+        />
       )}
       <RecordModal
         visible={isModalVisible}
@@ -75,9 +83,10 @@ const styles = EStyleSheet.create({
     marginTop: 20,
     fontSize: 16,
   },
-  btnContainer: {
+  btn: {
+    paddingVertical: 0,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 20,
   },
 });

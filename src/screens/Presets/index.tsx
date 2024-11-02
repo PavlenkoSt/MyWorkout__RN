@@ -83,7 +83,7 @@ const Presets = () => {
         <Loader />
       ) : !!searchValue && !presetsWithSearching.length ? (
         <Text style={styles.noPresets}>
-          Presets matching your request were not found
+          No presets matching your request were found
         </Text>
       ) : !presetsWithSearching.length ? (
         <Text style={styles.noPresets}>No presets yet</Text>

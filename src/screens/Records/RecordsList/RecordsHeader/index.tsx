@@ -25,6 +25,8 @@ const styles = EStyleSheet.create({
     minHeight: ROW_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: '#fff',
   },
   text: {
     margin: CELL_OFFSET,
