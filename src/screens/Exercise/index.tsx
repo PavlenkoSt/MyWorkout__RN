@@ -20,6 +20,7 @@ import {StackActions} from '@react-navigation/native';
 import {TrainingRoutesStack} from '@app/navigation';
 import SetsInfo from './SetsInfo';
 import {ExerciseTypeEnum} from '@app/types/IExercise';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IProps {
   route: {
@@ -72,7 +73,7 @@ export const Exercise: FC<IProps> = ({route}) => {
   return (
     <ScreenContainer>
       <FocusAwareStatusBar
-        backgroundColor={EStyleSheet.value('$primaryColor')}
+        backgroundColor={EStyleSheet.value(ColorVars.$primaryColor)}
         barStyle="light-content"
         height={0}
       />

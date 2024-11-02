@@ -1,5 +1,6 @@
 import CloseIcon from '@app/components/Icons/CloseIcon';
 import {removeExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
+import {ColorVars} from '@app/utilts/theme';
 import HighlightText from '@sanar/react-native-highlight-text';
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
@@ -47,6 +48,6 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-between',
   },
   itemText: {
-    color: '$white',
+    color: ColorVars.$white,
   },
 });

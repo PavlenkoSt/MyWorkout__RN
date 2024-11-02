@@ -7,6 +7,7 @@ import {
 
 import {ExerciseTypeEnum, IExercise} from '@app/types/IExercise';
 import {exerciseConstructorService} from '@app/services/exerciseConstructor.service';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IProps {
   exercise: IExercise;
@@ -74,7 +75,7 @@ const styles = EStyleSheet.create({
     flex: 0.6,
   },
   colText: {
-    color: '$white',
+    color: ColorVars.$white,
   },
   textDone: {
     textDecorationLine: 'line-through',

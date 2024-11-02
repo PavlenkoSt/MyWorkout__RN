@@ -1,3 +1,4 @@
+import {ColorVars} from '@app/utilts/theme';
 import React from 'react';
 import {KeyboardTypeOptions, TextInput, TextInputProps} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -13,8 +14,8 @@ export default function Input(props: IProps) {
   return (
     <TextInput
       {...props}
-      cursorColor={EStyleSheet.value('$white')}
-      selectionColor={EStyleSheet.value('$white')}
+      cursorColor={EStyleSheet.value(ColorVars.$white)}
+      selectionColor={EStyleSheet.value(ColorVars.$white)}
       style={styles.input}
     />
   );

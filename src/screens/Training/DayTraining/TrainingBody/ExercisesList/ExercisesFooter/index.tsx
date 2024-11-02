@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux';
 import {Btn, Popover} from '@app/components/UI-kit';
 import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {ExerciseTypeEnum} from '@app/types/IExercise';
+import {ColorVars} from '@app/utilts/theme';
 
 import StatisticItem from './StatisticItem';
 
@@ -116,7 +117,7 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 10,
   },
   triggerText: {
-    color: '$white',
+    color: ColorVars.$white,
   },
   popoverContainer: {
     padding: 10,

@@ -25,6 +25,7 @@ import {goalsSelector} from '@app/store/selectors/goalsSelector';
 import {setGoals} from '@app/store/slices/goalsSlice';
 import {datesService} from '@app/services/dates.service';
 import {toastService} from '@app/services/toast.service';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IDB {
   trainingDays: ITrainingDay[];
@@ -139,6 +140,6 @@ const styles = EStyleSheet.create({
   },
   actionText: {
     fontSize: 20,
-    color: '$white',
+    color: ColorVars.$white,
   },
 });

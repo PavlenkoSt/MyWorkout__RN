@@ -6,6 +6,7 @@ import {TrainingParams, TrainingRoutesStack} from '../types';
 
 import Training from '@app/screens/Training';
 import {Exercise} from '@app/screens/Exercise';
+import {ColorVars} from '@app/utilts/theme';
 
 const Stack = createStackNavigator<TrainingParams>();
 
@@ -24,7 +25,7 @@ export default function TrainingStack() {
         options={({route}) => ({
           headerTitle: route.params.name,
           headerStyle: {
-            backgroundColor: EStyleSheet.value('$primaryColor'),
+            backgroundColor: EStyleSheet.value(ColorVars.$primaryColor),
           },
           headerTitleStyle: {
             color: '#fff',

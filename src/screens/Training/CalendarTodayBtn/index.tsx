@@ -7,6 +7,7 @@ import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
 import ArrowUpIcon from '@app/components/Icons/ArrowUpIcon';
 import {datesService} from '@app/services/dates.service';
+import {ColorVars} from '@app/utilts/theme';
 
 const CalendarTodayBtn = () => {
   const dispatch = useDispatch();
@@ -47,13 +48,13 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderWidth: 1,
-    borderColor: '$primaryColor',
+    borderColor: ColorVars.$primaryColor,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    color: '$primaryColor',
+    color: ColorVars.$primaryColor,
     fontWeight: '600',
     fontSize: 15,
   },

@@ -12,6 +12,7 @@ import useGetPresetsFromDB from '@app/hooks/db/useGetPresetsFromDB';
 import useMounted from '@app/hooks/useMounted';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';
 import {IPreset} from '@app/types/IPreset';
+import {ColorVars} from '@app/utilts/theme';
 
 import PresetItem from './PresetItem';
 
@@ -109,7 +110,7 @@ export default Presets;
 const styles = EStyleSheet.create({
   noPresets: {
     paddingVertical: 30,
-    color: '$white',
+    color: ColorVars.$white,
     fontSize: 16,
     textAlign: 'center',
   },

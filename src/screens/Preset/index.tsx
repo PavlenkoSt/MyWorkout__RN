@@ -16,6 +16,7 @@ import {
   deleteExerciseInPreset,
 } from '@app/store/slices/presetsSlice';
 import {IExercise} from '@app/types/IExercise';
+import {ColorVars} from '@app/utilts/theme';
 
 import Exercise from './Exercise';
 import ExerciseModal from './ExerciseModal';
@@ -87,7 +88,7 @@ const Preset: FC<IProps> = ({route}) => {
   return (
     <ScreenContainer>
       <FocusAwareStatusBar
-        backgroundColor={EStyleSheet.value('$primaryColor')}
+        backgroundColor={EStyleSheet.value(ColorVars.$primaryColor)}
         barStyle="light-content"
         height={0}
       />
@@ -125,7 +126,7 @@ export default Preset;
 const styles = EStyleSheet.create({
   noItemsText: {
     fontSize: 18,
-    color: '$white',
+    color: ColorVars.$white,
     marginTop: 20,
     marginBottom: 5,
     textAlign: 'center',

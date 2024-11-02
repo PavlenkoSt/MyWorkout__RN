@@ -7,6 +7,7 @@ import {Loader} from '@app/components/Loader';
 import {ScreenContainer} from '@app/components/ScreenContainer';
 import {Switch, Dropdown} from '@app/components/UI-kit';
 import useMounted from '@app/hooks/useMounted';
+import {ColorVars} from '@app/utilts/theme';
 
 import {FilterGoalsEnum} from '../Goals/constants';
 import Actions from './Actions';
@@ -29,7 +30,7 @@ const Settings = () => {
   return (
     <ScreenContainer>
       <FocusAwareStatusBar
-        backgroundColor={EStyleSheet.value('$bgColor')}
+        backgroundColor={EStyleSheet.value(ColorVars.$bgColor)}
         barStyle="light-content"
       />
       {!mounted ? (
@@ -86,7 +87,7 @@ const styles = EStyleSheet.create({
     gap: 10,
   },
   dropdownLabel: {
-    color: '$white',
+    color: ColorVars.$white,
     fontSize: 16,
   },
 });

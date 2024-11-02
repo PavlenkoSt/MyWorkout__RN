@@ -15,6 +15,7 @@ import {
   exerciseConstructorService,
   SimpleExerciseType,
 } from '@app/services/exerciseConstructor.service';
+import {ColorVars} from '@app/utilts/theme';
 
 import {LadderExercise, SingleExercise, SimpleExercise} from './components';
 
@@ -99,6 +100,6 @@ const styles = EStyleSheet.create({
   },
   title: {
     marginBottom: 5,
-    color: '$white',
+    color: ColorVars.$white,
   },
 });

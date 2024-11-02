@@ -4,6 +4,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import PlayIcon from '@app/components/Icons/PlayIcon';
 import PauseIcon from '@app/components/Icons/PauseIcon';
 import Sound from 'react-native-sound';
+import {ColorVars} from '@app/utilts/theme';
 
 Sound.setCategory('Playback');
 
@@ -94,7 +95,7 @@ const styles = EStyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    color: '$white',
+    color: ColorVars.$white,
   },
   timer: {
     width: TIMER_SIZE,
@@ -111,11 +112,11 @@ const styles = EStyleSheet.create({
   },
   timerValueS: {
     fontSize: 40,
-    color: '$white',
+    color: ColorVars.$white,
   },
   timerValueMs: {
     fontSize: 20,
-    color: '$white',
+    color: ColorVars.$white,
   },
   timerState: {
     position: 'absolute',

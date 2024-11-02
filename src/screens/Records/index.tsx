@@ -14,6 +14,7 @@ import RecordModal from './RecordModal';
 import RecordsList from './RecordsList';
 import {SearchHeader} from '@app/components/SearchHeader';
 import {BtnGhost} from '@app/components/UI-kit';
+import {ColorVars} from '@app/utilts/theme';
 
 const Records = () => {
   const records = useSelector(recordsSelector);
@@ -78,7 +79,7 @@ export default Records;
 
 const styles = EStyleSheet.create({
   noDataText: {
-    color: '$white',
+    color: ColorVars.$white,
     textAlign: 'center',
     marginTop: 20,
     fontSize: 16,

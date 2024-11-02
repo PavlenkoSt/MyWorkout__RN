@@ -1,3 +1,4 @@
+import {ColorVars} from '@app/utilts/theme';
 import LottieView from 'lottie-react-native';
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
@@ -108,6 +109,6 @@ const styles = EStyleSheet.create({
   },
   scoreText: {
     fontWeight: '700',
-    color: '$white',
+    color: ColorVars.$white,
   },
 });

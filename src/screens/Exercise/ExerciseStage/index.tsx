@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {IExerciseExecutionStageEnum} from '../types';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IProps {
   stageStatus: IExerciseExecutionStageEnum;
@@ -76,7 +77,7 @@ const styles = EStyleSheet.create({
   title: {
     textAlign: 'center',
     marginBottom: 10,
-    color: '$white',
+    color: ColorVars.$white,
   },
   stage: {
     textAlign: 'center',

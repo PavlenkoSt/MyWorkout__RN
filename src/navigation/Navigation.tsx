@@ -16,6 +16,7 @@ import {BottomTabScreenPropsType, TabRoutesEnum} from './types';
 import Goals from '@app/screens/Goals';
 import Records from '@app/screens/Records';
 import Settings from '@app/screens/Settings';
+import {ColorVars} from '@app/utilts/theme';
 
 const Tab = createBottomTabNavigator<BottomTabScreenPropsType>();
 
@@ -29,9 +30,9 @@ export default function Navigation() {
           borderColor: '#000',
           minHeight: 55,
         },
-        tabBarInactiveTintColor: EStyleSheet.value('$primaryColor'),
+        tabBarInactiveTintColor: EStyleSheet.value(ColorVars.$primaryColor),
         tabBarActiveTintColor: '#fff',
-        tabBarActiveBackgroundColor: EStyleSheet.value('$primaryColor'),
+        tabBarActiveBackgroundColor: EStyleSheet.value(ColorVars.$primaryColor),
         tabBarLabel: ({children, color}) => (
           <Text style={{color, marginBottom: 5}}>{children}</Text>
         ),

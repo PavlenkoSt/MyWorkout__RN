@@ -4,6 +4,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import {ModalWrapper} from '../ModalWrapper';
 import BtnGhost from '../UI-kit/BtnGhost';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IProps {
   visible: boolean;
@@ -41,7 +42,7 @@ export default function ConfirmModal({visible, onClose, onConfirm}: IProps) {
 const styles = EStyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: '$bgColor',
+    backgroundColor: ColorVars.$bgColor,
   },
   text: {
     color: '#fff',

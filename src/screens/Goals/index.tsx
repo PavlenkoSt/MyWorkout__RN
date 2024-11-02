@@ -19,6 +19,7 @@ import {deleteGoal} from '@app/store/slices/goalsSlice';
 import {addRecord, updateRecord} from '@app/store/slices/recordsSlice';
 import {IGoal} from '@app/types/IGoal';
 import {toastService} from '@app/services/toast.service';
+import {ColorVars} from '@app/utilts/theme';
 
 import GoalModal from './GoalModal';
 import GoalsBody from './GoalsBody';
@@ -202,7 +203,7 @@ const styles = EStyleSheet.create({
   },
   noGoalsMessage: {
     paddingVertical: 20,
-    color: '$white',
+    color: ColorVars.$white,
     textAlign: 'center',
     fontSize: 16,
   },

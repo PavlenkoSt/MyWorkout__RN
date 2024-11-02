@@ -1,3 +1,4 @@
+import {ColorVars} from '@app/utilts/theme';
 import React, {ReactNode} from 'react';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
@@ -18,6 +19,6 @@ export default function ScreenContainer({children}: IProps) {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '$bgColor',
+    backgroundColor: ColorVars.$bgColor,
   },
 });

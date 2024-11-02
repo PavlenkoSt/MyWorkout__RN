@@ -21,9 +21,12 @@ import {Navigation} from './navigation';
 
 import '@app/services/sounds.service';
 
-// TODO centralize colors
-// TODO optimize bd actions
-// TODO remove autosaving for autocomplete feature, instead -> add ability to save and select exercise from list
+// TODO
+// remove autosaving for autocomplete feature from local storage
+// instead -> add ability to CRUD (db) and select exercise (autocomplete approach?)
+
+// TODO
+// refactor screens
 
 if (
   Platform.OS === 'android' &&

@@ -10,6 +10,7 @@ import Animated, {
 import {FocusAwareStatusBar} from '../FocusAwareStatusBar';
 import CloseIcon from '../Icons/CloseIcon';
 import SearchIcon from '../Icons/SearchIcon';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IProps {
   searchValue: string;
@@ -56,7 +57,7 @@ export default function SearchHeader({
   return (
     <>
       <FocusAwareStatusBar
-        backgroundColor={EStyleSheet.value('$primaryColor')}
+        backgroundColor={EStyleSheet.value(ColorVars.$primaryColor)}
         barStyle="light-content"
       />
       <View
@@ -95,7 +96,7 @@ export default function SearchHeader({
 
 const styles = EStyleSheet.create({
   container: {
-    backgroundColor: '$primaryColor',
+    backgroundColor: ColorVars.$primaryColor,
     paddingHorizontal: 10,
     flexDirection: 'row',
     gap: 10,

@@ -15,6 +15,7 @@ import {IGoal} from '@app/types/IGoal';
 import {UnitsEnum} from '@app/types/common/Units';
 import {recordValidation} from '@app/validations/record.validation';
 import {CrossKeyboardAvoidingView} from '@app/components/CrossKeyboardAvoidingView';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IForm {
   name: string;
@@ -157,7 +158,7 @@ const styles = EStyleSheet.create({
   formItem: {},
   formItemTitle: {
     marginBottom: 5,
-    color: '$white',
+    color: ColorVars.$white,
   },
   btnContainer: {},
 });

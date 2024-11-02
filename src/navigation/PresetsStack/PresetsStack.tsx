@@ -7,6 +7,7 @@ import {PresetsParams, PresetsRoutesStack} from '../types';
 import {WithPresetUsage} from './components';
 import Preset from '@app/screens/Preset';
 import Presets from '@app/screens/Presets';
+import {ColorVars} from '@app/utilts/theme';
 
 const Stack = createStackNavigator<PresetsParams>();
 
@@ -25,7 +26,7 @@ export default function PresetsStack() {
         options={({route}) => ({
           headerTitle: route.params.name,
           headerStyle: {
-            backgroundColor: EStyleSheet.value('$primaryColor'),
+            backgroundColor: EStyleSheet.value(ColorVars.$primaryColor),
           },
           headerTitleStyle: {
             color: '#fff',

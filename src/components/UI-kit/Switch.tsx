@@ -1,3 +1,4 @@
+import {ColorVars} from '@app/utilts/theme';
 import React from 'react';
 import {
   SwitchProps,
@@ -36,7 +37,7 @@ const styles = EStyleSheet.create({
     gap: 5,
   },
   text: {
-    color: '$white',
+    color: ColorVars.$white,
     fontSize: 18,
     flex: 1,
   },

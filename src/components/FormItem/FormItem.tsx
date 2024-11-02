@@ -5,6 +5,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import Input from '../UI-kit/Input';
 import {IExerciseInputProps} from '../ExerciseInput';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IProps extends TextInputProps {
   control: Control<any, any>;
@@ -54,7 +55,7 @@ const styles = EStyleSheet.create({
   },
   title: {
     marginBottom: 5,
-    color: '$white',
+    color: ColorVars.$white,
   },
   error: {
     marginTop: 2,

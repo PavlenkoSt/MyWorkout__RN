@@ -4,6 +4,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import SelectDropdown from 'react-native-select-dropdown';
 
 import ArrowUpIcon from '../Icons/ArrowUpIcon';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IProps {
   data: any[];
@@ -35,7 +36,9 @@ export default function Dropdown({
       dropdownIconPosition="right"
       renderDropdownIcon={() => (
         <View style={styles.arrowContainer}>
-          <ArrowUpIcon stroke={arrowColor || EStyleSheet.value('$white')} />
+          <ArrowUpIcon
+            stroke={arrowColor || EStyleSheet.value(ColorVars.$white)}
+          />
         </View>
       )}
     />

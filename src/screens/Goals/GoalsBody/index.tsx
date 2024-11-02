@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import {IGoal} from '@app/types/IGoal';
+import {ColorVars} from '@app/utilts/theme';
 
 import {FilterGoalsEnum} from '../constants';
 import GoalItem from './GoalItem';
@@ -132,7 +133,7 @@ const styles = EStyleSheet.create({
     gap: 10,
   },
   notFoundText: {
-    color: '$white',
+    color: ColorVars.$white,
     padding: 20,
     textAlign: 'center',
     fontSize: 16,

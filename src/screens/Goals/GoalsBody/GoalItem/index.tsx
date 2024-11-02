@@ -7,6 +7,7 @@ import {ExerciseCounter} from '@app/components/ExerciseCounter';
 import {ContextMenu} from '@app/components/UI-kit';
 import {decrementGoal, incrementGoal} from '@app/store/slices/goalsSlice';
 import {IGoal} from '@app/types/IGoal';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IProps {
   goal: IGoal;
@@ -93,7 +94,7 @@ const styles = EStyleSheet.create({
   },
   name: {
     textAlign: 'center',
-    color: '$white',
+    color: ColorVars.$white,
     marginBottom: 10,
   },
 });

@@ -4,6 +4,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import {Btn} from '@app/components/UI-kit';
 import TrainingHeader from '@app/screens/Training/DayTraining/TrainingHeader';
+import {ColorVars} from '@app/utilts/theme';
 
 interface IProps {
   onStartPlanning: () => void;
@@ -34,6 +35,6 @@ const styles = EStyleSheet.create({
     gap: 10,
   },
   text: {
-    color: '$white',
+    color: ColorVars.$white,
   },
 });

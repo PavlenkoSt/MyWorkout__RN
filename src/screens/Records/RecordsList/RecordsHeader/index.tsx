@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import {CELLS_FLEX, CELL_OFFSET, ROW_HEIGHT} from '../constants';
+import {ColorVars} from '@app/utilts/theme';
 
 const RecordsHeader = () => {
   return (
@@ -21,7 +22,7 @@ export default RecordsHeader;
 
 const styles = EStyleSheet.create({
   container: {
-    backgroundColor: '$primaryColor',
+    backgroundColor: ColorVars.$primaryColor,
     minHeight: ROW_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',

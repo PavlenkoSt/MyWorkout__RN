@@ -7,8 +7,8 @@ import {
   ViewStyle,
 } from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-
 import flatten from '@app/utilts/flatten';
+import {ColorVars} from '@app/utilts/theme';
 
 export interface IBtnProps {
   onPress: () => void;
@@ -32,7 +32,7 @@ export default function Btn({
 
 const styles = EStyleSheet.create({
   btn: {
-    backgroundColor: '$primaryColor',
+    backgroundColor: ColorVars.$primaryColor,
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 5,
