@@ -1,5 +1,5 @@
 import React, {Dispatch, FC, SetStateAction} from 'react';
-import {Dimensions, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 
@@ -22,6 +22,7 @@ const GoalItem: FC<IProps> = ({
   onEditPress,
 }) => {
   const isCompleted = goal.countArchived >= goal.count;
+  const canDecrease = goal.countArchived > 0;
 
   const dispatch = useDispatch();
 
@@ -31,6 +32,7 @@ const GoalItem: FC<IProps> = ({
   };
 
   const decrement = () => {
+    if (!canDecrease) return;
     dispatch(decrementGoal(goal.id));
   };
 
@@ -52,18 +54,18 @@ const GoalItem: FC<IProps> = ({
             text: 'Delete',
             danger: true,
           },
-        ]}>
-        <View style={styles.innerContainer}>
-          <Text style={styles.name}>{goal.name}</Text>
-          <ExerciseCounter
-            canDecrease={goal.countArchived > 0}
-            doneCount={goal.countArchived}
-            doneGoalCount={goal.count}
-            decrement={decrement}
-            increment={increment}
-            isCompleted={isCompleted}
-          />
-        </View>
+        ]}
+        style={styles.menu}
+        triggerStyle={styles.menuTrigger}>
+        <Text style={styles.name}>{goal.name}</Text>
+        <ExerciseCounter
+          canDecrease={canDecrease}
+          doneCount={goal.countArchived}
+          doneGoalCount={goal.count}
+          decrement={decrement}
+          increment={increment}
+          isCompleted={isCompleted}
+        />
       </ContextMenu>
     </View>
   );
@@ -71,19 +73,23 @@ const GoalItem: FC<IProps> = ({
 
 export default GoalItem;
 
-const {width} = Dimensions.get('window');
-
 const styles = EStyleSheet.create({
   container: {
-    width: width / 2 - 15,
     backgroundColor: '#222',
     borderRadius: 15,
     borderWidth: 1,
+    flex: 1,
     borderColor: '#111',
     marginBottom: 10,
+    overflow: 'hidden',
   },
-  innerContainer: {
+  menu: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+  },
+  menuTrigger: {
     paddingTop: 10,
+    flexGrow: 1,
   },
   name: {
     textAlign: 'center',

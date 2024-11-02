@@ -129,6 +129,7 @@ const styles = EStyleSheet.create({
     flexWrap: 'wrap',
     padding: 10,
     justifyContent: 'space-between',
+    gap: 10,
   },
   notFoundText: {
     color: '$white',

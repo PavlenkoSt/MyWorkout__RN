@@ -1,4 +1,5 @@
 import React, {FC} from 'react';
+import {ViewStyle} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {
   Menu,
@@ -18,12 +19,22 @@ interface IProps {
   actions: IAction[];
   children: React.ReactNode;
   disabled?: boolean;
+  style?: ViewStyle;
+  triggerStyle?: ViewStyle;
 }
 
-const ContextMenu: FC<IProps> = ({actions, disabled, children}) => {
+const ContextMenu: FC<IProps> = ({
+  actions,
+  disabled,
+  style,
+  triggerStyle,
+  children,
+}) => {
   return (
-    <Menu>
-      <MenuTrigger disabled={disabled}>{children}</MenuTrigger>
+    <Menu style={style}>
+      <MenuTrigger disabled={disabled} style={triggerStyle}>
+        {children}
+      </MenuTrigger>
       <MenuOptions>
         {actions.map((action, idx) => (
           <MenuOption

@@ -21,6 +21,10 @@ import Navigation from './navigation';
 
 import '@app/utilts/sounds';
 
+// TODO centralize colors
+// TODO optimize bd actions
+// TODO remove autosaving for autocomplete feature, instead -> add ability to save and select exercise from list
+
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
