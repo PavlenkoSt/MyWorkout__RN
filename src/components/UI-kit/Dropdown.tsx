@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {StyleProp, TextStyle, View, ViewStyle} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -14,14 +14,14 @@ interface IProps {
   arrowColor?: string;
 }
 
-const Dropdown: FC<IProps> = ({
+export default function Dropdown({
   data,
   defaultValue,
   onSelect,
   buttonStyle,
   buttonTextStyle,
   arrowColor,
-}) => {
+}: IProps) {
   return (
     <SelectDropdown
       data={data}
@@ -40,9 +40,7 @@ const Dropdown: FC<IProps> = ({
       )}
     />
   );
-};
-
-export default Dropdown;
+}
 
 const styles = EStyleSheet.create({
   buttonStyle: {

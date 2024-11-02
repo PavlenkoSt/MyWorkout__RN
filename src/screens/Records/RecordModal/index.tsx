@@ -6,16 +6,15 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 import {v4} from 'uuid';
 
-import FormItem from '@app/components/FormItem';
-import ModalWrapper from '@app/components/ModalWrapper';
-import Btn from '@app/components/UI-kit/Btn';
-import Dropdown from '@app/components/UI-kit/Dropdown';
+import {FormItem} from '@app/components/FormItem';
+import {ModalWrapper} from '@app/components/ModalWrapper';
+import {Btn, Dropdown} from '@app/components/UI-kit';
 import {addRecord, updateRecord} from '@app/store/slices/recordsSlice';
 import {addExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
 import {IRecord} from '@app/types/IRecord';
 import {UnitsEnum} from '@app/types/common/Units';
 import {recordValidation} from '@app/validations/record.validation';
-import CrossKeyboardAvoidingView from '@app/components/CrossKeyboardAvoidingView';
+import {CrossKeyboardAvoidingView} from '@app/components/CrossKeyboardAvoidingView';
 
 interface IForm {
   name: string;

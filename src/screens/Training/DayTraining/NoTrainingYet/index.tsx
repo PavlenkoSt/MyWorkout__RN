@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
-import Btn from '@app/components/UI-kit/Btn';
+import {Btn} from '@app/components/UI-kit';
 import TrainingHeader from '@app/screens/Training/DayTraining/TrainingHeader';
 
 interface IProps {

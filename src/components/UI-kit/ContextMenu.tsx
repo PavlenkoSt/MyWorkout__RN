@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {ViewStyle} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {
@@ -23,13 +23,13 @@ interface IProps {
   triggerStyle?: ViewStyle;
 }
 
-const ContextMenu: FC<IProps> = ({
+export default function ContextMenu({
   actions,
   disabled,
   style,
   triggerStyle,
   children,
-}) => {
+}: IProps) {
   return (
     <Menu style={style}>
       <MenuTrigger disabled={disabled} style={triggerStyle}>
@@ -55,9 +55,7 @@ const ContextMenu: FC<IProps> = ({
       </MenuOptions>
     </Menu>
   );
-};
-
-export default ContextMenu;
+}
 
 const styles = EStyleSheet.create({
   option: {

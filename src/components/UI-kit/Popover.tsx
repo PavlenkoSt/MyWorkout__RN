@@ -1,4 +1,4 @@
-import React, {ElementType, FC} from 'react';
+import React, {ElementType} from 'react';
 import {
   Menu,
   MenuOptions,
@@ -11,7 +11,7 @@ interface IProps {
   Content: ElementType;
 }
 
-const Popover: FC<IProps> = ({Content, Trigger}) => {
+export default function Popover({Content, Trigger}: IProps) {
   return (
     <Menu
       renderer={renderers.Popover}
@@ -27,6 +27,4 @@ const Popover: FC<IProps> = ({Content, Trigger}) => {
       </MenuOptions>
     </Menu>
   );
-};
-
-export default Popover;
+}

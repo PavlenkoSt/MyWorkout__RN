@@ -8,7 +8,7 @@ import {
   timeToRestSound,
   timeToWorkoutSound,
   timerSound,
-} from '@app/utilts/sounds';
+} from '@app/services/sounds.service';
 import {enableStartRestTimerAfterStaticExerciseSelector} from '@app/store/selectors/settingsSelector';
 
 interface IProps {

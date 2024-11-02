@@ -5,7 +5,7 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import CompletedIcon from '@app/components/Icons/CompletedIcon';
 import {ExerciseTypeEnum} from '@app/types/IExercise';
 import {IStatistic} from '../index';
-import {isSimpleExerciseType} from '@app/utilts/isSimpleExerciseType';
+import {exerciseConstructorService} from '@app/services/exerciseConstructor.service';
 
 interface IProps {
   statItem: IStatistic;
@@ -13,7 +13,9 @@ interface IProps {
 }
 
 const StatisticItem: FC<IProps> = ({statItem, isLast}) => {
-  const isSimpleExercise = isSimpleExerciseType(statItem.type);
+  const isSimpleExercise = exerciseConstructorService.isSimpleExerciseType(
+    statItem.type,
+  );
 
   return (
     <View

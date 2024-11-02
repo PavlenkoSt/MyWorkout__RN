@@ -2,13 +2,12 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
-import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
-import Loader from '@app/components/Loader';
-import ScreenContainer from '@app/components/ScreenContainer';
-import Switch from '@app/components/UI-kit/Switch';
+import {FocusAwareStatusBar} from '@app/components/FocusAwareStatusBar';
+import {Loader} from '@app/components/Loader';
+import {ScreenContainer} from '@app/components/ScreenContainer';
+import {Switch, Dropdown} from '@app/components/UI-kit';
 import useMounted from '@app/hooks/useMounted';
 
-import Dropdown from '@app/components/UI-kit/Dropdown';
 import {FilterGoalsEnum} from '../Goals/constants';
 import Actions from './Actions';
 import useSettings from './useSettings';

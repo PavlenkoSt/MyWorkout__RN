@@ -12,7 +12,10 @@ import {
   setEnableStartRestTimerAfterStaticExercise,
   setExercisesForAutocomplete,
 } from '@app/store/slices/settingsSlice';
-import localStorage, {LocalStorageKeysEnum} from '@app/utilts/localStorage';
+import {
+  LocalStorageKeysEnum,
+  localStorageService,
+} from '@app/services/localStorage.service';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -28,22 +31,24 @@ const useSettings = () => {
 
   useEffect(() => {
     const init = async () => {
-      const defaultGoalsFilter = await localStorage.get(
+      const defaultGoalsFilter = await localStorageService.get(
         LocalStorageKeysEnum.DEFAULT_GOALS_FILTER,
       );
-      const enableAutocomplete = await localStorage.get(
+      const enableAutocomplete = await localStorageService.get(
         LocalStorageKeysEnum.ENABLE_AUTOCOMPLETE,
       );
-      const enableExerciseScreen = await localStorage.get(
+      const enableExerciseScreen = await localStorageService.get(
         LocalStorageKeysEnum.ENABLE_EXERCISE_SCREEN,
       );
-      const enableStartRestTimerAfterStaticExercise = await localStorage.get(
-        LocalStorageKeysEnum.ENABLE_START_REST_TIMER_AFTER_STATIC_EXERCISE,
-      );
+      const enableStartRestTimerAfterStaticExercise =
+        await localStorageService.get(
+          LocalStorageKeysEnum.ENABLE_START_REST_TIMER_AFTER_STATIC_EXERCISE,
+        );
 
       const exercises =
-        (await localStorage.get(LocalStorageKeysEnum.AUTOCOMPLETE_EXERCISES)) ||
-        '[]';
+        (await localStorageService.get(
+          LocalStorageKeysEnum.AUTOCOMPLETE_EXERCISES,
+        )) || '[]';
 
       dispatch(setExercisesForAutocomplete(JSON.parse(exercises) || []));
       onChangeAutocomplete(enableAutocomplete === '1');
@@ -63,7 +68,7 @@ const useSettings = () => {
 
   const onChangeAutocomplete = async (value: boolean) => {
     dispatch(setEnableAutocomplete(value));
-    await localStorage.set(
+    await localStorageService.set(
       LocalStorageKeysEnum.ENABLE_AUTOCOMPLETE,
       value ? '1' : '0',
     );
@@ -71,7 +76,7 @@ const useSettings = () => {
 
   const onChangeEnableExerciseScreen = async (value: boolean) => {
     dispatch(setEnableExerciseScreen(value));
-    await localStorage.set(
+    await localStorageService.set(
       LocalStorageKeysEnum.ENABLE_EXERCISE_SCREEN,
       value ? '1' : '0',
     );
@@ -81,7 +86,7 @@ const useSettings = () => {
     value: boolean,
   ) => {
     dispatch(setEnableStartRestTimerAfterStaticExercise(value));
-    await localStorage.set(
+    await localStorageService.set(
       LocalStorageKeysEnum.ENABLE_START_REST_TIMER_AFTER_STATIC_EXERCISE,
       value ? '1' : '0',
     );
@@ -89,7 +94,10 @@ const useSettings = () => {
 
   const onChangeDefaultGoalsFilter = async (value: FilterGoalsEnum) => {
     dispatch(setDefaultGoalsFilter(value));
-    await localStorage.set(LocalStorageKeysEnum.DEFAULT_GOALS_FILTER, value);
+    await localStorageService.set(
+      LocalStorageKeysEnum.DEFAULT_GOALS_FILTER,
+      value,
+    );
   };
 
   return {

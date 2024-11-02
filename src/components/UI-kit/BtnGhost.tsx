@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 import Btn, {IBtnProps} from './Btn';
@@ -7,7 +7,7 @@ interface IProps extends IBtnProps {
   color?: string;
 }
 
-const BtnGhost: FC<IProps> = props => {
+export default function BtnGhost(props: IProps) {
   const color = props.color || EStyleSheet.value('$primaryColor');
 
   return (
@@ -29,6 +29,4 @@ const BtnGhost: FC<IProps> = props => {
       ]}
     />
   );
-};
-
-export default BtnGhost;
+}

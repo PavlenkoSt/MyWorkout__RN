@@ -1,7 +1,7 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 import {deleteDayRealm} from '@app/db/actions/deleteDayRealm';
-import datesService from '@app/services/dates.service';
+import {datesService} from '@app/services/dates.service';
 import {IExercise} from '@app/types/IExercise';
 import {ITrainingDay} from '@app/types/ITrainingDay';
 import {getExersises} from '../helpers/TrainingDayHelpers';

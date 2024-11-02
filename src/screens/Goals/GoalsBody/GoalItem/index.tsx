@@ -3,8 +3,8 @@ import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 
-import ExerciseCounter from '@app/components/ExerciseCounter';
-import ContextMenu from '@app/components/UI-kit/ContextMenu';
+import {ExerciseCounter} from '@app/components/ExerciseCounter';
+import {ContextMenu} from '@app/components/UI-kit';
 import {decrementGoal, incrementGoal} from '@app/store/slices/goalsSlice';
 import {IGoal} from '@app/types/IGoal';
 

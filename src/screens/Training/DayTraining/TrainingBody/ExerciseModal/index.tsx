@@ -3,8 +3,8 @@ import {ScrollView, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4} from 'uuid';
 
-import ExerciseForm from '@app/components/ExerciseForm';
-import ModalWrapper from '@app/components/ModalWrapper';
+import {ExerciseForm} from '@app/components/ExerciseForm';
+import {ModalWrapper} from '@app/components/ModalWrapper';
 import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {addExerciseForAutocomplete} from '@app/store/slices/settingsSlice';
 import {
@@ -20,12 +20,12 @@ import {
   IExerciseWithId,
   ILadderExerciseForm,
 } from '@app/types/IExercise';
-import showToast from '@app/utilts/showToast';
-import CrossKeyboardAvoidingView from '@app/components/CrossKeyboardAvoidingView';
+import {CrossKeyboardAvoidingView} from '@app/components/CrossKeyboardAvoidingView';
 import {
   SimpleExerciseType,
-  exerciseConstructor,
-} from '@app/utilts/exerciseConstructor';
+  exerciseConstructorService,
+} from '@app/services/exerciseConstructor.service';
+import {toastService} from '@app/services/toast.service';
 
 interface IProps {
   visible: boolean;
@@ -87,7 +87,7 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
       }
 
       const exercisesToCreate =
-        await exerciseConstructor.generateLadderExercises(data);
+        await exerciseConstructorService.generateLadderExercises(data);
 
       dispatch(
         addExercisesToDay({date: activeDate, exercises: exercisesToCreate}),
@@ -96,12 +96,12 @@ const ExerciseModal: FC<IProps> = ({visible, onClose, exerciseToEdit}) => {
 
       onClose();
     } catch (e: any) {
-      showToast.error(e);
+      toastService.error(e);
     }
   };
 
   const onSimpleExerciseSubmit = async (type: SimpleExerciseType) => {
-    const exercise = exerciseConstructor.generateSimpleExercise(type);
+    const exercise = exerciseConstructorService.generateSimpleExercise(type);
 
     if (exerciseToEdit) {
       const {id, setsDone} = exerciseToEdit;

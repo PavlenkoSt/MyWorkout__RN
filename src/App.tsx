@@ -17,9 +17,9 @@ import {Provider} from 'react-redux';
 
 import store from './store';
 
-import Navigation from './navigation';
+import {Navigation} from './navigation';
 
-import '@app/utilts/sounds';
+import '@app/services/sounds.service';
 
 // TODO centralize colors
 // TODO optimize bd actions

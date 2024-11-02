@@ -5,9 +5,9 @@ import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4} from 'uuid';
 
-import DatePicker from '@app/components/DatePicker';
-import ModalWrapper from '@app/components/ModalWrapper';
-import Btn from '@app/components/UI-kit/Btn';
+import {DatePicker} from '@app/components/DatePicker';
+import {ModalWrapper} from '@app/components/ModalWrapper';
+import {Btn} from '@app/components/UI-kit';
 import {
   activeDateSelector,
   allTrainingDaysSelector,
@@ -22,7 +22,7 @@ import {
   COPY_DAY_TO_NOT_EMPTY_DAY,
   COPY_DAY_TO_SAME_DAY_ERROR,
 } from '@app/utilts/constants';
-import showToast from '@app/utilts/showToast';
+import {toastService} from '@app/services/toast.service';
 
 interface IProps {
   visible: boolean;
@@ -42,14 +42,14 @@ const CopyDayModal: FC<IProps> = ({onClose, visible}) => {
     const onlyDate = date.toISOString().split('T')[0];
 
     if (activeDate === onlyDate)
-      return showToast.error(COPY_DAY_TO_SAME_DAY_ERROR);
+      return toastService.error(COPY_DAY_TO_SAME_DAY_ERROR);
 
     const targetDay = trainingDays.find(day => day.date === onlyDate);
 
     if (targetDay && targetDay.exercises.length)
-      return showToast.error(COPY_DAY_TO_NOT_EMPTY_DAY);
+      return toastService.error(COPY_DAY_TO_NOT_EMPTY_DAY);
 
-    if (!trainingDate?.exercises) return showToast.someError();
+    if (!trainingDate?.exercises) return toastService.someError();
 
     trainingDate.exercises.forEach((exercise, index) => {
       dispatch(
@@ -72,7 +72,7 @@ const CopyDayModal: FC<IProps> = ({onClose, visible}) => {
 
     dispatch(changeActiveDate(onlyDate));
 
-    showToast.success(COPIED);
+    toastService.success(COPIED);
 
     onClose();
   };

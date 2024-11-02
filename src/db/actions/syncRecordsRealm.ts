@@ -2,9 +2,9 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import {IRecord} from '@app/types/IRecord';
 import {DB_RECORDS_BACKUP_SAVED} from '@app/utilts/constants';
-import showToast from '@app/utilts/showToast';
 import realm from '../index';
 import {RECORDS_DB} from '../realm.constants';
+import {toastService} from '@app/services/toast.service';
 
 const recordsBackup = async (records: IRecord[]) => {
   const string = JSON.stringify({trainingDays: [], records});
@@ -18,9 +18,9 @@ const recordsBackup = async (records: IRecord[]) => {
 
   try {
     await RNFetchBlob.fs.writeFile(path, string, 'utf8');
-    showToast.success(DB_RECORDS_BACKUP_SAVED);
+    toastService.success(DB_RECORDS_BACKUP_SAVED);
   } catch (e) {
-    showToast.someError();
+    toastService.someError();
   }
 };
 

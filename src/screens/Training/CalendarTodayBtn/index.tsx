@@ -5,19 +5,18 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {activeDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {changeActiveDate} from '@app/store/slices/trainingDaySlice';
-import dateTime from '@app/utilts/dateTime';
-
-import ArrowUpIcon from '../../../components/Icons/ArrowUpIcon';
+import ArrowUpIcon from '@app/components/Icons/ArrowUpIcon';
+import {datesService} from '@app/services/dates.service';
 
 const CalendarTodayBtn = () => {
   const dispatch = useDispatch();
 
   const activeDate = useSelector(activeDateSelector);
 
-  const isToday = dateTime.isToday(activeDate);
+  const isToday = datesService.isToday(activeDate);
 
   const onPress = () => {
-    dispatch(changeActiveDate(dateTime.getTodayDate()));
+    dispatch(changeActiveDate(datesService.getTodayDate()));
   };
 
   if (isToday) return <></>;

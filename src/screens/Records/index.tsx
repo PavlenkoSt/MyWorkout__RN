@@ -3,8 +3,8 @@ import {Text} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
-import Loader from '@app/components/Loader';
-import ScreenContainer from '@app/components/ScreenContainer';
+import {Loader} from '@app/components/Loader';
+import {ScreenContainer} from '@app/components/ScreenContainer';
 import useGetRecordsFromDB from '@app/hooks/db/useGetRecordsFromDB';
 import useMounted from '@app/hooks/useMounted';
 import {recordsSelector} from '@app/store/selectors/recordsSelector';
@@ -12,8 +12,8 @@ import {IRecord} from '@app/types/IRecord';
 
 import RecordModal from './RecordModal';
 import RecordsList from './RecordsList';
-import SearchHeader from '@app/components/SearchHeader';
-import BtnGhost from '@app/components/UI-kit/BtnGhost';
+import {SearchHeader} from '@app/components/SearchHeader';
+import {BtnGhost} from '@app/components/UI-kit';
 
 const Records = () => {
   const records = useSelector(recordsSelector);

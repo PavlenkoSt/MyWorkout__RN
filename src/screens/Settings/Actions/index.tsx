@@ -20,11 +20,11 @@ import {
   DB_IMPORTED,
   ONLY_JSON_FILE,
 } from '@app/utilts/constants';
-import showToast from '@app/utilts/showToast';
 import {IGoal} from '@app/types/IGoal';
 import {goalsSelector} from '@app/store/selectors/goalsSelector';
 import {setGoals} from '@app/store/slices/goalsSlice';
-import dateTime from '@app/utilts/dateTime';
+import {datesService} from '@app/services/dates.service';
+import {toastService} from '@app/services/toast.service';
 
 interface IDB {
   trainingDays: ITrainingDay[];
@@ -48,13 +48,13 @@ const Actions = () => {
 
     const path =
       RNFetchBlob.fs.dirs.DownloadDir +
-      `/WorkoutDatabase-${dateTime.getCurrentDateTime()}.json`;
+      `/WorkoutDatabase-${datesService.getCurrentDateTime()}.json`;
 
     try {
       await RNFetchBlob.fs.createFile(path, string, 'utf8');
-      showToast.success(DB_EXPORTED);
+      toastService.success(DB_EXPORTED);
     } catch (e) {
-      showToast.someError();
+      toastService.someError();
     }
   };
 
@@ -66,10 +66,10 @@ const Actions = () => {
 
       const result = results?.[0];
 
-      if (!result) return showToast.someError();
+      if (!result) return toastService.someError();
 
       if (!result.type?.includes('json'))
-        return showToast.error(ONLY_JSON_FILE);
+        return toastService.error(ONLY_JSON_FILE);
 
       const json = await RNFetchBlob.fs.readFile(result.uri, 'utf8');
 
@@ -81,7 +81,7 @@ const Actions = () => {
         !parsedJSON.presets &&
         !parsedJSON.goals
       ) {
-        return showToast.error(CORRUPTED_JSON);
+        return toastService.error(CORRUPTED_JSON);
       }
 
       if (parsedJSON.trainingDays?.length) {
@@ -100,10 +100,10 @@ const Actions = () => {
         dispatch(setGoals(parsedJSON.goals));
       }
 
-      showToast.success(DB_IMPORTED);
+      toastService.success(DB_IMPORTED);
     } catch (e: any) {
       if (e.message !== 'User canceled directory picker') {
-        showToast.error(CORRUPTED_JSON);
+        toastService.error(CORRUPTED_JSON);
       }
     }
   };

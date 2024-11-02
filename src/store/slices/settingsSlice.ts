@@ -1,7 +1,10 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 import {FilterGoalsEnum} from '@app/screens/Goals/constants';
-import localStorage, {LocalStorageKeysEnum} from '@app/utilts/localStorage';
+import {
+  localStorageService,
+  LocalStorageKeysEnum,
+} from '@app/services/localStorage.service';
 
 export interface SettingsSlice {
   enableAutocomplete: boolean;
@@ -43,7 +46,7 @@ const settingsSlice = createSlice({
 
       state.exercisesForAutocomplete = exercises;
 
-      localStorage.set(
+      localStorageService.set(
         LocalStorageKeysEnum.AUTOCOMPLETE_EXERCISES,
         JSON.stringify(exercises || []),
       );
@@ -55,7 +58,7 @@ const settingsSlice = createSlice({
 
       state.exercisesForAutocomplete = filtered;
 
-      localStorage.set(
+      localStorageService.set(
         LocalStorageKeysEnum.AUTOCOMPLETE_EXERCISES,
         JSON.stringify(filtered || []),
       );

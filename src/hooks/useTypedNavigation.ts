@@ -1,4 +1,4 @@
-import {NavigationPropsType} from '@app/navigation/types';
+import {NavigationPropsType} from '@app/navigation';
 import {useNavigation} from '@react-navigation/native';
 
 const useTypedNavigation = () => {

@@ -3,11 +3,11 @@ import {FlatList, ListRenderItem, Text} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
-import Loader from '@app/components/Loader';
-import PresetModal from '@app/components/PresetModal';
-import ScreenContainer from '@app/components/ScreenContainer';
-import SearchHeader from '@app/components/SearchHeader';
-import BtnGhost from '@app/components/UI-kit/BtnGhost';
+import {Loader} from '@app/components/Loader';
+import {PresetModal} from '@app/components/PresetModal';
+import {ScreenContainer} from '@app/components/ScreenContainer';
+import {SearchHeader} from '@app/components/SearchHeader';
+import {BtnGhost} from '@app/components/UI-kit';
 import useGetPresetsFromDB from '@app/hooks/db/useGetPresetsFromDB';
 import useMounted from '@app/hooks/useMounted';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';

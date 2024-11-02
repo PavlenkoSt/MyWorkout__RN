@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {KeyboardTypeOptions, TextInput, TextInputProps} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
@@ -9,7 +9,7 @@ interface IProps extends TextInputProps {
   keyboardType?: KeyboardTypeOptions;
 }
 
-const Input: FC<IProps> = props => {
+export default function Input(props: IProps) {
   return (
     <TextInput
       {...props}
@@ -18,9 +18,7 @@ const Input: FC<IProps> = props => {
       style={styles.input}
     />
   );
-};
-
-export default Input;
+}
 
 const styles = EStyleSheet.create({
   input: {

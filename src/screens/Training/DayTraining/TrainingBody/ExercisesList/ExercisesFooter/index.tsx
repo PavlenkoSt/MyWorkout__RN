@@ -3,8 +3,7 @@ import {Dimensions, Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useSelector} from 'react-redux';
 
-import Btn from '@app/components/UI-kit/Btn';
-import Popover from '@app/components/UI-kit/Popover';
+import {Btn, Popover} from '@app/components/UI-kit';
 import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 import {ExerciseTypeEnum} from '@app/types/IExercise';
 

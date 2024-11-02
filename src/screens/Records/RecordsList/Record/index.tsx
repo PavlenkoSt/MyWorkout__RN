@@ -7,7 +7,7 @@ import SwipeableItem, {
 } from 'react-native-swipeable-item';
 import {useDispatch} from 'react-redux';
 
-import ListUnderlayActions from '@app/components/ListUnderlayActions';
+import {ListUnderlayActions} from '@app/components/ListUnderlayActions';
 import {deleteRecord} from '@app/store/slices/recordsSlice';
 import {IRecord} from '@app/types/IRecord';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';

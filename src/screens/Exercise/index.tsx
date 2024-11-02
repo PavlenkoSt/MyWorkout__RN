@@ -1,5 +1,5 @@
-import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
-import ScreenContainer from '@app/components/ScreenContainer';
+import {FocusAwareStatusBar} from '@app/components/FocusAwareStatusBar';
+import {ScreenContainer} from '@app/components/ScreenContainer';
 import {
   exerciseSelector,
   nextExerciseSelector,
@@ -17,7 +17,7 @@ import {useTimers} from './useTimers';
 import {IExerciseExecutionStageEnum} from './types';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {StackActions} from '@react-navigation/native';
-import {TrainingRoutesStack} from '@app/navigation/types';
+import {TrainingRoutesStack} from '@app/navigation';
 import SetsInfo from './SetsInfo';
 import {ExerciseTypeEnum} from '@app/types/IExercise';
 

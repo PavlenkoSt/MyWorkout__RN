@@ -7,9 +7,9 @@ import DraggableFlatList, {
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
-import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
-import ScreenContainer from '@app/components/ScreenContainer';
-import Btn from '@app/components/UI-kit/Btn';
+import {FocusAwareStatusBar} from '@app/components/FocusAwareStatusBar';
+import {ScreenContainer} from '@app/components/ScreenContainer';
+import {Btn} from '@app/components/UI-kit';
 import {presetsSelector} from '@app/store/selectors/presetsSelector';
 import {
   changeExercisesOrderingInPreset,

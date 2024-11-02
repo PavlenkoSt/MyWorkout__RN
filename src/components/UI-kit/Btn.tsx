@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {
   StyleProp,
   Text,
@@ -17,15 +17,18 @@ export interface IBtnProps {
   textStyle?: StyleProp<TextStyle>;
 }
 
-const Btn: FC<IBtnProps> = ({onPress, btnStyle, textStyle, children}) => {
+export default function Btn({
+  onPress,
+  btnStyle,
+  textStyle,
+  children,
+}: IBtnProps) {
   return (
     <TouchableOpacity onPress={onPress} style={flatten([styles.btn, btnStyle])}>
       <Text style={flatten([styles.text, textStyle])}>{children}</Text>
     </TouchableOpacity>
   );
-};
-
-export default Btn;
+}
 
 const styles = EStyleSheet.create({
   btn: {

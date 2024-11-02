@@ -4,12 +4,11 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 import {v4} from 'uuid';
 
-import ConfirmModal from '@app/components/ConfirmModal';
-import Loader from '@app/components/Loader';
-import ScreenContainer from '@app/components/ScreenContainer';
-import SearchHeader from '@app/components/SearchHeader';
-import BtnGhost from '@app/components/UI-kit/BtnGhost';
-import Dropdown from '@app/components/UI-kit/Dropdown';
+import {ConfirmModal} from '@app/components/ConfirmModal';
+import {Loader} from '@app/components/Loader';
+import {ScreenContainer} from '@app/components/ScreenContainer';
+import {SearchHeader} from '@app/components/SearchHeader';
+import {BtnGhost, Dropdown} from '@app/components/UI-kit';
 import useGetGoalsFromDB from '@app/hooks/db/useGetGoalsFromDB';
 import useGetRecordsFromDB from '@app/hooks/db/useGetRecordsFromDB';
 import useMounted from '@app/hooks/useMounted';
@@ -19,7 +18,7 @@ import {defaultGoalsFilterSelector} from '@app/store/selectors/settingsSelector'
 import {deleteGoal} from '@app/store/slices/goalsSlice';
 import {addRecord, updateRecord} from '@app/store/slices/recordsSlice';
 import {IGoal} from '@app/types/IGoal';
-import showToast from '@app/utilts/showToast';
+import {toastService} from '@app/services/toast.service';
 
 import GoalModal from './GoalModal';
 import GoalsBody from './GoalsBody';
@@ -87,17 +86,17 @@ const Goals = () => {
         }),
       );
 
-      showToast.success('Saved as a record');
+      toastService.success('Saved as a record');
       return;
     }
 
     if (candidateInRecords.count > goal.countArchived) {
-      showToast.error('This record already exists with better result');
+      toastService.error('This record already exists with better result');
       return;
     }
 
     if (candidateInRecords.count === goal.countArchived) {
-      showToast.error('This record already exists with such result');
+      toastService.error('This record already exists with such result');
       return;
     }
 
@@ -108,7 +107,7 @@ const Goals = () => {
       }),
     );
 
-    showToast.success('Updated existing record, good job');
+    toastService.success('Updated existing record, good job');
   };
 
   const onEditPress = (goal: IGoal) => {

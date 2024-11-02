@@ -4,8 +4,8 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch} from 'react-redux';
 import {v4} from 'uuid';
 
-import ExerciseForm from '@app/components/ExerciseForm';
-import ModalWrapper from '@app/components/ModalWrapper';
+import {ExerciseForm} from '@app/components/ExerciseForm';
+import {ModalWrapper} from '@app/components/ModalWrapper';
 import {
   addExercisesToPreset,
   deleteExerciseInPreset,
@@ -19,12 +19,12 @@ import {
   IExerciseForm,
   ILadderExerciseForm,
 } from '@app/types/IExercise';
-import showToast from '@app/utilts/showToast';
-import CrossKeyboardAvoidingView from '@app/components/CrossKeyboardAvoidingView';
+import {CrossKeyboardAvoidingView} from '@app/components/CrossKeyboardAvoidingView';
 import {
   SimpleExerciseType,
-  exerciseConstructor,
-} from '@app/utilts/exerciseConstructor';
+  exerciseConstructorService,
+} from '@app/services/exerciseConstructor.service';
+import {toastService} from '@app/services/toast.service';
 
 interface IProps {
   visible: boolean;
@@ -94,19 +94,19 @@ const ExerciseModal: FC<IProps> = ({
       }
 
       const exercisesToCreate =
-        await exerciseConstructor.generateLadderExercises(data);
+        await exerciseConstructorService.generateLadderExercises(data);
 
       dispatch(addExercisesToPreset({exercises: exercisesToCreate, presetId}));
       dispatch(addExerciseForAutocomplete(data.exercise));
 
       onClose();
     } catch (e: any) {
-      showToast.error(e);
+      toastService.error(e);
     }
   };
 
   const onSimpleExerciseSubmit = (type: SimpleExerciseType) => {
-    const exercise = exerciseConstructor.generateSimpleExercise(type);
+    const exercise = exerciseConstructorService.generateSimpleExercise(type);
 
     if (exerciseToEdit) {
       dispatch(

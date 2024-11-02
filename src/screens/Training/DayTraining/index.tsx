@@ -7,7 +7,7 @@ import {trainingDateSelector} from '@app/store/selectors/trainingDaySelectors';
 
 import NoTrainingYet from './NoTrainingYet';
 import TrainingBody from './TrainingBody';
-import {exerciseConstructor} from '@app/utilts/exerciseConstructor';
+import {exerciseConstructorService} from '@app/services/exerciseConstructor.service';
 import {addExercise} from '@app/store/slices/trainingDaySlice';
 import {v4} from 'uuid';
 import {ExerciseTypeEnum} from '@app/types/IExercise';
@@ -20,7 +20,7 @@ const DayTraining: FC = () => {
   const dispatch = useDispatch();
 
   const onStartPlanning = () => {
-    const exercise = exerciseConstructor.generateSimpleExercise(
+    const exercise = exerciseConstructorService.generateSimpleExercise(
       ExerciseTypeEnum.WARMUP,
     );
     dispatch(

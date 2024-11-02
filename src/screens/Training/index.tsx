@@ -3,10 +3,10 @@ import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 import {MarkedDates} from 'react-native-calendars/src/types';
 import {useDispatch, useSelector} from 'react-redux';
 
-import FocusAwareStatusBar from '@app/components/FocusAwareStatusBar';
-import ScreenContainer from '@app/components/ScreenContainer';
+import {FocusAwareStatusBar} from '@app/components/FocusAwareStatusBar';
+import {ScreenContainer} from '@app/components/ScreenContainer';
 import useGetTrainingDaysFromDB from '@app/hooks/db/useGetTrainingDaysFromDB';
-import datesService from '@app/services/dates.service';
+import {datesService} from '@app/services/dates.service';
 import {
   activeDateSelector,
   allTrainingDaysSelector,

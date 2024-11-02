@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {
   SwitchProps,
   Switch as SwitchRN,
@@ -9,7 +9,12 @@ import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 
 interface IProps extends SwitchProps {}
 
-const Switch: FC<IProps> = ({children, value, onValueChange, ...props}) => {
+export default function Switch({
+  children,
+  value,
+  onValueChange,
+  ...props
+}: IProps) {
   const onPress = () => {
     if (!onValueChange) return;
 
@@ -22,9 +27,7 @@ const Switch: FC<IProps> = ({children, value, onValueChange, ...props}) => {
       <Text style={styles.text}>{children}</Text>
     </TouchableOpacity>
   );
-};
-
-export default Switch;
+}
 
 const styles = EStyleSheet.create({
   container: {

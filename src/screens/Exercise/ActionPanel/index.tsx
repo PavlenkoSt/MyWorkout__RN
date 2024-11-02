@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
-import Btn from '@app/components/UI-kit/Btn';
+import {Btn} from '@app/components/UI-kit';
 
 interface IProps {
   canFinishCurrentSet: boolean;

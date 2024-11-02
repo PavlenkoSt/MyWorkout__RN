@@ -4,15 +4,15 @@ import {Text, View} from 'react-native';
 import {EStyleSheet} from 'react-native-extended-stylesheet-typescript';
 import {useDispatch, useSelector} from 'react-redux';
 
-import ConfirmModal from '@app/components/ConfirmModal';
-import PresetModal from '@app/components/PresetModal';
-import ContextMenu from '@app/components/UI-kit/ContextMenu';
+import {ConfirmModal} from '@app/components/ConfirmModal';
+import {PresetModal} from '@app/components/PresetModal';
+import {ContextMenu} from '@app/components/UI-kit';
 import {
   activeDateSelector,
   trainingDateSelector,
 } from '@app/store/selectors/trainingDaySelectors';
 import {deleteExercise} from '@app/store/slices/trainingDaySlice';
-import showToast from '@app/utilts/showToast';
+import {toastService} from '@app/services/toast.service';
 
 import CopyDayModal from './CopyDayModal';
 import {TRAINING_DAY_DELETED} from './constants';
@@ -38,7 +38,7 @@ const TrainingHeader: FC = () => {
     trainingDay.exercises.forEach(ex => {
       dispatch(deleteExercise({id: ex.id}));
     });
-    showToast.success(TRAINING_DAY_DELETED);
+    toastService.success(TRAINING_DAY_DELETED);
   };
 
   return (

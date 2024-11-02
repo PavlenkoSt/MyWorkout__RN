@@ -7,24 +7,20 @@ import SwipeableItem, {
 } from 'react-native-swipeable-item';
 import {useDispatch, useSelector} from 'react-redux';
 
-import ExerciseCounter from '@app/components/ExerciseCounter';
-import ExerciseTable from '@app/components/ExerciseTable';
-import ListUnderlayActions from '@app/components/ListUnderlayActions';
+import {ExerciseCounter} from '@app/components/ExerciseCounter';
+import {ExerciseTable} from '@app/components/ExerciseTable';
+import {ListUnderlayActions} from '@app/components/ListUnderlayActions';
 import {
   decrementSet,
   deleteExercise,
   incrementSet,
 } from '@app/store/slices/trainingDaySlice';
-import {
-  ExerciseTypeEnum,
-  IExercise,
-  IExerciseWithId,
-} from '@app/types/IExercise';
+import {IExercise, IExerciseWithId} from '@app/types/IExercise';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
-import {TrainingRoutesStack} from '@app/navigation/types';
+import {TrainingRoutesStack} from '@app/navigation';
 import {enableExerciseScreenSelector} from '@app/store/selectors/settingsSelector';
-import {isSimpleExerciseType} from '@app/utilts/isSimpleExerciseType';
+import {exerciseConstructorService} from '@app/services/exerciseConstructor.service';
 
 interface IProps {
   exercise: IExerciseWithId;
@@ -68,7 +64,7 @@ const Exercise: FC<IProps> = ({
 
   const onItemPress = () => {
     if (!enableExerciseScreen) return;
-    if (isSimpleExerciseType(exercise.type)) return;
+    if (exerciseConstructorService.isSimpleExerciseType(exercise.type)) return;
 
     itemRef.current?.close();
     navigate(TrainingRoutesStack.Exercise, {

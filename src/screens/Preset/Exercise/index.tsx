@@ -6,8 +6,8 @@ import SwipeableItem, {
   SwipeableItemImperativeRef,
 } from 'react-native-swipeable-item';
 
-import ExerciseTable from '@app/components/ExerciseTable';
-import ListUnderlayActions from '@app/components/ListUnderlayActions';
+import {ExerciseTable} from '@app/components/ExerciseTable';
+import {ListUnderlayActions} from '@app/components/ListUnderlayActions';
 import {IExercise} from '@app/types/IExercise';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
 

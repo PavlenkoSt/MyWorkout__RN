@@ -6,12 +6,12 @@ import SwipeableItem, {
 } from 'react-native-swipeable-item';
 import {useDispatch} from 'react-redux';
 
-import ListUnderlayActions from '@app/components/ListUnderlayActions';
+import {ListUnderlayActions} from '@app/components/ListUnderlayActions';
 import useTypedNavigation from '@app/hooks/useTypedNavigation';
 import {deletePreset} from '@app/store/slices/presetsSlice';
 import {IPreset} from '@app/types/IPreset';
 import {SWIPABLE_ITEM_CONFIG} from '@app/utilts/constants';
-import {PresetsRoutesStack} from '@app/navigation/types';
+import {PresetsRoutesStack} from '@app/navigation';
 
 const BTN_WIDTH = 100;
 const BTN_OFFSET = 5;
